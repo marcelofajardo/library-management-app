@@ -1,1 +1,1 @@
-Application for managing a university library. 
+Application for managing a university library written in Laravel. 
