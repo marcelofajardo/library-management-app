@@ -14,7 +14,7 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-header">OPTIONS</li>
           <li class="nav-item">
-            <a href="/books" class="nav-link {{ request()->is('/') }}">
+            <a href="/books" class="nav-link {{ active_link(request(), 'books*') }}">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Books
@@ -22,7 +22,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/authors" class="nav-link">
+            <a href="/authors" class="nav-link {{ active_link(request(), 'authors*') }}">
               <i class="nav-icon fas fa-pen-alt"></i>
               <p>
                 Authors
@@ -30,7 +30,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/publishers" class="nav-link">
+            <a href="/publishers" class="nav-link {{ active_link(request(), 'publishers*') }}">
               <i class="nav-icon fas fa-print"></i>
               <p>
                 Publishers
@@ -38,7 +38,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/subjects" class="nav-link">
+            <a href="/subjects" class="nav-link {{ active_link(request(), 'subjects*') }}">
               <i class="nav-icon fa fa-border-all"></i>
               <p>
                 Subjects
@@ -46,7 +46,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/genres" class="nav-link">
+            <a href="/genres" class="nav-link {{ active_link(request(), 'genres*') }}">
               <i class="nav-icon fas fa-rocket"></i>
               <p>
                 Genres
@@ -54,7 +54,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/users" class="nav-link">
+            <a href="/users" class="nav-link {{ active_link(request(), 'users*') }}">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Users

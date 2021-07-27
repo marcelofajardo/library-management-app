@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Publisher;
 use Illuminate\Http\Request;
+use App\Http\Requests\PublisherRequest;
 
 class PublisherController extends Controller
 {
@@ -14,7 +15,13 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        //
+        $breadcrumbs = [
+            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Publishers', 'link' => '/publishers'],
+        ];
+
+        $publishers = Publisher::paginate(Publisher::PER_PAGE);
+        return view('publishers.index', compact('publishers', 'breadcrumbs'));
     }
 
     /**
@@ -33,9 +40,12 @@ class PublisherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PublisherRequest $request)
     {
-        //
+        Publisher::create($request->validated());
+
+        $publishers = Publisher::paginate(Publisher::PER_PAGE);
+        return view('publishers.index', compact('publishers'));
     }
 
     /**
@@ -57,7 +67,12 @@ class PublisherController extends Controller
      */
     public function edit(Publisher $publisher)
     {
-        //
+        $breadcrumbs = [
+            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Publishers', 'link' => '/publishers'],
+            ['name' => 'Update publisher details', 'link' => '/publishers/'.$publisher->id.'/edit'],
+        ];
+        return view('publishers.edit', compact('publisher', 'breadcrumbs'));
     }
 
     /**
@@ -67,9 +82,12 @@ class PublisherController extends Controller
      * @param  \App\Models\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Publisher $publisher)
+    public function update(PublisherRequest $request, Publisher $publisher)
     {
-        //
+        $publisher->update($request->validated());
+
+        $publishers = Publisher::paginate(Publisher::PER_PAGE);
+        return view('publishers.index', compact('publishers'));
     }
 
     /**

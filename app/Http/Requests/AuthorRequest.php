@@ -28,6 +28,16 @@ class AuthorRequest extends FormRequest
             'name' => 'required|regex:/^[a-zA-Z\s]*$/'
         ];  
     }
+
+    public function messages()
+    {
+        return [
+            'name.regex' => 'The name must contain only letters.',
+            'first_name.regex' => 'The first name must contain only letters.',
+            'last_name.regex' => 'The last name must contain only letters.'
+        ];
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

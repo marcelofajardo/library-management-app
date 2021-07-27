@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Subject;
 
 class SubjectSeeder extends Seeder
 {
@@ -11,8 +12,12 @@ class SubjectSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public static function run()
     {
-        //
+        $subjects = ['Biology', 'Fiction', 'Non-Fiction', 'Georgraphy', 'Philosophy'];
+
+        foreach ($subjects as $s) {
+            Subject::create(['name' => $s]);
+        }
     }
 }

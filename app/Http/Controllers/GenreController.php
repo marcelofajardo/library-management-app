@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use App\Http\Requests\GenreRequest;
 
 class GenreController extends Controller
 {
@@ -14,7 +15,13 @@ class GenreController extends Controller
      */
     public function index()
     {
-        //
+        $breadcrumbs = [
+            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Genres', 'link' => '/genres'],
+        ];
+
+        $genres = Genre::paginate(Genre::PER_PAGE);
+        return view('genres.index', compact(['genres', 'breadcrumbs']));
     }
 
     /**
@@ -33,9 +40,12 @@ class GenreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GenreRequest $request)
     {
-        //
+        Genre::create($request->validated());
+
+        $genres = Genre::paginate(Genre::PER_PAGE);
+        return view('genres.index', compact('genres'));
     }
 
     /**
@@ -57,7 +67,12 @@ class GenreController extends Controller
      */
     public function edit(Genre $genre)
     {
-        //
+        $breadcrumbs = [
+            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Genres', 'link' => '/genres'],
+            ['name' => 'Update genre details', 'link' => '/genres/'.$genre->id.'/edit'],
+        ];
+        return view('genres.edit', compact(['genre', 'breadcrumbs']));
     }
 
     /**
@@ -67,9 +82,12 @@ class GenreController extends Controller
      * @param  \App\Models\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Genre $genre)
+    public function update(GenreRequest $request, Genre $genre)
     {
-        //
+        $genre->update($request->validated());
+
+        $genres = Genre::paginate(Genre::PER_PAGE);
+        return view('genres.index', compact('genres'));
     }
 
     /**

@@ -16,8 +16,13 @@ class AuthorController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = [
+            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Authors', 'link' => '/authors']
+        ];
+       
         $authors = Author::paginate(Author::PER_PAGE);
-        return view('authors.index', compact('authors'));
+        return view('authors.index', compact('authors', 'breadcrumbs'));
     }
 
     /**
@@ -41,7 +46,8 @@ class AuthorController extends Controller
         $name = join(" ", [$request->first_name, $request->last_name]);
         Author::create(['name' => $name]);
 
-        return redirect()->back();
+        $authors = Author::paginate(Author::PER_PAGE);
+        return view('authors.index', compact('authors'));    
     }
 
     /**
@@ -63,7 +69,13 @@ class AuthorController extends Controller
      */
     public function edit(Author $author)
     {
-        return view('authors.edit', compact('author'));
+        $breadcrumbs = [
+            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Authors', 'link' => '/authors'],
+            ['name' => 'Update author details', 'link' => '/authors/'.$author->id.'/edit'],
+        ];
+
+        return view('authors.edit', compact(['author', 'breadcrumbs']));
     }
 
     /**

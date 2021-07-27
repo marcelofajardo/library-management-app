@@ -10,4 +10,5 @@ class Subject extends Model
     use HasFactory;
     protected $guarded = [];
 
+    const PER_PAGE = 10;
 }

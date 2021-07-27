@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use App\Http\Requests\SubjectRequest;
 
 class SubjectController extends Controller
 {
@@ -14,7 +15,13 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        //
+        $breadcrumbs = [
+            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Subjects', 'link' => '/subjects'],
+        ];
+
+        $subjects = Subject::paginate(Subject::PER_PAGE);
+        return view('subjects.index', compact('subjects', 'breadcrumbs'));
     }
 
     /**
@@ -33,9 +40,12 @@ class SubjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SubjectRequest $request)
     {
-        //
+        Subject::create($request->validated());
+
+        $subjects = Subject::paginate(Subject::PER_PAGE);
+        return view('subjects.index', compact('subjects'));
     }
 
     /**
@@ -57,7 +67,12 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        //
+        $breadcrumbs = [
+            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Subjects', 'link' => '/subjects'],
+            ['name' => 'Update subject details', 'link' => '/subjects/'.$subject->id.'/edit'],
+        ];
+        return view('subjects.edit', compact(['subject', 'breadcrumbs']));
     }
 
     /**
@@ -67,9 +82,12 @@ class SubjectController extends Controller
      * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Subject $subject)
+    public function update(SubjectRequest $request, Subject $subject)
     {
-        //
+        $subject->update($request->validated());
+
+        $subjects = Subject::paginate(Subject::PER_PAGE);
+        return view('subjects.index', compact('subjects'));
     }
 
     /**

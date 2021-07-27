@@ -15,7 +15,11 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         AuthorSeeder::run();
+        BookConditionSeeder::run();
+        GenreSeeder::run();
+        PublisherSeeder::run();
         RoleSeeder::run();
+        SubjectSeeder::run();
         UserSeeder::run();
     }
 }

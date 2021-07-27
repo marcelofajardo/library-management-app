@@ -1,4 +1,7 @@
 @extends('layouts.main')
+@section('page_title')
+    Authors
+@endsection
 @section('content_header')
     Authors
 @endsection
@@ -36,6 +39,13 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                            @else 
+                            <tr>
+                                <td></td>
+                                <td>No authors have yet been added.</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             @endif
                         </tbody>
                     </table>

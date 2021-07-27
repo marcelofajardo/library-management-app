@@ -151,6 +151,12 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        // does not work with ajax calls
+        'author_id' => 'author',
+        'publisher_id' => 'publisher',
+        'isbn' => 'ISBN',
+        'available_quantity' => 'quantity'
+    ],
 
 ];
