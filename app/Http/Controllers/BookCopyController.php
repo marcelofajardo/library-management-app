@@ -77,9 +77,12 @@ class BookCopyController extends Controller
      * @param  \App\Models\BookCopy  $bookCopy
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BookCopy $bookCopy)
+    public function update(BookCopyRequest $request, BookCopy $bookCopy)
     {
-        //
+        $data = $request->validated();
+        unset($data['id']);
+        
+        $bookCopy->update($data);
     }
 
     /**

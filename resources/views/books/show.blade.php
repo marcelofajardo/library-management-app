@@ -72,6 +72,24 @@
                     <i class="fas fa-book mr-2"></i>
                     Copy {{ $key+1 }}
                 </h3>
+                <div class="card-tools">
+                    <button
+                        data-target="#editBookCopyModal"
+                        class="btn btn-sm btn-primary call_edit_modal"
+                        data-toggle="modal"
+                        data-id="{{ $copy->id }}"
+                        data-price = {{ $copy->price }}
+                        data-purchase = {{ $copy->date_of_purchase }}
+                        data-publ = {{ $copy->publication_date }}
+                        data-cond = {{ $copy->condition->id }}
+                        data-edition = {{ $copy->edition }}
+                    >
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
@@ -87,11 +105,11 @@
                         </tr>
                         <tr>
                             <td>Date of purchase:</td>
-                            <td>{{ $copy->date_of_purchase }}</td>
+                            <td>{{ $copy->formatted_purchase_date }}</td>
                         </tr>
                         <tr>
                             <td>Publication date:</td>
-                            <td>{{ $copy->publication_date }}</td>
+                            <td>{{ $copy->formatted_publication_date }}</td>
                         </tr>
                         <tr>
                             <td>Condition:</td>
@@ -115,7 +133,7 @@
     @endif
 </div>
 @include('books/modals.copies')
-
+@include('books/modals.edit_book_copy')
 @section('additional_scripts')
     <script src="{{ asset('/js/books/show.js') }}"></script>
 @endsection

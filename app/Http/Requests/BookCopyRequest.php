@@ -21,8 +21,7 @@ class BookCopyRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function storeRules() {
         return [
             'price' => 'required|array|min:1',
             'price.*' => 'required|numeric|min:0',
@@ -38,8 +37,29 @@ class BookCopyRequest extends FormRequest
         ];
     }
 
-    // public function validated() {
-    //     $validated = $this->validate($this->rules);
-    //     return $validated;
-    // }
+    public function updateRules() {
+        return [
+            'price' => 'required|numeric|min:0',
+            'date_of_purchase' => 'required|date|before_or_equal:today',
+            'publication_date' => 'required|date|before:today',
+            'edition' => 'required|numeric',
+            'condition_id' => 'required|exists:book_conditions,id',
+            'id' => 'required|exists:book_copies,id'
+        ];
+    } 
+
+
+    public function rules()
+    {
+        if ($this->method() == 'POST') {
+            return $this->storeRules();
+        } else if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
+            return $this->updateRules();
+        }
+    }
+
+    public function validated() {
+        $validated = $this->validate($this->rules());
+        return $validated;
+    }
 }
