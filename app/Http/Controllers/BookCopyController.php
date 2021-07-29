@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BookCopy;
 use App\Http\Requests\BookCopyRequest;
+use App\Models\BookCondition;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -105,22 +106,27 @@ class BookCopyController extends Controller
 
     public function downloadQRCode(BookCopy $bookCopy)
     {
-    $image = QrCode::format('png')->generate(BookCopy::QR_BASE_URL.$bookCopy->id);
-    // dd($image);
-    // $image->store('qrcodes');
+        $image = QrCode::generate(BookCopy::QR_BASE_URL.$bookCopy->id);
 
-    $imageName = 'qr-code';
-    $type = 'png';
+        $imageName = 'qr-code';
+        $type = 'svg';
 
-         if ($type == 'svg') {
-             $svgTemplate = new \SimpleXMLElement($image);
-             $svgTemplate->registerXPathNamespace('svg', 'http://www.w3.org/2000/svg');
-             $svgTemplate->rect->addAttribute('fill-opacity', 0);
-             $image = $svgTemplate->asXML();
-         }
+        Storage::put('public/qr-codes/'.$imageName, $image);
 
-         Storage::disk('public')->put($imageName, $image);
-
-         return response()->download('storage/'.$imageName, $imageName.'.'.$type);
+        return response()->download('storage/qr-codes/'.$imageName, $imageName.'.'.$type);
     }
+
+    public function readQRCode(BookCopy $bookCopy) 
+    {
+        $book = $bookCopy->book;
+
+        $breadcrumbs = [
+            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Books', 'link' => '/books'],
+            ['name' => 'Book details', 'link' => '/books/'.$book],
+        ];
+
+        $conditions = BookCondition::all();
+        return redirect()->route('books.show', ['book' => $book, 'breadcrumbs' => $breadcrumbs, 'conditions' => $conditions]);
+    } 
 }

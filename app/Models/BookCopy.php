@@ -19,6 +19,10 @@ class BookCopy extends Model
         return $this->belongsTo(BookCondition::class);
     }
 
+    public function book() {
+        return $this->belongsTo(Book::class);
+    }
+
     public function getFormattedPublicationDateAttribute() {
         return $this->publication_date->format('d. m. Y.');
     }
