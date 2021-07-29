@@ -57,7 +57,7 @@
         </div>
         <div class="col-5 ml-3">
             <div class="card bg-gradient-info">
-                <div class="card-header border-0 ui-sortable-handle" style="cursor: move;">
+                <div class="card-header border-0 ui-sortable-handle">
                 </div>
                 <div class="card-body" style="display: block;">
                     <form action="/publishers" method="POST">

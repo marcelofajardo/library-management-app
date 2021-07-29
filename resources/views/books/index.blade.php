@@ -28,39 +28,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($books->count() > 0)
-                                @foreach ($books as $key => $book)
-                                    <tr>
-                                        <td>{{ (($books::resolveCurrentPage() - 1) * App\Models\Genre::PER_PAGE)  + $key + 1  }}.</td>
-                                        <td>
-                                            <a href={{ route('books.show', ['book' => $book->id]) }}>
-                                                {{ $book->title }}
-                                            </a>    
-                                        </td>
-                                        <td>{{ $book->author->name }}</td>
-                                        <td>{{ $book->publisher->name }}</td>
-                                        <td>{{ $book->isbn }}</td>
-                                        <td>{{ $book->available_quantity }}</td>
-                                        <td>
-                                            <a href="/books/{{ $book->id }}/edit">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else 
+                            @forelse ($books as $key => $book)
+                                <tr>
+                                    <td>{{ (($books::resolveCurrentPage() - 1) * App\Models\Book::PER_PAGE)  + $key + 1  }}.</td>
+                                    <td>
+                                        <a href={{ route('books.show', ['book' => $book->id]) }}>
+                                            {{ $book->title }}
+                                        </a>    
+                                    </td>
+                                    <td>{{ $book->author->name }}</td>
+                                    <td>{{ $book->publisher->name }}</td>
+                                    <td>{{ $book->isbn }}</td>
+                                    <td>{{ $book->available_quantity }}</td>
+                                    <td>
+                                        <a href="/books/{{ $book->id }}/edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
                             <tr>
                                 <td></td>
                                 <td>No books have yet been added.</td>
                                 <td></td>
                                 <td></td>
                             </tr>
-                            @endif
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

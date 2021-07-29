@@ -34,4 +34,7 @@ Route::resource('books', BookController::class);
 Route::resource('book-copies', BookCopyController::class);
 Auth::routes();
 
+// Route::get('/generate-qr', HomeController::class, 'generateQR')->name('generate-QR');
+// Route::post('/generate-qr', HomeController::class, 'postQRInfo')->name('post-QR-info');
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');

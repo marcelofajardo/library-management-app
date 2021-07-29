@@ -77,9 +77,8 @@ class BookController extends Controller
             ['name' => 'Book details', 'link' => '/books/'.$book->id],
         ];
 
-        $copies = BookCopy::where('book_id', '=', $book->id)->get();
         $conditions = BookCondition::all();
-        return view('books.show', compact(['book', 'conditions', 'copies', 'breadcrumbs']));
+        return view('books.show', compact(['book', 'conditions', 'breadcrumbs']));
     }
 
     /**

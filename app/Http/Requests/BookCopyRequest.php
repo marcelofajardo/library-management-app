@@ -58,8 +58,4 @@ class BookCopyRequest extends FormRequest
         }
     }
 
-    public function validated() {
-        $validated = $this->validate($this->rules());
-        return $validated;
-    }
 }

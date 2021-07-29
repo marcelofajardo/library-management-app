@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header ui-sortable-handle" style="cursor: move;">
+            <div class="card-header ui-sortable-handle">
                 <h3 class="card-title">
                     <i class="fas fa-book mr-2"></i>
                     Book details
@@ -62,75 +62,78 @@
             <!-- /.card-body -->
         </div>
     </div>
-    @if ($copies != '')
-        
-    @foreach ($copies as $key => $copy)
-    <div class="col-4">
-        <div class="card">
-            <div class="card-header ui-sortable-handle" style="cursor: move;">
-                <h3 class="card-title">
-                    <i class="fas fa-book mr-2"></i>
-                    Copy {{ $key+1 }}
-                </h3>
-                <div class="card-tools">
-                    <button
-                        data-target="#editBookCopyModal"
-                        class="btn btn-sm btn-primary call_edit_modal"
-                        data-toggle="modal"
-                        data-id="{{ $copy->id }}"
-                        data-price = {{ $copy->price }}
-                        data-purchase = {{ $copy->date_of_purchase }}
-                        data-publ = {{ $copy->publication_date }}
-                        data-cond = {{ $copy->condition->id }}
-                        data-edition = {{ $copy->edition }}
-                    >
-                        <i class="fa fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                        <i class="fa fa-times"></i>
-                    </button>
+
+    @forelse ($book->book_copies as $key => $copy)
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header ui-sortable-handle">
+                    <h3 class="card-title">
+                        <i class="fas fa-book mr-2"></i>
+                        Copy {{ $key+1 }}
+                    </h3>
+                    <div class="card-tools">
+                        <button class="btn btn-sm btn-info">
+                            QR Code
+                        </button>
+                        <button
+                            data-target="#editBookCopyModal"
+                            class="btn btn-sm btn-primary call_edit_modal"
+                            data-toggle="modal"
+                            data-id="{{ $copy->id }}"
+                            data-price = {{ $copy->price }}
+                            data-purchase = {{ $copy->date_of_purchase }}
+                            data-publ = {{ $copy->publication_date }}
+                            data-cond = {{ $copy->condition->id }}
+                            data-edition = {{ $copy->edition }}
+                        >
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-borderless">
-                        <tr>
-                            <td>ID</td>
-                            <td>{{ $copy->id }}</td>
-                        </tr>
-                        <tr>
-                            <td>Price:</td>
-                            <td>{{ $copy->price }} €</td>
-                        </tr>
-                        <tr>
-                            <td>Date of purchase:</td>
-                            <td>{{ $copy->formatted_purchase_date }}</td>
-                        </tr>
-                        <tr>
-                            <td>Publication date:</td>
-                            <td>{{ $copy->formatted_publication_date }}</td>
-                        </tr>
-                        <tr>
-                            <td>Condition:</td>
-                            <td>{{ $copy->condition->name }}</td>
-                        </tr>
-                        <tr>
-                            <td>Edition:</td>
-                            <td>
-                                {{ $copy->edition }}
-                            </td>
-                        </tr>
-                    </table>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td>ID</td>
+                                <td>{{ $copy->id }}</td>
+                            </tr>
+                            <tr>
+                                <td>Price:</td>
+                                <td>{{ $copy->price }} €</td>
+                            </tr>
+                            <tr>
+                                <td>Date of purchase:</td>
+                                <td>{{ $copy->formatted_purchase_date }}</td>
+                            </tr>
+                            <tr>
+                                <td>Publication date:</td>
+                                <td>{{ $copy->formatted_publication_date }}</td>
+                            </tr>
+                            <tr>
+                                <td>Condition:</td>
+                                <td>{{ $copy->condition->name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Edition:</td>
+                                <td>
+                                    {{ $copy->edition }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
+                <div class="card-footer clearfix">
+                </div>
+                <!-- /.card-body -->
             </div>
-            <div class="card-footer clearfix">
-            </div>
-            <!-- /.card-body -->
         </div>
-    </div>
-    @endforeach
-    @endif
+    @empty
+
+    @endforelse
 </div>
 @include('books/modals.copies')
 @include('books/modals.edit_book_copy')

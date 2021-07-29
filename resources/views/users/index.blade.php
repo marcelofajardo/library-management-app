@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header ui-sortable-handle" style="cursor: move;">
+            <div class="card-header ui-sortable-handle">
                 {{-- <h3 class="card-title">
                   <i class="fas fa-users mr-1"></i>
                   Users

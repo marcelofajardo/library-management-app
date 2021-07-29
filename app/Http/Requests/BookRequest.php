@@ -56,9 +56,4 @@ class BookRequest extends FormRequest
             return $this->updateRules($this->book);
         }
     }
-
-    public function validated() {
-        $validated = $this->validate($this->rules());
-        return $validated;
-    }
 }
