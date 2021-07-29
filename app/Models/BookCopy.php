@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class BookCopy extends Model
 {
     use HasFactory;
+
+    const QR_BASE_URL = '/read-qr-code/';
+
     protected $guarded = [];
 
     protected $dates = ['publication_date', 'date_of_purchase', 'created_at', 'updated_at'];

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\BookCopy;
-use Illuminate\Http\Request;
 use App\Http\Requests\BookCopyRequest;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BookCopyController extends Controller
 {
@@ -36,16 +37,22 @@ class BookCopyController extends Controller
      */
     public function store(BookCopyRequest $request)
     {
-        foreach($request['price'] as $key => $num) {
+        $data = $request->validated();
+        $number_of_copies = count($data['price']);
+
+        for ($i = 0; $i < $number_of_copies; $i++) {
+            
             BookCopy::create([
-            'book_id' => $request['book_id'],
-            'price' => $num,
-            'date_of_purchase' => $request['date_of_purchase'][$key],
-            'publication_date' => $request['publication_date'][$key],
-            'condition_id' => $request['condition_id'][$key],
-            'edition' => $request['edition'][$key],
+                'book_id' => $data['book_id'],
+                'price' => $data['price'][$i],
+                'date_of_purchase' => $data['date_of_purchase'][$i],
+                'publication_date' => $data['publication_date'][$i],
+                'condition_id' => $data['condition_id'][$i],
+                'edition' => $data['edition'][$i],
             ]);
-        };
+            
+            // $new_copy->update(['qr_code' => '/read-qr-info/1']);
+        }
     }
 
     /**
@@ -94,5 +101,26 @@ class BookCopyController extends Controller
     public function destroy(BookCopy $bookCopy)
     {
         //
+    }
+
+    public function downloadQRCode(BookCopy $bookCopy)
+    {
+    $image = QrCode::format('png')->generate(BookCopy::QR_BASE_URL.$bookCopy->id);
+    // dd($image);
+    // $image->store('qrcodes');
+
+    $imageName = 'qr-code';
+    $type = 'png';
+
+         if ($type == 'svg') {
+             $svgTemplate = new \SimpleXMLElement($image);
+             $svgTemplate->registerXPathNamespace('svg', 'http://www.w3.org/2000/svg');
+             $svgTemplate->rect->addAttribute('fill-opacity', 0);
+             $image = $svgTemplate->asXML();
+         }
+
+         Storage::disk('public')->put($imageName, $image);
+
+         return response()->download('storage/'.$imageName, $imageName.'.'.$type);
     }
 }

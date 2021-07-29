@@ -91,7 +91,6 @@ $('#submit_copies').on('click', function(e) {
         'data' : {_token:token, 'price[]':price, 'date_of_purchase[]':date_of_purchase, 'publication_date[]':publication_date, 'edition[]':edition, 'condition_id[]':condition, book_id:book_id}, 
         'success': (res) => {  
             location.reload(); 
-            console.log(res);
         }, 
         'error': (res) => {
 
@@ -100,7 +99,7 @@ $('#submit_copies').on('click', function(e) {
             let errors = res['responseJSON']['errors'];
         //     let err_array = [];
 
-        // // get error messages and push them into an array
+        // // // get error messages and push them into an array
         //     for (let key in errors) {
         //         err_array.push(errors[key][0]);
         //     } 
@@ -168,3 +167,14 @@ $('#edit_modal_submit').on('click', function(e) {
     });
 
 });
+
+// $('.call_qr_modal').on('click', function() {
+//     // alert('clicked')
+
+//     let id = $(this).data('id');
+//     let qr_code = '<?php echo {!! QrCode::generate(/read-qr-info/' + id + '!!};
+//     console.log(id, qr_code);
+//     $('#qr_code_display').html(qr_code);
+
+// });
+

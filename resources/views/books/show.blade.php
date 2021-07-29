@@ -69,12 +69,16 @@
                 <div class="card-header ui-sortable-handle">
                     <h3 class="card-title">
                         <i class="fas fa-book mr-2"></i>
-                        Copy {{ $key+1 }}
+                        Copy {{ $key + 1 }}
                     </h3>
                     <div class="card-tools">
-                        <button class="btn btn-sm btn-info">
+                        <a 
+                            href="{{ route('qrcode.download', ['bookCopy' => $copy]) }}"
+                            class="btn btn-sm btn-info call_qr_modal"
+                        >
                             QR Code
-                        </button>
+                            <i class="fas fa-download ml-1"></i>
+                        </a>
                         <button
                             data-target="#editBookCopyModal"
                             class="btn btn-sm btn-primary call_edit_modal"
@@ -123,6 +127,12 @@
                                     {{ $copy->edition }}
                                 </td>
                             </tr>
+                            <tr>
+                                <td>QR Code:</td>
+                                <td>
+                                    {!! QrCode::generate(App\Models\BookCopy::QR_BASE_URL.strval($copy->id)); !!}
+                                </td>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -137,6 +147,7 @@
 </div>
 @include('books/modals.copies')
 @include('books/modals.edit_book_copy')
+
 @section('additional_scripts')
     <script src="{{ asset('/js/books/show.js') }}"></script>
 @endsection
