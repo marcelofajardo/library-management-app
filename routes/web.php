@@ -7,8 +7,10 @@ use App\Http\Controllers\GenreController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookCopyController;
+use App\Http\Controllers\BookLendingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Models\BookLending;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +34,9 @@ Route::resource('genres', GenreController::class);
 Route::resource('users', UserController::class);
 Route::resource('books', BookController::class);
 Route::resource('book-copies', BookCopyController::class);
+Route::resource('/book-lendings', BookLendingController::class);
 Auth::routes();
 
-// Route::get('/view-qr/{bookCopy}', [BookCopyController::class, 'viewQR'])->name('view-QR');
 Route::get('/read-qr-code/{bookCopy}', [BookCopyController::class, 'readQRCode'])->name('read-QR-code');
 Route::get('/download-qr-code/{bookCopy}', [BookCopyController::class, 'downloadQRCode'])->name('qrcode.download');
 

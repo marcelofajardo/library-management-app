@@ -11,6 +11,12 @@ class BookCopy extends Model
 
     const QR_BASE_URL = '/read-qr-code/';
 
+    // statuses
+
+    const AVAILABLE = 0;
+    const UNAVAILABLE = 1;
+    const READING_ROOM_COPY = 2;
+
     protected $guarded = [];
 
     protected $dates = ['publication_date', 'date_of_purchase', 'created_at', 'updated_at'];

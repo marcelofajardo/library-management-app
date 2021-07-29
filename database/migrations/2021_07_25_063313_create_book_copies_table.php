@@ -21,6 +21,7 @@ class CreateBookCopiesTable extends Migration
             $table->timestamp('publication_date')->useCurrent();
             $table->string('condition_id')->contrained('book_conditions');
             $table->string('edition');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
