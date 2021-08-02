@@ -128,6 +128,12 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>Status:</td>
+                                <td>
+                                    <span class="badge {{ $copy->book_status->icon}}"">{{ $copy->book_status->status }}</span>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>QR Code:</td>
                                 <td>
                                     {!! QrCode::generate(App\Models\BookCopy::QR_BASE_URL.strval($copy->id)); !!}

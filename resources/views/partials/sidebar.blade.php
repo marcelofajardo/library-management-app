@@ -61,6 +61,14 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('qr-code-scan') }}" class="nav-link {{ active_link(request(), 'qrcode*') }}">
+              <i class="nav-icon fas fa-qrcode"></i>              
+              <p>
+                Scan a QR
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

@@ -114,4 +114,15 @@ class UserController extends Controller
     {
         //
     }
+
+    public function readUserQRCode(User $user) 
+    {
+        // in fact it never reaches the controller, but throws a 404 before this point 
+        if (!isset($user)) {
+            abort(403, 'wrong data entered');
+        }
+
+        return $user;
+        
+    }
 }

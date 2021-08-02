@@ -10,7 +10,6 @@ use App\Http\Controllers\BookCopyController;
 use App\Http\Controllers\BookLendingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Models\BookLending;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +22,7 @@ use App\Models\BookLending;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::resource('authors', AuthorController::class);
 Route::resource('publishers', PublisherController::class);
@@ -37,7 +34,10 @@ Route::resource('book-copies', BookCopyController::class);
 Route::resource('/book-lendings', BookLendingController::class);
 Auth::routes();
 
-Route::get('/read-qr-code/{bookCopy}', [BookCopyController::class, 'readQRCode'])->name('read-QR-code');
-Route::get('/download-qr-code/{bookCopy}', [BookCopyController::class, 'downloadQRCode'])->name('qrcode.download');
+Route::get('/qrcode/scan', [BookCopyController::class, 'scanQRCode'])->name('qr-code-scan');
+Route::get('/download-qr-code/{id}', [BookCopyController::class, 'downloadQRCode'])->name('qrcode.download');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::post('/users/qrcode/read/{user}', [UserController::class, 'readUserQRCode'])->name('users.readQRCode');
+Route::post('/books/qrcode/read/{bookCopy}', [BookCopyController::class, 'readBookQRCode'])->name('books.readQRCode');
+
+// Route::get('/home', [HomeController::class, 'index'])->name('home');

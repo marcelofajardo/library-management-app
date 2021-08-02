@@ -33,7 +33,9 @@ class BookCopyRequest extends FormRequest
             'edition.*' => 'required|numeric',
             'condition_id' => 'required|array|min:1',
             'condition_id.*' => 'required|exists:book_conditions,id',
-            'book_id' => 'required|exists:books,id'
+            'book_id' => 'required|exists:books,id',
+            'book_status_id' => 'required|array|min:1',
+            'book_status_id.*' => 'required|exists:book_statuses,id'
         ];
     }
 
@@ -44,7 +46,8 @@ class BookCopyRequest extends FormRequest
             'publication_date' => 'required|date|before:today',
             'edition' => 'required|numeric',
             'condition_id' => 'required|exists:book_conditions,id',
-            'id' => 'required|exists:book_copies,id'
+            'id' => 'required|exists:book_copies,id',
+            'book_status_id' => 'required|exists:book_statuses,id'
         ];
     } 
 

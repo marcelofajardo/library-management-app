@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         RoleSeeder::run();
         SubjectSeeder::run();
         UserSeeder::run();
+        BookStatusSeeder::run();
     }
 }

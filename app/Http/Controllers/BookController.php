@@ -8,6 +8,7 @@ use App\Models\Author;
 use App\Http\Requests\BookRequest;
 use App\Models\BookCondition;
 use App\Models\BookCopy;
+use App\Models\BookStatus;
 use Illuminate\Validation\Rule;
 
 class BookController extends Controller
@@ -76,9 +77,10 @@ class BookController extends Controller
             ['name' => 'Books', 'link' => '/books'],
             ['name' => 'Book details', 'link' => '/books/'.$book->id],
         ];
-
+        $book_statuses = BookStatus::all();
         $conditions = BookCondition::all();
-        return view('books.show', compact(['book', 'conditions', 'breadcrumbs']));
+
+        return view('books.show', compact(['book', 'conditions', 'book_statuses', 'breadcrumbs']));
     }
 
     /**

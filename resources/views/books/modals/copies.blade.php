@@ -10,7 +10,7 @@
                 @for ($i = 0; $i < $book->requiredCopies(); $i++)
                     <div class="col-12 p-3 mb-3" style="border: 1px solid rgb(186, 179, 179);">
                         <label for="">Copy {{$i + 1}}</label>
-                        <div class="col-12 mt-2">
+                        <div class="col-12 mt-3">
                             <input 
                                 type="text" 
                                 class="form-control" 
@@ -18,7 +18,7 @@
                                 placeholder="Price (€)"
                             >
                         </div>
-                        <div class="col-12 mt-2">
+                        <div class="col-12 mt-3">
                             <label for="">Date of purchase:</label>
                             <input 
                                 type="date" 
@@ -26,7 +26,7 @@
                                 name="date_of_purchase[]" 
                             >
                         </div>
-                        <div class="col-12 mt-2">
+                        <div class="col-12 mt-3">
                             <label for="">Date of publication:</label>
                             <input 
                                 type="date" 
@@ -34,7 +34,7 @@
                                 name="publication_date[]" 
                             >
                         </div>
-                        <div class="col-12 mt-2">
+                        <div class="col-12 mt-3">
                             <input 
                                 type="numeric" 
                                 class="form-control" 
@@ -42,11 +42,19 @@
                                 placeholder="Edition"
                             >
                         </div>
-                        <div class="col-12 mt-2">
-                            <select name="condition_id[]" class="form-control mb-2">
+                        <div class="col-12 mt-3">
+                            <select name="condition_id[]" class="form-control">
                                 <option value="">-- Book condition --</option>
-                                @foreach ($conditions as $c)
-                                    <option value="{{ $c->id }}">{{ $c->name }}</option>
+                                @foreach ($conditions as $condition)
+                                    <option value="{{ $condition->id }}">{{ $condition->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <select name="book_status_id[]" class="form-control mb-3">
+                                <option value="">-- Book status --</option>
+                                @foreach ($book_statuses as $status)
+                                    <option value="{{ $status->id }}">{{ $status->status }}</option>
                                 @endforeach
                             </select>
                         </div>

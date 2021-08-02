@@ -42,7 +42,6 @@ class BookCopyController extends Controller
         $number_of_copies = count($data['price']);
 
         for ($i = 0; $i < $number_of_copies; $i++) {
-            
             BookCopy::create([
                 'book_id' => $data['book_id'],
                 'price' => $data['price'][$i],
@@ -50,9 +49,8 @@ class BookCopyController extends Controller
                 'publication_date' => $data['publication_date'][$i],
                 'condition_id' => $data['condition_id'][$i],
                 'edition' => $data['edition'][$i],
+                'book_status_id' => $data['book_status_id'][$i]
             ]);
-            
-            // $new_copy->update(['qr_code' => '/read-qr-info/1']);
         }
     }
 
@@ -64,7 +62,16 @@ class BookCopyController extends Controller
      */
     public function show(BookCopy $bookCopy)
     {
-        //
+        $breadcrumbs = [
+            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'QR Scan', 'link' => '/qrcode/scan'],
+            ['name' => 'Book details', 'link' => '/book-copies/'.$bookCopy->id],
+        ];
+
+        $book = $bookCopy->book;
+
+        $conditions = BookCondition::all();
+        return view('book-copies.show', compact(['book', 'conditions', 'breadcrumbs', 'bookCopy']));
     }
 
     /**
@@ -116,17 +123,25 @@ class BookCopyController extends Controller
         return response()->download('storage/qr-codes/'.$imageName, $imageName.'.'.$type);
     }
 
-    public function readQRCode(BookCopy $bookCopy) 
+    public function scanQRCode() 
     {
-        $book = $bookCopy->book;
-
         $breadcrumbs = [
             ['name' => 'Home', 'link' => '/home'],
-            ['name' => 'Books', 'link' => '/books'],
-            ['name' => 'Book details', 'link' => '/books/'.$book],
+            ['name' => 'QR Scan', 'link' => '/qrcode/scan']
         ];
 
-        $conditions = BookCondition::all();
-        return redirect()->route('books.show', ['book' => $book, 'breadcrumbs' => $breadcrumbs, 'conditions' => $conditions]);
-    } 
+        return view('qrcode-scan', compact('breadcrumbs'));
+    }
+
+    public function readBookQRCode($id) 
+    {
+        $bookCopy = BookCopy::with(['book', 'condition'])->where('id', $id)->firstOrFail();
+        if (!$bookCopy->is_available) {
+            abort(403, 'the book is not available for taking out');
+        } else {
+            return $bookCopy;
+        }
+
+    }
+
 }

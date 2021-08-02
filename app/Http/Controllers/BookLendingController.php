@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\BookLending;
 use Illuminate\Http\Request;
+use App\Http\Requests\BookLendingRequest;
+use App\Models\BookCopy;
+use App\Models\BookStatus;
 
 class BookLendingController extends Controller
 {
@@ -24,7 +27,12 @@ class BookLendingController extends Controller
      */
     public function create()
     {
-        return view('book-lendings.create');
+        $breadcrumbs = [
+            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Issue books', 'link' => '/book-lendings/create'],
+        ];
+
+        return view('book-lendings.create', compact(['breadcrumbs']));
     }
 
     /**
@@ -33,9 +41,22 @@ class BookLendingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookLendingRequest $request)
     {
-        //
+        $count = BookLending::where('book_copy_id', $request->book_copy_id)->where('return_date', NULL)->count();
+
+        if ($count != 0) {
+            return 'Error. The book has already been checked out.';
+        } else {
+            $new_lending = BookLending::create($request->validated());
+            $updated_book_status = BookCopy::find($request->book_copy_id)->update(['book_status_id' => BookStatus::UNAVAILABLE]);
+
+            if ($new_lending && $updated_book_status) {
+                return 'successfully issued';
+            } else {
+                return 'error with processing';
+            }
+        }
     }
 
     /**

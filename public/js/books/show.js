@@ -34,23 +34,27 @@ function handleErrorMessages(err_array) {
 
         let error_message = createErrorEl(message);
 
+        // console.log(error_message);
         let price_els = $('input[name="price[]"]');
         let condition_els = $('select[name="condition_id[]"]');
         let purchase_els = $('input[name="date_of_purchase[]"]');
         let publication_els = $('input[name="publication_date[]"]');
         let edition_els = $('input[name="edition[]"]');
-        
+        let book_status_els = $('select[name="book_status_id[]"]');
+
         if (field_name == 'price') {
-            appendErrorMsg(price_els, index, error_message)
+            appendErrorMsg(price_els, index, error_message);
         } else if (field_name == 'date_of_purchase') {
-            appendErrorMsg(purchase_els, index, error_message)
+            appendErrorMsg(purchase_els, index, error_message);
         } else if (field_name == 'edition') {
-            appendErrorMsg(edition_els, index, error_message)
+            appendErrorMsg(edition_els, index, error_message);
         } else if (field_name == 'publication_date') {
-            appendErrorMsg(publication_els, index, error_message)
-        } else if (field_name == 'condition') {
-            appendErrorMsg(condition_els, index, error_message)
-        } 
+            appendErrorMsg(publication_els, index, error_message);
+        } else if (field_name == 'condition_id') {
+            appendErrorMsg(condition_els, index, error_message);
+        } else if (field_name == 'book_status_id') {
+            appendErrorMsg(book_status_els, index, error_message);
+        }
     } 
 }
 
@@ -58,29 +62,34 @@ $('#submit_copies').on('click', function(e) {
     e.preventDefault();
 
     let token = $('#token_copies').val();
-    let price = [];
+    let prices = [];
     $("input[name='price[]']").each(function() {
-        price.push($(this).val());
+        prices.push($(this).val());
     });
     
-    let date_of_purchase = [];
+    let dates_of_purchase = [];
     $("input[name='date_of_purchase[]']").each(function() {
-        date_of_purchase.push($(this).val());
+        dates_of_purchase.push($(this).val());
     });
 
-    let publication_date = [];
+    let publication_dates = [];
     $("input[name='publication_date[]']").each(function() {
-        publication_date.push($(this).val());
+        publication_dates.push($(this).val());
     });
 
-    let edition = [];
+    let editions = [];
     $("input[name='edition[]']").each(function() {
-        edition.push($(this).val());
+        editions.push($(this).val());
     });
 
-    let condition = [];
+    let conditions = [];
     $("select[name='condition_id[]']").each(function() {
-        condition.push($(this).val());
+        conditions.push($(this).val());
+    });
+
+    let book_status_ids = [];
+    $("select[name='book_status_id[]']").each(function() {
+        book_status_ids.push($(this).val());
     });
 
     let book_id = $('#book_id').val();
@@ -88,7 +97,16 @@ $('#submit_copies').on('click', function(e) {
     $.ajax( {
         'url' : '/book-copies',
         'type' : 'POST',
-        'data' : {_token:token, 'price[]':price, 'date_of_purchase[]':date_of_purchase, 'publication_date[]':publication_date, 'edition[]':edition, 'condition_id[]':condition, book_id:book_id}, 
+        'data' : {
+            _token:token, 
+            'price[]':prices, 
+            'date_of_purchase[]':dates_of_purchase, 
+            'publication_date[]':publication_dates, 
+            'edition[]':editions, 
+            'condition_id[]':conditions, 
+            'book_id':book_id, 
+            'book_status_id[]':book_status_ids
+        }, 
         'success': (res) => {  
             location.reload(); 
         }, 
@@ -155,7 +173,8 @@ $('#edit_modal_submit').on('click', function(e) {
             'method' : 'PUT', 
             'data' : {_token: csrf, edition:edition, price:price, condition_id: condition_id, publication_date:publication_date, date_of_purchase:date_of_purchase, id:id},
             'success' : (res) => {
-                location.reload()        },
+                location.reload()        
+            },
             'error' : (res) => {
 
                 removeErrors();
@@ -165,16 +184,4 @@ $('#edit_modal_submit').on('click', function(e) {
                 handleErrorsBookCopy(errors);
             }
     });
-
 });
-
-// $('.call_qr_modal').on('click', function() {
-//     // alert('clicked')
-
-//     let id = $(this).data('id');
-//     let qr_code = '<?php echo {!! QrCode::generate(/read-qr-info/' + id + '!!};
-//     console.log(id, qr_code);
-//     $('#qr_code_display').html(qr_code);
-
-// });
-

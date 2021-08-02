@@ -19,6 +19,8 @@ class User extends Authenticatable
      */
     const PER_PAGE = 10;
 
+    protected $with = ['role'];
+
     protected $fillable = [
         'name',
         'email',
