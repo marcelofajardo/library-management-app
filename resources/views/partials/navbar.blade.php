@@ -6,7 +6,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{ route('book-lendings.create') }}" class="nav-link">Issue a book</a>
+        <a href="{{ route('book-lendings-create-step1') }}" class="nav-link">Issue a book</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Return a book</a>

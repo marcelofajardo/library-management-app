@@ -16,11 +16,6 @@
 
 <div class="row">
     <div class="col-5 justify-content-start">
-        {{-- <ol class="p-3">
-            <li>Scan the user's QR code</li>
-            <li>Scan the book's QR code</li>
-            <li>Submit data</li>
-        </ol> --}}
         <video id="preview"></video>
     </div>
     <div class="col-2">
@@ -52,7 +47,7 @@
             </button>
             <a href="{{ route('home') }}" type="button" class="btn btn-secondary float-right mr-1 mt-2">Cancel</a>
         </form>
-        </div>
+    </div>
 </div>  
 
 @section('additional_scripts')

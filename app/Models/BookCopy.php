@@ -18,8 +18,6 @@ class BookCopy extends Model
     // const UNAVAILABLE = 1;
     // const READING_ROOM_COPY = 2;
 
-    // protected $with = ['book'];
-
     protected $guarded = [];
 
     protected $dates = ['publication_date', 'date_of_purchase', 'created_at', 'updated_at'];

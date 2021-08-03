@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     const PER_PAGE = 10;
+    const MAX_BOOKS = 5;
 
     protected $with = ['role'];
 

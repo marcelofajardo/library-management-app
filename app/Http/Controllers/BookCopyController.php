@@ -7,6 +7,7 @@ use App\Http\Requests\BookCopyRequest;
 use App\Models\BookCondition;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Http\Request;
 
 class BookCopyController extends Controller
 {
@@ -133,14 +134,27 @@ class BookCopyController extends Controller
         return view('qrcode-scan', compact('breadcrumbs'));
     }
 
-    public function readBookQRCode($id) 
+    public function readBookQRCode(Request $request, $id) 
     {
         $bookCopy = BookCopy::with(['book', 'condition'])->where('id', $id)->firstOrFail();
+        
         if (!$bookCopy->is_available) {
             abort(403, 'the book is not available for taking out');
-        } else {
-            return $bookCopy;
+        } 
+
+        if ($request->flag == true) {
+            if ($request->session()->exists('book_copy_ids')) {
+                // check that this book has not been already added to the session
+                if (!in_array($id, session('book_copy_ids'))){
+                    $request->session()->push('book_copy_ids', $id);
+                } else {
+                    abort(403, 'you have already added this book');
+                }
+            } else {
+                $request->session()->put('book_copy_ids', [$id]);
+            }
         }
+        return $bookCopy;
 
     }
 

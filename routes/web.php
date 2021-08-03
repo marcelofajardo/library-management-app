@@ -31,13 +31,18 @@ Route::resource('genres', GenreController::class);
 Route::resource('users', UserController::class);
 Route::resource('books', BookController::class);
 Route::resource('book-copies', BookCopyController::class);
-Route::resource('/book-lendings', BookLendingController::class);
 Auth::routes();
 
+Route::get('/book-lendings/create-one', [BookLendingController::class, 'create_one'])->name('book-lendings-create-step1');
+Route::get('/book-lendings/create-two', [BookLendingController::class, 'create_two'])->name('book-lendings-create-step2');
+Route::post('/book-lendings/post-one', [BookLendingController::class, 'post_one'])->name('book-lendings-post-step1');
+Route::post('/book-lendings/post-two', [BookLendingController::class, 'post_two'])->name('book-lendings-post-step2');
+
 Route::get('/qrcode/scan', [BookCopyController::class, 'scanQRCode'])->name('qr-code-scan');
-Route::get('/download-qr-code/{id}', [BookCopyController::class, 'downloadQRCode'])->name('qrcode.download');
+Route::get('/download-qr-code/{bookCopy}', [BookCopyController::class, 'downloadQRCode'])->name('qrcode.download');
 
 Route::post('/users/qrcode/read/{user}', [UserController::class, 'readUserQRCode'])->name('users.readQRCode');
-Route::post('/books/qrcode/read/{bookCopy}', [BookCopyController::class, 'readBookQRCode'])->name('books.readQRCode');
+Route::post('/books/qrcode/read/{id}', [BookCopyController::class, 'readBookQRCode'])->name('books.readQRCode');
 
+Route::resource('/book-lendings', BookLendingController::class);
 // Route::get('/home', [HomeController::class, 'index'])->name('home');

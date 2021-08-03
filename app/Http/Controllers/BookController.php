@@ -26,7 +26,8 @@ class BookController extends Controller
         ];
 
         $books = Book::paginate(Book::PER_PAGE);
-        return view('books.index', compact(['books', 'breadcrumbs']));
+        $currentPage = $books::resolveCurrentPage() - 1;
+        return view('books.index', compact(['books', 'breadcrumbs', 'currentPage']));
     }
 
     /**

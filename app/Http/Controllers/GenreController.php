@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Genre;
-use Illuminate\Http\Request;
 use App\Http\Requests\GenreRequest;
 
 class GenreController extends Controller
