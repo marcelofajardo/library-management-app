@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BookCopyRequest;
 use App\Models\BookLending;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookLendingRequest;
 use App\Models\BookCopy;
 use App\Models\BookStatus;
 use App\Models\User;
+use Carbon\Carbon;
+
 
 class BookLendingController extends Controller
 {
@@ -69,7 +70,12 @@ class BookLendingController extends Controller
      */
     public function show(BookLending $bookLending)
     {
-        //
+        // $breadcrumbs = [
+        //     ['name' => 'Home', 'link' => '/home'],
+        //     ['name' => 'Book lending details', 'link' => '/book-lendings/'.$bookLending->id],
+        // ];
+
+        return view('book-lendings.show', compact(['bookLending']));
     }
 
     /**
@@ -145,46 +151,89 @@ class BookLendingController extends Controller
         // dd($book_copies);
         return view('book-lendings.create_step2', compact('book_copies'));
     }
-
+    
     public function post_two(Request $request)
     {
-        // dd($request);
+        // $request->session()->forget(['book_copy_ids', 'user_id']);
 
         if ($request->session()->has('user_id')) {
-            $user_id = session('user_id');
+        $user_id = session('user_id')['user_id'];
         } else {
             return 'Please select a user';
-            // should add an alert and maybe redirect to step 1 
+            //should add an alert and maybe redirect to step 1 
         }
-
-        $book_copy_ids = $request->validate([
-            'book_copy_ids' => 'required|array',
-            'book_copy_ids.*' => 'required|exists:book_copies,id'
-        ]);
-
-        foreach($book_copy_ids['book_copy_ids'] as $book_copy_id) {
-            $count = BookLending::where('book_copy_id', $book_copy_id)->where('return_date', NULL)->count();
-
-            if ($count > 0) {
-                return 'The book has already been checked out.';
-            }
-
-            $count_of_borrowed_books = BookLending::where('user_id', $user_id)->where('return_date', NULL)->count();
         
-            if ($count_of_borrowed_books < User::MAX_BOOKS) {
-                $new_lending = BookLending::create([
-                    'book_copy_id' => $book_copy_id,
-                    'user_id' => $user_id['user_id'],
-                ]);
-    
-                $updated_book_status = BookCopy::find($book_copy_id)->update(['book_status_id' => BookStatus::UNAVAILABLE]);
-            } else {
-                return 'The user has checked out a maximum number of books already.';
-            }
-    
-        } 
+        // $book_copy_ids = $request->validate([
+        //     'book_copy_ids' => 'required|array',
+        //     'book_copy_ids.*' => 'required|exists:book_copies,id'
+        // ]);
+
+        if ($request->session()->has('book_copy_ids')) {
+            $book_copy_ids = session('book_copy_ids');
+            // return $book_copy_ids;
+        } else {
+            return 'Please select at least one book';
+            //should add an alert and maybe redirect to step 1 
+        }
+        // return $book_copy_ids['book_copy_ids'][0];
+
+        // dd($user_id, $book_copy_ids);
+
+        // dd($book_copy_ids['book_copy_ids']);
         
-        $request->session()->forget(['book_copy_ids', 'user_id']);
-        return redirect()->route('home');
+        // foreach($book_copy_ids['book_copy_ids'] as $book_copy_id) {
+            // dd($book_copy_id);
+            // $count = BookLending::where('book_copy_id', $book_copy_id)->where('return_date', NULL)->count();
+            
+            // if ($count > 0) {
+                //     return 'The book has already been checked out.';
+                // }
+                
+                // $count_of_borrowed_books = BookLending::where('user_id', $user_id)->where('return_date', NULL)->count();
+                
+                // if ($count_of_borrowed_books < User::MAX_BOOKS) {
+                    // $user_id = 2;
+                    // $book_copy_ids = [15, 16];
+
+                    $deadline = Carbon::now()->addWeeks(BookLending::LENDING_TIME);
+                    $count = count($book_copy_ids);
+                    for ($i = 0; $i < $count; $i++) {
+                        $lending = BookLending::create([
+                        'book_copy_id' => $book_copy_ids[$i],
+                        'user_id' => $user_id,
+                        'deadline' => $deadline
+                        ]);
+                        $book_copy = BookCopy::where('id', $book_copy_ids[$i])->first();
+                        $update = $book_copy->update(['book_status_id' => BookStatus::UNAVAILABLE]);  
+                    }
+                // } else {
+                    //     return 'The user has checked out a maximum number of books already.';
+                    // }
+                    // } 
+                    $request->session()->forget(['book_copy_ids', 'user_id']);
+
+                    return 'success';
+                    // return redirect()->route('home');
     }
-}
+
+    public function return() 
+    {
+        return view('book-lendings.return');
+    }
+
+    public function redirect(Request $request)
+    {
+
+        $book_copy = BookCopy::where('id', $request->borrowed_book_id)->first();
+        if ($book_copy) {
+            $lending = BookLending::where('book_copy_id', $book_copy->id)->whereNull('return_date')->firstOrFail();
+            if (!$lending) {
+                return 'This book is not currently checked out.';
+            } else {
+                return ['lending_id' => $lending->id];
+            }
+        } else {
+            return 'Please scan a valid QR code';
+        }
+    }
+}         

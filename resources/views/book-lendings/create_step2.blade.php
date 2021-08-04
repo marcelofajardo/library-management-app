@@ -34,7 +34,6 @@
     
         <form action="{{ route('book-lendings-post-step2') }}" method="POST" id="inputs_form">
             @csrf
-
             @if ($book_copies != '')
                 @foreach ($book_copies as $book_copy)
                     <input type="hidden" name="book_copy_ids[]" value="{{ $book_copy->id }}">
@@ -46,10 +45,10 @@
                     <input type="text" disabled class="form-control mb-5" value="{{ $book_copy->condition->name }}">
                 @endforeach
             @endif
-            
+        
             <button 
                 class="btn btn-primary float-right mt-2 {{ $book_copies != '' ? '' : 'd-none' }}" 
-                id="submit_form_btn"
+                id="custom_btn"
             >
                 Submit
             </button>
@@ -70,11 +69,10 @@
 <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", event => {
             
-            // let book_copy_id = $('#book_copy_id');
             let token =  $('meta[name="csrf-token"]').attr('content'); 
             const inputs_div = $('#inputs_form');
             const labels_div = $('#labels_div');
-            const submit_btn = $('#submit_form_btn');
+            const submit_btn = $('#custom_btn');
             const cancel_btn = $('#back_btn');
             
             let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
@@ -84,7 +82,8 @@
             }).catch(e => console.error(e));
 
             scanner.addListener('scan', content => {
-                console.log(content);
+                // console.log(content);
+                // scanner.stop();
 
                 $.ajax({
                     'url' : content,
@@ -110,19 +109,18 @@
                                 <p>Publisher:</p>
                                 <p>Edition:</p>
                                 <p>Publication date:</p>
-                                <p  class="mb-5">Condition:</p>
+                                <p class="mb-5">Condition:</p>
                                 `
                             );
-                         
 
                             inputs_div.prepend(
                                 `
                                 <input type="hidden" name="book_copy_id[]" value="${id}">
-                                <input type="text" disabled class="form-control mb-1" value="${title}">
-                                <input type="text" disabled class="form-control mb-1" value="${author}">
-                                <input type="text" disabled class="form-control mb-1" value="${publisher}">
-                                <input type="text" disabled class="form-control mb-1" value="${edition}">
-                                <input type="text" disabled class="form-control mb-1" value="${publication_date}">
+                                <input type="text" disabled class="form-control" value="${title}">
+                                <input type="text" disabled class="form-control" value="${author}">
+                                <input type="text" disabled class="form-control" value="${publisher}">
+                                <input type="text" disabled class="form-control" value="${edition}">
+                                <input type="text" disabled class="form-control" value="${publication_date}">
                                 <input type="text" disabled class="form-control mb-5" value="${condition}">
                                 `
                             );
@@ -143,24 +141,23 @@
                 });
             });
 
-            // $('#submit_form_btn').on('click', function(e) {
-            //     e.preventDefault();
-            //     let book_copy_val = book_copy_id.val();
-            //     let user_val = user_id.val();
+            $('#custom_btn').on('click', function(e)  {
+                e.preventDefault();
 
-            //     $.ajax({
-            //         'url' : '/book-lendings',
-            //         'type' : 'POST',
-            //         'data' : {_token:token, 'book_copy_id':book_copy_val, 'user_id':user_val},
-            //         'success' : (res) => {
-            //             // location.reload();
-            //             console.log(res);
-            //         },
-            //         'error' : (res) => {
-            //             console.log(res);
-            //         }
-            //     });
-            // })
+                $.ajax({
+                    'url' : '/book-lendings/post-two',
+                    'type' : 'POST',
+                    'data' : {_token:token},
+                    'success' : (res) => {
+                        console.log(res);
+                        window.location.href = '/';
+                    },
+                    'error' : (res) => {
+                        console.log(res);
+                    }
+                });
+
+            });
         });
 
     </script>

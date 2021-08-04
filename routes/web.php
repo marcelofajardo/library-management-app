@@ -37,6 +37,8 @@ Route::get('/book-lendings/create-one', [BookLendingController::class, 'create_o
 Route::get('/book-lendings/create-two', [BookLendingController::class, 'create_two'])->name('book-lendings-create-step2');
 Route::post('/book-lendings/post-one', [BookLendingController::class, 'post_one'])->name('book-lendings-post-step1');
 Route::post('/book-lendings/post-two', [BookLendingController::class, 'post_two'])->name('book-lendings-post-step2');
+Route::get('/book-lendings/return', [BookLendingController::class, 'return'])->name('book-lendings.return');
+Route::post('/book-lendings/redirect', [BookLendingController::class, 'redirect'])->name('book-lendings.redirect');
 
 Route::get('/qrcode/scan', [BookCopyController::class, 'scanQRCode'])->name('qr-code-scan');
 Route::get('/download-qr-code/{bookCopy}', [BookCopyController::class, 'downloadQRCode'])->name('qrcode.download');

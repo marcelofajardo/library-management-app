@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\BookLending;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $bookLendings = BookLending::with(['book_copy', 'book_copy.book', 'user'])->paginate(BookLending::PER_PAGE);
+
+        // dd($bookLendings);
+
+        // $currentPage = $bookLendings::resolveCurrentPage() - 1;
+        $recordsOnPage = ($bookLendings::resolveCurrentPage() - 1) * BookLending::PER_PAGE;
+        return view('home', compact(['bookLendings', 'recordsOnPage']));
     }
 }

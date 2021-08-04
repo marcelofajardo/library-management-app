@@ -8,6 +8,7 @@ use App\Models\BookCondition;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
+use App\Models\BookStatus;
 
 class BookCopyController extends Controller
 {

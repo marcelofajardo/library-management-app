@@ -3,6 +3,12 @@
 @section('page_title') Books @endsection
 @section('content_header') Books @endsection
 
+@section('additional_styles')
+<style>
+    .clickable-row { cursor: pointer; }
+</style>    
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -14,7 +20,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
-                    <table class="table">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
@@ -45,5 +51,8 @@
             </div>
         </div>
     </div>    
+@endsection
 
+@section('additional_scripts')
+    <script src="{{ asset('/js/books/index.js') }}"></script>
 @endsection

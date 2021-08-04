@@ -9,5 +9,33 @@ class BookLending extends Model
 {
     use HasFactory;
 
+    protected $dates = ['created_at', 'updated_at', 'deadline', 'return_date'];
+
+    // protected $with = ['book_copy', 'book_copy.book', 'user', 'book'];
+
+    const PER_PAGE = 15;
+    // in weeks
+    const LENDING_TIME = 3;
+
     protected $guarded = [];
+
+    public function book_copy() 
+    {
+        return $this->belongsTo(BookCopy::class);
+    }
+
+    public function user() 
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getFormattedDeadlineAttribute() 
+    {
+        return $this->deadline->format('d. m. Y.');
+    }
+
+    public function getFormattedReturnDateAttribute() 
+    {
+        return $this->return_date->format('d. m. Y.');
+    }
 }

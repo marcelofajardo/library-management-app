@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   
-  <title>@yield('page_title', 'Unilib')</title>
+  <title>@yield('page_title', 'UniLib')</title>
 
     @include('partials.styles')
     @yield('additional_styles', '')

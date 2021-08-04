@@ -3,15 +3,17 @@
 @section('page_title') Users @endsection
 @section('content_header') Users @endsection
 
+@section('additional_styles')
+    <style>
+        .clickable-row { cursor: pointer; }
+    </style>    
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header ui-sortable-handle">
-                {{-- <h3 class="card-title">
-                  <i class="fas fa-users mr-1"></i>
-                  Users
-                </h3> --}}
                 <div class="card-tools">
                   <ul class="nav nav-pills ml-auto">
                     <li class="nav-item">
@@ -22,27 +24,22 @@
               </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th style="width: 10px">#</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th></th>
-                            <th></th>
+                            <th colspan="2"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @if ($users->count() > 0)
                             @foreach ($users as $key => $user)
-                                <tr>
+                                <tr class="clickable-row" data-href="{{ route('users.show', ['user' => $user->id]) }}">
                                     <td>{{ (($users::resolveCurrentPage() - 1) * App\Models\User::PER_PAGE)  + $key + 1  }}.</td>
-                                    <td>
-                                        <a href="/users/{{ $user->id }}">
-                                            {{ $user->name }}
-                                        </a>
-                                    </td>
+                                    <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role->name }}</td>
                                     <td>
@@ -59,12 +56,7 @@
                             @endforeach
                         @else 
                         <tr>
-                            <td></td>
-                            <td>No users have yet been added.</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td colspan="6">No users have yet been added.</td>
                         </tr>
                         @endif
                     </tbody>
@@ -79,4 +71,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('additional_scripts')
+    <script src="{{ asset('/js/users/index.js') }}"></script>
 @endsection

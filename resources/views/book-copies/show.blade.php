@@ -27,7 +27,7 @@
                         <tr>
                             <td>Status:</td>
                             <td>
-                                {{ $book->book_status->status }}
+                                {{ $bookCopy->book_status->status }}
                             </td>
                         </tr>
                         <tr>

@@ -17,7 +17,7 @@ class CreateBookLendingsTable extends Migration
             $table->id();
             $table->foreignId('book_copy_id')->constrained('book_copies');
             $table->foreignId('user_id')->constrained('users');
-            $table->timestamp('deadline')->useCurrent()->addWeeks(3);
+            $table->timestamp('deadline')->nullable();
             $table->timestamp('return_date')->nullable();
             $table->double('fine')->default(0.00);  
             $table->timestamps();
