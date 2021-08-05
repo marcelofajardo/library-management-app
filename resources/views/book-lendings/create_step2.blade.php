@@ -21,53 +21,14 @@
     <div class="col-5 justify-content-start">
         <video id="preview"></video>
     </div>
-    <div class="col-2" id="labels_div">
+    <div class="col-6" id="inputs_div">
         @if ($book_copies != '')
             @foreach ($book_copies as $book_copy)
-                <div class="div-{{$book_copy->id}}">
-                    <p class="pb-1">Title:</p>
-                    <p class="pb-1">Author:</p>
-                    <p class="pb-1">Publisher:</p>
-                    <p class="pb-1">Edition:</p>
-                    <p class="pb-1">Publication date:</p>
-                    <p class="mb-5 mb-1">Condition:</p>
-                </div>
+                @include('book-lendings.card')
             @endforeach
+
+            @include('book-lendings.buttons')
         @endif
-    </div>
-    <div class="col-4">
-    
-        <form action="{{ route('book-lendings-post-step2') }}" method="POST" id="inputs_form">
-            @csrf
-            @if ($book_copies != '')
-                @foreach ($book_copies as $book_copy)
-                    <div class="div-{{$book_copy->id}}">
-                        <input type="hidden" name="book_copy_ids[]" value="{{ $book_copy->id }}">
-                        <input type="text" disabled class="form-control pb-1" value="{{ $book_copy->book->title }}">
-                        <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->book->author->name }}">
-                        <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->book->publisher->name }}">
-                        <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->edition }}">
-                        <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->publication_date }}">
-                        <input type="text" disabled class="form-control mb-5" value="{{ $book_copy->condition->name }}">
-                    </div>
-                @endforeach
-            @endif
-        
-            <button 
-                class="btn btn-primary float-right mt-2 {{ $book_copies != '' ? '' : 'd-none' }}" 
-                id="custom_btn"
-            >
-                Submit
-            </button>
-            <a 
-                href="{{ route('book-lendings-create-step1') }}" 
-                type="button" 
-                class="btn btn-secondary float-right mr-1 mt-2 {{ $book_copies != '' ? '' : 'd-none' }}" 
-                id="back_btn"
-            >
-            Back
-            </a>
-        </form>
     </div>
 </div>  
 
@@ -77,12 +38,12 @@
         document.addEventListener("DOMContentLoaded", event => {
             
             let token =  $('meta[name="csrf-token"]').attr('content'); 
-            const inputs_div = $('#inputs_form');
-            const labels_div = $('#labels_div');
+            const inputs_div = $('#inputs_div');
             const submit_btn = $('#custom_btn');
             const cancel_btn = $('#back_btn');
             let err_div = $('#errors_div');
-            
+            let buttons_div = $('#buttons_div');
+
             let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
             Instascan.Camera.getCameras().then(cameras => {
                 scanner.camera = cameras[cameras.length - 1];
@@ -110,26 +71,64 @@
                             let publication_date = res['publication_date'];
                             let condition = res['condition']['name'];
 
-                            labels_div.prepend(
-                                `
-                                <p>Title:</p>
-                                <p>Author:</p>
-                                <p>Publisher:</p>
-                                <p>Edition:</p>
-                                <p>Publication date:</p>
-                                <p class="mb-5">Condition:</p>
-                                `
-                            );
-
                             inputs_div.prepend(
                                 `
-                                <input type="hidden" name="book_copy_id[]" value="${id}">
-                                <input type="text" disabled class="form-control" value="${title}">
-                                <input type="text" disabled class="form-control" value="${author}">
-                                <input type="text" disabled class="form-control" value="${publisher}">
-                                <input type="text" disabled class="form-control" value="${edition}">
-                                <input type="text" disabled class="form-control" value="${publication_date}">
-                                <input type="text" disabled class="form-control mb-5" value="${condition}">
+                                <div class="card">
+                                    <div class="card-header border-0">
+                                        <div class="card-tools">
+                                            <form action="/book-copies/remove/${id}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-tool remove-btn">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table table-valign-middle table-sm table-borderless">
+                                            <tbody>
+                                                <input type="hidden" name="book_copy_id[]" value="${id}">
+                                                <tr>
+                                                    <td>Title:</td>
+                                                    <td>
+                                                        <input type="text" disabled class="form-control" value="${title}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Author:</td>
+                                                    <td>
+                                                        <input type="text" disabled class="form-control" value="${author}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Publisher:</td>
+                                                    <td>
+                                                        <input type="text" disabled class="form-control" value="${publisher}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Edition:</td>
+                                                    <td>
+                                                        <input type="text" disabled class="form-control" value="${edition}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Publication date:</td>
+                                                    <td>
+                                                        <input type="text" disabled class="form-control" value="${publication_date}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Condition:</td>
+                                                    <td>
+                                                        <input type="text" disabled class="form-control" value="${condition}">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="card-footer"></div>
+                                    </div>
+                                </div>
                                 `
                             );
 
@@ -150,6 +149,10 @@
                 });
             });
 
+            // $('#remove-btn').on('click', function() {
+
+            // });
+
             $('#custom_btn').on('click', function(e)  {
                 e.preventDefault();
 
@@ -165,7 +168,6 @@
                         console.log(res);
                     }
                 });
-
             });
         });
 

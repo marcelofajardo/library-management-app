@@ -30,8 +30,9 @@ Route::resource('subjects', SubjectController::class);
 Route::resource('genres', GenreController::class);
 Route::resource('users', UserController::class);
 Route::resource('books', BookController::class);
-Route::resource('book-copies', BookCopyController::class);
 Auth::routes();
+
+Route::post('/book-copies/remove/{id}', [BookCopyController::class, 'removeBookCopy'])->name('book-copies.remove');
 
 Route::get('/book-lendings/create-one', [BookLendingController::class, 'create_one'])->name('book-lendings-create-step1');
 Route::get('/book-lendings/create-two', [BookLendingController::class, 'create_two'])->name('book-lendings-create-step2');
@@ -46,5 +47,6 @@ Route::get('/download-qr-code/{bookCopy}', [BookCopyController::class, 'download
 Route::post('/users/qrcode/read/{id}', [UserController::class, 'readUserQRCode'])->name('users.readQRCode');
 Route::post('/books/qrcode/read/{id}', [BookCopyController::class, 'readBookQRCode'])->name('books.readQRCode');
 
+Route::resource('book-copies', BookCopyController::class);
 Route::resource('/book-lendings', BookLendingController::class);
 // Route::get('/home', [HomeController::class, 'index'])->name('home');

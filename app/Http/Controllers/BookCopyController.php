@@ -167,7 +167,15 @@ class BookCopyController extends Controller
             }
         }
         return $bookCopy;
+    }
 
+    public function removeBookCopy(Request $request, $id) 
+    {
+        $index = array_search($id, session('book_copy_ids'));
+
+        $request->session()->forget("book_copy_ids.$index");
+        
+        return redirect()->back();
     }
 
 }
