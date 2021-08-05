@@ -17,7 +17,7 @@ class AuthorController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Authors', 'link' => '/authors']
         ];
        
@@ -70,7 +70,7 @@ class AuthorController extends Controller
     public function edit(Author $author)
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Authors', 'link' => '/authors'],
             ['name' => 'Update author details', 'link' => '/authors/'.$author->id.'/edit'],
         ];

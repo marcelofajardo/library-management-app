@@ -16,7 +16,7 @@ class SubjectController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Subjects', 'link' => '/subjects'],
         ];
 
@@ -68,7 +68,7 @@ class SubjectController extends Controller
     public function edit(Subject $subject)
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Subjects', 'link' => '/subjects'],
             ['name' => 'Update subject details', 'link' => '/subjects/'.$subject->id.'/edit'],
         ];

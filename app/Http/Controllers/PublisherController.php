@@ -16,7 +16,7 @@ class PublisherController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Publishers', 'link' => '/publishers'],
         ];
 
@@ -68,7 +68,7 @@ class PublisherController extends Controller
     public function edit(Publisher $publisher)
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Publishers', 'link' => '/publishers'],
             ['name' => 'Update publisher details', 'link' => '/publishers/'.$publisher->id.'/edit'],
         ];

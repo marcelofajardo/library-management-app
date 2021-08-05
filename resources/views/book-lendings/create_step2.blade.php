@@ -1,9 +1,7 @@
 @extends('layouts.main')
 
 @section('page_title') Lend Books @endsection
-@section('content_header') Step 2: Insert book details @endsection
-@section('content')
-
+@section('content_header') Step 2: Scan book QR @endsection
 @section('additional_styles')
 <style>
     #preview {
@@ -14,6 +12,11 @@
 </style>
 @endsection
 
+@section('content')
+
+<div class="row">
+    <div class="offset-5 col-6 alert" id="errors_div"></div>
+</div>
 <div class="row">
     <div class="col-5 justify-content-start">
         <video id="preview"></video>
@@ -21,12 +24,14 @@
     <div class="col-2" id="labels_div">
         @if ($book_copies != '')
             @foreach ($book_copies as $book_copy)
-                <p>Title:</p>
-                <p>Author:</p>
-                <p>Publisher:</p>
-                <p>Edition:</p>
-                <p>Publication date:</p>
-                <p class="mb-5">Condition:</p>
+                <div class="div-{{$book_copy->id}}">
+                    <p class="pb-1">Title:</p>
+                    <p class="pb-1">Author:</p>
+                    <p class="pb-1">Publisher:</p>
+                    <p class="pb-1">Edition:</p>
+                    <p class="pb-1">Publication date:</p>
+                    <p class="mb-5 mb-1">Condition:</p>
+                </div>
             @endforeach
         @endif
     </div>
@@ -36,13 +41,15 @@
             @csrf
             @if ($book_copies != '')
                 @foreach ($book_copies as $book_copy)
-                    <input type="hidden" name="book_copy_ids[]" value="{{ $book_copy->id }}">
-                    <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->book->title }}">
-                    <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->book->author->name }}">
-                    <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->book->publisher->name }}">
-                    <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->edition }}">
-                    <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->publication_date }}">
-                    <input type="text" disabled class="form-control mb-5" value="{{ $book_copy->condition->name }}">
+                    <div class="div-{{$book_copy->id}}">
+                        <input type="hidden" name="book_copy_ids[]" value="{{ $book_copy->id }}">
+                        <input type="text" disabled class="form-control pb-1" value="{{ $book_copy->book->title }}">
+                        <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->book->author->name }}">
+                        <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->book->publisher->name }}">
+                        <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->edition }}">
+                        <input type="text" disabled class="form-control mb-1" value="{{ $book_copy->publication_date }}">
+                        <input type="text" disabled class="form-control mb-5" value="{{ $book_copy->condition->name }}">
+                    </div>
                 @endforeach
             @endif
         
@@ -74,6 +81,7 @@
             const labels_div = $('#labels_div');
             const submit_btn = $('#custom_btn');
             const cancel_btn = $('#back_btn');
+            let err_div = $('#errors_div');
             
             let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
             Instascan.Camera.getCameras().then(cameras => {
@@ -82,8 +90,8 @@
             }).catch(e => console.error(e));
 
             scanner.addListener('scan', content => {
-                // console.log(content);
-                // scanner.stop();
+                err_div.removeClass('alert-danger');
+                err_div.children().remove();
 
                 $.ajax({
                     'url' : content,
@@ -131,12 +139,13 @@
                             if ((cancel_btn).hasClass('d-none')) {
                                (cancel_btn).removeClass('d-none');
                             }
-
                         }
                         
                     },
                     'error' : (res) => {
-                        console.log('error', res);
+                        let err = res['responseJSON']['message'];
+                        err_div.addClass('alert-danger');
+                        err_div.append(`<li>${err}</li>`);
                     }
                 });
             });

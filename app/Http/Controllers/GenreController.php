@@ -15,7 +15,7 @@ class GenreController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Genres', 'link' => '/genres'],
         ];
 
@@ -67,7 +67,7 @@ class GenreController extends Controller
     public function edit(Genre $genre)
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Genres', 'link' => '/genres'],
             ['name' => 'Update genre details', 'link' => '/genres/'.$genre->id.'/edit'],
         ];

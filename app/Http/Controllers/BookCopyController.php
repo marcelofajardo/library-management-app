@@ -8,7 +8,8 @@ use App\Models\BookCondition;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
-use App\Models\BookStatus;
+use App\Models\BookLending;
+use App\Models\User;
 
 class BookCopyController extends Controller
 {
@@ -65,7 +66,7 @@ class BookCopyController extends Controller
     public function show(BookCopy $bookCopy)
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'QR Scan', 'link' => '/qrcode/scan'],
             ['name' => 'Book details', 'link' => '/book-copies/'.$bookCopy->id],
         ];
@@ -128,7 +129,7 @@ class BookCopyController extends Controller
     public function scanQRCode() 
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'QR Scan', 'link' => '/qrcode/scan']
         ];
 
@@ -137,11 +138,21 @@ class BookCopyController extends Controller
 
     public function readBookQRCode(Request $request, $id) 
     {
-        $bookCopy = BookCopy::with(['book', 'condition'])->where('id', $id)->firstOrFail();
+        $bookCopy = BookCopy::with(['book', 'condition'])->where('id', $id)->first();
+
+        if (!$bookCopy) {
+            abort(403, 'Please scan a valid book QR.');
+        }
         
         if (!$bookCopy->is_available) {
-            abort(403, 'the book is not available for taking out');
+            abort(403, 'The book is not available for checking out.');
         } 
+        
+        $count_of_borrowed_books = BookLending::where('user_id', session('user_id'))->whereNull('return_date')->count();
+            
+        if ($count_of_borrowed_books == User::MAX_BOOKS) {
+            abort(403, 'The user has reached the maximum number of books that can be checked out at the same time.');
+        }
 
         if ($request->flag == true) {
             if ($request->session()->exists('book_copy_ids')) {
@@ -149,7 +160,7 @@ class BookCopyController extends Controller
                 if (!in_array($id, session('book_copy_ids'))){
                     $request->session()->push('book_copy_ids', $id);
                 } else {
-                    abort(403, 'you have already added this book');
+                    abort(403, 'This book has already been added.');
                 }
             } else {
                 $request->session()->put('book_copy_ids', [$id]);

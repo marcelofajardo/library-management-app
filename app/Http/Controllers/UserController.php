@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Users', 'link' => '/users']
         ];
 
@@ -65,7 +65,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Users', 'link' => '/users'],
             ['name' => 'User details', 'link' => '/users/'.$user->id],
         ];
@@ -82,7 +82,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Users', 'link' => '/users'],
             ['name' => 'Update user details', 'link' => '/users/'.$user->id.'/edit'],
         ];
@@ -115,14 +115,14 @@ class UserController extends Controller
         //
     }
 
-    public function readUserQRCode(User $user) 
+    public function readUserQRCode($id) 
     {
-        // in fact it never reaches the controller, but throws a 404 before this point 
-        if (!isset($user)) {
-            abort(403, 'wrong data entered');
-        }
+        $user = User::find($id);
 
-        return $user;
-        
+        if (!$user) {
+            abort(422, 'Please scan a valid student card.');
+        } else {
+            return $user;
+        }
     }
 }

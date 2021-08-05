@@ -21,7 +21,7 @@ class BookController extends Controller
     public function index()
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Books', 'link' => '/books']
         ];
 
@@ -52,7 +52,7 @@ class BookController extends Controller
     {
         $book = Book::create($request->validated());
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Books', 'link' => '/books'],
             ['name' => 'Book details', 'link' => '/books/'.$book->id],
         ];
@@ -74,7 +74,7 @@ class BookController extends Controller
     public function show(Book $book)
     {
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Books', 'link' => '/books'],
             ['name' => 'Book details', 'link' => '/books/'.$book->id],
         ];
@@ -96,7 +96,7 @@ class BookController extends Controller
         $publishers = Publisher::query()->orderBy('name', 'asc')->get();
 
         $breadcrumbs = [
-            ['name' => 'Home', 'link' => '/home'],
+            ['name' => 'Home', 'link' => '/'],
             ['name' => 'Books', 'link' => '/books'],
             ['name' => 'Update book details', 'link' => '/books/'.$book->id.'/edit'],
         ];

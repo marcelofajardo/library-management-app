@@ -43,7 +43,7 @@ Route::post('/book-lendings/redirect', [BookLendingController::class, 'redirect'
 Route::get('/qrcode/scan', [BookCopyController::class, 'scanQRCode'])->name('qr-code-scan');
 Route::get('/download-qr-code/{bookCopy}', [BookCopyController::class, 'downloadQRCode'])->name('qrcode.download');
 
-Route::post('/users/qrcode/read/{user}', [UserController::class, 'readUserQRCode'])->name('users.readQRCode');
+Route::post('/users/qrcode/read/{id}', [UserController::class, 'readUserQRCode'])->name('users.readQRCode');
 Route::post('/books/qrcode/read/{id}', [BookCopyController::class, 'readBookQRCode'])->name('books.readQRCode');
 
 Route::resource('/book-lendings', BookLendingController::class);
