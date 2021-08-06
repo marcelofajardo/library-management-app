@@ -170,7 +170,7 @@ class BookLendingController extends Controller
         }
 
         $count_of_borrowed_books = BookLending::where('user_id', session('user_id'))->whereNull('return_date')->count();
-            
+
         if ($count_of_borrowed_books + count($book_copy_ids) > User::MAX_BOOKS) {
             abort(403, 'No more than '.User::MAX_BOOKS.' books can be checked out at the same time. The user has already borrowed '.$count_of_borrowed_books.'.');
         }

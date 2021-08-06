@@ -47,6 +47,8 @@
             let user_id = $('#user_id');
             let token =  $('meta[name="csrf-token"]').attr('content'); 
             let err_div = $('#errors_div');
+
+            let pattern = /^http:\/\/127.0.0.1:8000\/users\/qrcode\/read\/\d*$/;
             
             let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
             Instascan.Camera.getCameras().then(cameras => {
@@ -58,30 +60,34 @@
                 err_div.removeClass('alert-danger');
                 err_div.children().remove();
 
-                // console.log(content);
-                $.ajax({
-                    'url' : content,
-                    'type' : 'POST',
-                    'data' : {_token:token},
-                    'success' : (res) => {
-                        if (res['name'] && res['email'] && res['role']) {
-                            $('#name_id').val(res['name']);
-                            $('#email_id').val(res['email']);
-                            $('#role_id').val(res['role']['name']);
-                            user_id.val(res['id']);
+                if (!pattern.test(content)) {
+                    err_div.addClass('alert-danger');
+                    err_div.append(`<li>Please scan a valid user QR code.</li>`);
+                } else {
+                    $.ajax({
+                        'url' : content,
+                        'type' : 'POST',
+                        'data' : {_token:token},
+                        'success' : (res) => {
+                            if (res['name'] && res['email'] && res['role']) {
+                                $('#name_id').val(res['name']);
+                                $('#email_id').val(res['email']);
+                                $('#role_id').val(res['role']['name']);
+                                user_id.val(res['id']);
+                            }
+                        },
+                        'error' : (res) => {
+                            let err = res['responseJSON']['message'];
+                            err_div.addClass('alert-danger');
+                            err_div.append(`<li>${err}</li>`);
+                            $('#name_id').val('');
+                            $('#email_id').val('');
+                            $('#role_id').val('');
                         }
-                    },
-                    'error' : (res) => {
-                        console.log(res['responseJSON']['message']);
-                        let err = res['responseJSON']['message'];
-                        err_div.addClass('alert-danger');
-                        err_div.append(`<li>${err}</li>`);
-                        $('#name_id').val('');
-                        $('#email_id').val('');
-                        $('#role_id').val('');
-                    }
-                });
+                    });
+                }
             });
+
 
             $('#post_user_data').on('click', function(e) {
                 e.preventDefault();

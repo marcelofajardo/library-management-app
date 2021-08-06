@@ -30,6 +30,7 @@
         document.addEventListener("DOMContentLoaded", event => {
             
             let token =  $('meta[name="csrf-token"]').attr('content'); 
+            let pattern = /^http:\/\/127.0.0.1:8000\/books\/qrcode\/read\/\d*$/;
             
             let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
             Instascan.Camera.getCameras().then(cameras => {
@@ -40,21 +41,26 @@
             scanner.addListener('scan', content => {
                 console.log(content);
 
-                let splitString = content.split('/');
-                let borrowed_book_id = splitString[splitString.length - 1];
+                if (!pattern.test(content)) {
+                    alert('error');
+                    // send swal 
+                } else {
+                    let splitString = content.split('/');
+                    let borrowed_book_id = splitString[splitString.length - 1];
 
-                $.ajax({
-                    'url' : '/book-lendings/redirect/',
-                    'type' : 'POST',
-                    'data' : {_token:token, borrowed_book_id:borrowed_book_id},
-                    'success' : (res) => {
-                        window.location.href = '/book-lendings/' + res['lending_id'];
-                    },
-                    'error' : (res) => {
-                        alert(res['responseJSON']['message']);
-                        console.log('error', res);
-                    }
-                });
+                    $.ajax({
+                        'url' : '/book-lendings/redirect/',
+                        'type' : 'POST',
+                        'data' : {_token:token, borrowed_book_id:borrowed_book_id},
+                        'success' : (res) => {
+                            window.location.href = '/book-lendings/' + res['lending_id'];
+                        },
+                        'error' : (res) => {
+                            alert(res['responseJSON']['message']);
+                            console.log('error', res);
+                        }
+                    });
+                }    
             });
 
             $('#submit_form_btn').on('click', function(e) {
