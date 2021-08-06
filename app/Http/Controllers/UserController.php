@@ -124,5 +124,7 @@ class UserController extends Controller
         } else {
             return $user;
         }
+
+        // prevent other qr codes from being scanned
     }
 }

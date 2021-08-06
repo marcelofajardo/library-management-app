@@ -51,6 +51,7 @@
                         window.location.href = '/book-lendings/' + res['lending_id'];
                     },
                     'error' : (res) => {
+                        alert(res['responseJSON']['message']);
                         console.log('error', res);
                     }
                 });

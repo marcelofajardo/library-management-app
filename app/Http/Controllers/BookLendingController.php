@@ -162,25 +162,25 @@ class BookLendingController extends Controller
             //should add an alert and maybe redirect to step 1 
         }
 
-        if ($request->session()->has('book_copy_ids')) {
+        if ($request->session()->has('book_copy_ids') && session('book_copy_ids') != []) {
             $book_copy_ids = session('book_copy_ids');
         } else {
             abort(422, 'Please add at least one book.');
             //should add an alert and maybe redirect to step 1 
         }
-        
+
+        $count_of_borrowed_books = BookLending::where('user_id', session('user_id'))->whereNull('return_date')->count();
+            
+        if ($count_of_borrowed_books + count($book_copy_ids) > User::MAX_BOOKS) {
+            abort(403, 'No more than '.User::MAX_BOOKS.' books can be checked out at the same time. The user has already borrowed '.$count_of_borrowed_books.'.');
+        }
+
         foreach($book_copy_ids as $book_copy_id) {
 
             $count = BookLending::where('book_copy_id', $book_copy_id)->whereNull('return_date')->count();
             
             if ($count > 0) {
-                abort(422, "The book $book_copy_id has already been checked out.");
-            }
-
-            $count_of_borrowed_books = BookLending::where('user_id', session('user_id'))->whereNull('return_date')->count();
-            
-            if ($count_of_borrowed_books == User::MAX_BOOKS) {
-                abort(403, 'The user has reached the maximum number of books that can be checked out at the same time.');
+                abort(418, "The selected book has already been checked out.".$book_copy_id);
             }
                 
             $deadline = Carbon::now()->addWeeks(BookLending::LENDING_TIME);
@@ -206,11 +206,12 @@ class BookLendingController extends Controller
 
     public function redirect(Request $request)
     {
-        $book_copy = BookCopy::where('id', $request->borrowed_book_id)->first();
+        $book_copy = BookCopy::find($request->borrowed_book_id);
+
         if ($book_copy) {
-            $lending = BookLending::where('book_copy_id', $book_copy->id)->whereNull('return_date')->firstOrFail();
+            $lending = BookLending::where('book_copy_id', $book_copy->id)->whereNull('return_date')->first();
             if (!$lending) {
-                return 'This book is not currently checked out.';
+                abort(422, 'This book is not currently checked out.');
             } else {
                 $breadcrumbs = [
                     ['name' => 'Home', 'link' => '/'],
@@ -219,7 +220,7 @@ class BookLendingController extends Controller
                 return ['lending_id' => $lending->id, 'breadcrumbs' => $breadcrumbs];
             }
         } else {
-            return 'Please scan a valid QR code';
+            abort(422, 'Please scan a valid QR code');
         }
     }
 }         

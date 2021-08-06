@@ -27,8 +27,9 @@
                 @include('book-lendings.card')
             @endforeach
 
-            @include('book-lendings.buttons')
         @endif
+        
+        @include('book-lendings.buttons')
     </div>
 </div>  
 
@@ -71,9 +72,9 @@
                             let publication_date = res['publication_date'];
                             let condition = res['condition']['name'];
 
-                            inputs_div.prepend(
+                            buttons_div.prepend(
                                 `
-                                <div class="card">
+                                <div class="card book-${id}">
                                     <div class="card-header border-0">
                                         <div class="card-tools">
                                             <form action="/book-copies/remove/${id}" method="POST">
@@ -132,11 +133,8 @@
                                 `
                             );
 
-                            if ((submit_btn).hasClass('d-none')) {
-                               (submit_btn).removeClass('d-none');
-                            }
-                            if ((cancel_btn).hasClass('d-none')) {
-                               (cancel_btn).removeClass('d-none');
+                            if ((buttons_div).hasClass('d-none')) {
+                               (buttons_div).removeClass('d-none');
                             }
                         }
                         
@@ -148,10 +146,6 @@
                     }
                 });
             });
-
-            // $('#remove-btn').on('click', function() {
-
-            // });
 
             $('#custom_btn').on('click', function(e)  {
                 e.preventDefault();
@@ -165,7 +159,19 @@
                         window.location.href = '/';
                     },
                     'error' : (res) => {
-                        console.log(res);
+                        let err = res['responseJSON']['message'];
+
+                        if (res['status'] == 418) {
+                            let splitMsg = err.split('.');
+                            let index = splitMsg[1];
+                            err = splitMsg[0] + '.';
+
+                            // add border around the book in question
+                            $('.book-' + index).addClass('border border-danger');
+                        }
+
+                        err_div.addClass('alert-danger');
+                        err_div.append(`<li>${err}</li>`);
                     }
                 });
             });

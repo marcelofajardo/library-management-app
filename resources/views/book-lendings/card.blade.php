@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card book-{{ $book_copy->id }}">
     <div class="card-header border-0">
         <div class="card-tools">
             <form action="/book-copies/remove/{{ $book_copy->id }}" method="POST">
