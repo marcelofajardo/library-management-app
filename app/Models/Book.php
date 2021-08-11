@@ -9,7 +9,6 @@ class Book extends Model
 {
     use HasFactory;
     protected $guarded = [];
-
     protected $with = ['author', 'publisher', 'book_copies'];
 
     const PER_PAGE = 10;

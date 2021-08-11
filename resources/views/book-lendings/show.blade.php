@@ -4,6 +4,14 @@
 
 @section('content_header') Book Lending Details @endsection
 
+@section('additional_styles')
+    <style>
+        form.custom {
+            display: inline-block;
+        }    
+    </style>    
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -14,16 +22,43 @@
                         Lending
                     </h3>
                     <div class="card-tools">
-                        <button class="btn btn-info" id="extend_deadline_btn">
-                            Extend deadline
-                        </button>
-                        <button class="btn btn-primary">
+                        <form 
+                            action="{{ route('book-lendings.extend-deadline', ['bookLending' => $bookLending]) }}" 
+                            method="POST" 
+                            id="extend_deadline_form" 
+                            class="custom"
+                        >
+                            @csrf
+                            <button 
+                                class="btn btn-info" 
+                                type="submit" 
+                                id="extend_deadline_btn"
+                                @if ($bookLending->return_date != null) disabled @endif
+                            >
+                                Extend deadline
+                            </button>
+                        </form>
+                        <button 
+                            data-toggle="modal"
+                            data-target="#return_modal"
+                            class="btn btn-primary"
+                            @if ($bookLending->return_date != null) disabled @endif
+                        >
                             Return book
                         </button>
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body py-2">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="table-responsive">
                         <table class="table table-sm table-borderless">
                             <tr>
@@ -32,7 +67,7 @@
                             </tr>
                             <tr>
                                 <td>Fine:</td>
-                                <td>{{ $bookLending->fine }} €</td>
+                                <td>{{ $lateness_fine }} €</td>
                             </tr>
                             <tr>
                                 <td>Return date:</td>
@@ -63,6 +98,7 @@
                 <div class="card-body py-2">
                     <div class="table-responsive">
                         <table class="table table-sm table-borderless">
+                            <input type="hidden" value="{{ $lendingPeriod }}" id="lending_period_id">
                             <tr>
                                 <td>Title:</td>
                                 <td>
@@ -146,8 +182,9 @@
             </div>
         </div>
     </div>
+    @include('book-lendings/modals.return')
 @endsection
 
 @section('additional_scripts')
-    <script src="{{ asset('js/book-lendings/show.js') }}"></script>    
+    <script src="{{ asset('js/book-lendings/show.js') }}"></script>
 @endsection

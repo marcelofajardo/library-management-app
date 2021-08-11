@@ -1,3 +1,4 @@
+<script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('/js/instascan.min.js') }}"></script>
 <!-- jQuery -->
 <script src="{{ asset('/plugins/jquery/jquery.min.js') }}"></script>

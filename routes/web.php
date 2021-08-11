@@ -40,6 +40,8 @@ Route::post('/book-lendings/post-one', [BookLendingController::class, 'post_one'
 Route::post('/book-lendings/post-two', [BookLendingController::class, 'post_two'])->name('book-lendings-post-step2');
 Route::get('/book-lendings/return', [BookLendingController::class, 'return'])->name('book-lendings.return');
 Route::post('/book-lendings/redirect', [BookLendingController::class, 'redirect'])->name('book-lendings.redirect');
+Route::post('/book-lendings/{bookLending}/extend-deadline', [BookLendingController::class, 'extendDeadline'])->name('book-lendings.extend-deadline');
+Route::put('/book-lendings/{bookLending}/return', [BookLendingController::class, 'returnBook'])->name('book-lendings.return-book');
 
 Route::get('/qrcode/scan', [BookCopyController::class, 'scanQRCode'])->name('qr-code-scan');
 Route::get('/download-qr-code/{bookCopy}', [BookCopyController::class, 'downloadQRCode'])->name('qrcode.download');

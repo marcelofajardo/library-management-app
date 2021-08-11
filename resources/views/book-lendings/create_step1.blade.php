@@ -57,6 +57,7 @@
             }).catch(e => console.error(e));
 
             scanner.addListener('scan', content => {
+                scanner.stop();
                 err_div.removeClass('alert-danger');
                 err_div.children().remove();
 

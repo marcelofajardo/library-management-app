@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\BookLending;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookLendingRequest;
+use App\Models\BookCondition;
 use App\Models\BookCopy;
 use App\Models\BookStatus;
 use App\Models\User;
 use Carbon\Carbon;
-
+use DateTime;
 
 class BookLendingController extends Controller
 {
@@ -70,12 +71,25 @@ class BookLendingController extends Controller
      */
     public function show(BookLending $bookLending)
     {
+        // dd($bookLending);
         $breadcrumbs = [
             ['name' => 'Home', 'link' => '/'],
             ['name' => 'Book lending details', 'link' => '/book-lendings/'.$bookLending->id],
         ];
 
-        return view('book-lendings.show', compact(['bookLending', 'breadcrumbs']));
+        $deadline = $bookLending->deadline->startOfDay();
+        $today = now()->startOfDay();
+
+        $lateness_fine = 0.00;
+
+        if ($deadline->isPast()) {
+            $lateness_fine = $today->diffInDays($deadline) * BookLending::DAILY_LATENESS_FINE;
+        }
+        
+        $lendingPeriod = BookLending::LENDING_TIME;
+        $bookConditions = BookCondition::all();
+
+        return view('book-lendings.show', compact(['bookLending', 'breadcrumbs', 'lendingPeriod', 'bookConditions', 'lateness_fine']));
     }
 
     /**
@@ -96,9 +110,9 @@ class BookLendingController extends Controller
      * @param  \App\Models\BookLending  $bookLending
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BookLending $bookLending)
+    public function update(BookLendingRequest $request, BookLending $bookLending)
     {
-        //
+        // dd($request);
     }
 
     /**
@@ -217,10 +231,43 @@ class BookLendingController extends Controller
                     ['name' => 'Home', 'link' => '/'],
                     ['name' => 'Book lending details', 'link' => '/book-lendings/'.$lending->id],
                 ];
-                return ['lending_id' => $lending->id, 'breadcrumbs' => $breadcrumbs];
+
+                $lending_period = BookLending::LENDING_TIME;
+                return ['lending_id' => $lending->id, 'breadcrumbs' => $breadcrumbs, 'lending_period' => $lending_period];
             }
         } else {
             abort(422, 'Please scan a valid QR code');
         }
     }
-}         
+
+    public function extendDeadline(BookLending $bookLending)
+    {
+        if ($bookLending->return_date == null) {
+            $new_deadline = $bookLending->deadline->addWeeks(BookLending::LENDING_TIME);
+            
+            // allow a max of two deadline extensions
+            if ($new_deadline->diffInDays($bookLending->created_at) > 3 * BookLending::LENDING_TIME * 7) {
+                alert()->error('Return date cannot be extended more than twice.', 'Could not update')->autoclose(5000);
+            } else {
+                $bookLending->update(['deadline' => $new_deadline]);
+            }
+        } else {
+            alert()->error('You cannot extend the deadline for a book that has already been returned.', 'Could not update')->autoclose(5000);
+        }
+
+        return redirect()->back();
+    }
+
+    public function returnBook(BookLending $bookLending) 
+    {
+        if ($bookLending->return_date == null) {
+            $bookLending->update(['return_date' => now()]);
+            alert()->success('The book has been returned.', 'Success');
+        } else {
+            alert()->error('The book has already been returned.', 'Could not update')->autoclose(5000);
+        }
+        return redirect()->back();
+
+        // dd($bookLending);
+    }
+}    
