@@ -7,9 +7,7 @@ use App\Models\Publisher;
 use App\Models\Author;
 use App\Http\Requests\BookRequest;
 use App\Models\BookCondition;
-use App\Models\BookCopy;
 use App\Models\BookStatus;
-use Illuminate\Validation\Rule;
 
 class BookController extends Controller
 {

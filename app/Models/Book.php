@@ -26,6 +26,6 @@ class Book extends Model
     }
 
     public function requiredCopies() {
-        return $this->available_quantity - BookCopy::query()->where('book_id', '=', $this->id)->count();
+        return $this->quantity - BookCopy::query()->where('book_id', '=', $this->id)->count();
     }
 }

@@ -49,9 +49,9 @@
                             <td>{{ $book->publisher->name }}</td>
                         </tr>
                         <tr>
-                            <td>Available copies:</td>
+                            <td>Number of copies:</td>
                             <td>
-                                {{ $book->available_quantity }}
+                                {{ $book->quantity }}
                             </td>
                         </tr>
                     </table>

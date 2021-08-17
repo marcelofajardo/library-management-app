@@ -66,13 +66,26 @@
                                 <td>{{ $bookLending->formatted_deadline }}</td>
                             </tr>
                             <tr>
-                                <td>Fine:</td>
+                                <td>Lateness fine:</td>
                                 <td>{{ $lateness_fine }} €</td>
                             </tr>
                             <tr>
+                                <td>Damage fine:</td>
+                                <td>
+                                    @if ($bookLending->condition_fine)
+                                        {{ $bookLending->condition_fine }} €
+                                    @else / 
+                                    @endif
+                                </td>
+                            </tr>
+                            @if ($bookLending->condition_fine)
+                                <td>Damage description:</td>
+                                <td>{{ $bookLending->damage_desc }}</td>
+                            @endif
+                            <tr>
                                 <td>Return date:</td>
                                 <td>
-                                    @if ($bookLending->return_date != '' || $bookLending->return_date != NULL)
+                                    @if ($bookLending->return_date)
                                         {{ $bookLending->formatted_return_date }}
                                     @else /    
                                     @endif

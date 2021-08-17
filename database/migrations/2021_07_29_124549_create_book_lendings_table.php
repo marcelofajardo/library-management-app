@@ -19,8 +19,9 @@ class CreateBookLendingsTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->timestamp('deadline')->nullable();
             $table->timestamp('return_date')->nullable();
-            $table->double('lateness_fine')->default(0.00); 
-            $table->double('condition_fine')->default(0.00);   
+            $table->double('lateness_fine')->nullable(); 
+            $table->text('damage_desc')->nullable();
+            $table->double('condition_fine')->nullable();   
             $table->timestamps();
         });
     }

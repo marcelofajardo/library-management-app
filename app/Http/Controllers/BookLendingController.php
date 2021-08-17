@@ -53,7 +53,7 @@ class BookLendingController extends Controller
             return 'Error. The book has already been checked out.';
         } else {
             $new_lending = BookLending::create($request->validated());
-            $updated_book_status = BookCopy::find($request->book_copy_id)->update(['book_status_id' => BookStatus::UNAVAILABLE]);
+            $updated_book_status = $new_lending->book_copy->update(['book_status_id' => BookStatus::UNAVAILABLE]);
 
             if ($new_lending && $updated_book_status) {
                 return 'successfully issued';
@@ -80,7 +80,7 @@ class BookLendingController extends Controller
         $deadline = $bookLending->deadline->startOfDay();
         $today = now()->startOfDay();
 
-        $lateness_fine = 0.00;
+        $lateness_fine = 0;
 
         if ($deadline->isPast()) {
             $lateness_fine = $today->diffInDays($deadline) * BookLending::DAILY_LATENESS_FINE;
@@ -112,7 +112,27 @@ class BookLendingController extends Controller
      */
     public function update(BookLendingRequest $request, BookLending $bookLending)
     {
-        // dd($request);
+        $validated = $request->validated();
+
+        $lateness_fine = 0;
+
+        if (isset($validated['lateness_fine'])) {
+            $lateness_fine = $validated['lateness_fine'];
+        }
+
+        $bookLending->update([
+            'return_date'  => now(),
+            'damage_desc' => $validated['damage_desc'],
+            'condition_fine' => $validated['condition_fine'],
+            'lateness_fine' => $lateness_fine
+        ]);
+
+        $bookLending->book_copy->update([
+            'condition_id' => $validated['condition_id'],
+            'book_status_id' => BookStatus::AVAILABLE
+        ]);
+
+
     }
 
     /**

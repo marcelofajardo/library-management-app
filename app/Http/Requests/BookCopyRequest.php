@@ -28,7 +28,7 @@ class BookCopyRequest extends FormRequest
             'date_of_purchase' => 'required|array|min:1',
             'date_of_purchase.*' => 'required|date|before_or_equal:today',
             'publication_date' => 'required|array|min:1',
-            'publication_date.*' => 'required|date|before:today',
+            'publication_date.*' => 'required|date|before:date_of_purchase.*',
             'edition' => 'required|array|min:1',
             'edition.*' => 'required|numeric|min:1',
             'condition_id' => 'required|array|min:1',

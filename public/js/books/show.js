@@ -115,12 +115,6 @@ $('#submit_copies').on('click', function(e) {
             removeErrors();
 
             let errors = res['responseJSON']['errors'];
-        //     let err_array = [];
-
-        // // // get error messages and push them into an array
-        //     for (let key in errors) {
-        //         err_array.push(errors[key][0]);
-        //     } 
 
             handleErrorMessages(errors);
             }
@@ -141,7 +135,6 @@ $('.call_edit_modal').on('click', function(e) {
     $('#publication_date').val(publ_date);
     $('#date_of_purchase').val(purchase_date);
     $('#condition_id').val(condition);
-
 });
 
 function handleErrorsBookCopy(err_array) {

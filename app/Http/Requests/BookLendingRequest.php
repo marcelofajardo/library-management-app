@@ -40,13 +40,25 @@ class BookLendingRequest extends FormRequest
 
     public function updateRules() {
         return [
-            'id' => 'required|exists:book_lendings,id',
             'damage_slt' => 'required|integer',
-            'lateness_fine' => 'sometimes|filled|numeric|min:0',
+            'lateness_fine' => 'nullable|numeric|min:0',
             'damage_desc' => 'required_if:damage_slt,1|max:2000',
             'condition_id' => 'required_if:damage_slt,1|exists:book_conditions,id',
             'condition_fine' => 'nullable|required_if:damage_slt,1|numeric|min:1',
-            'fine_checkbox' => 'required_with:condition_fine,lateness_fine'
+            'fine_checkbox' => 'required_if:damage_slt,1|required_with:lateness_fine'
+        ];
+    }
+
+    public function messages() {
+        return [
+            'damage_slt.required' => 'Please select one of the options.',
+            'damage_desc.required_if' => 'Enter the description.',
+            'damage_desc.max' => 'The description can contain a maximum of 2000 characters.',
+            'condition_fine.required_if' => 'Enter the fine.',
+            'condition_fine.numeric' => 'Please use only numbers',
+            'condition_fine.min' => 'A minimum fine is 1€',
+            'fine_checkbox.required_if' => 'The checkbox must be checked.',
+            'fine_checkbox.required_with' => 'The checkbox must be checked.',
         ];
     }
 }
