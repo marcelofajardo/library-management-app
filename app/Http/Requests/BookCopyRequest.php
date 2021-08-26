@@ -47,7 +47,7 @@ class BookCopyRequest extends FormRequest
             'edition' => 'required|numeric',
             'condition_id' => 'required|exists:book_conditions,id',
             'id' => 'required|exists:book_copies,id',
-            'book_status_id' => 'required|exists:book_statuses,id'
+            // 'book_status_id' => 'required|exists:book_statuses,id'
         ];
     } 
 

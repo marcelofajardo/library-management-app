@@ -76,6 +76,7 @@ class BookController extends Controller
             ['name' => 'Books', 'link' => '/books'],
             ['name' => 'Book details', 'link' => '/books/'.$book->id],
         ];
+        
         $book_statuses = BookStatus::all();
         $conditions = BookCondition::all();
 

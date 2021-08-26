@@ -85,12 +85,12 @@ $('#return_form_btn').on('click', function(e) {
         'method' : 'PUT',
         'data' : {_token:token, damage_slt:damage_slt, damage_desc:damage_desc, condition_id:condition_id, condition_fine:condition_fine, lateness_fine:lateness_fine, fine_checkbox:fine_checkbox},
         'success' : (res) => {
-            // location.reload();
-            console.log(res);
+            location.reload();
+            // console.log(res);
         },
         'error' : (res) => {
             removeErrors();
-            console.log(res);
+            // console.log(res);
             let errors = res['responseJSON']['errors'];
 
             handleErrorMessages(errors);

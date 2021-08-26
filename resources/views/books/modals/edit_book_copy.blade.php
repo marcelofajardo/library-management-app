@@ -8,6 +8,7 @@
         </div>
         <div class="modal-body">
             <div class="col-12 mt-2">
+                <label for="">Price:</label>
                 <input 
                     type="text" 
                     class="form-control" 
@@ -34,6 +35,7 @@
                 >
             </div>
             <div class="col-12 mt-2">
+                <label for="">Edition:</label>
                 <input 
                     type="numeric" 
                     class="form-control" 
@@ -43,10 +45,18 @@
                 >
             </div>
             <div class="col-12 mt-2">
+                <label for="">Book condition:</label>
                 <select name="condition_id" class="form-control mb-2" id="condition_id">
-                    <option value="">-- Book condition --</option>
-                    @foreach ($conditions as $c)
-                        <option value="{{ $c->id }}">{{ $c->name }}</option>
+                    @foreach ($conditions as $condition)
+                        <option value="{{ $condition->id }}">{{ $condition->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-12 mt-2">
+                <label for="">Book status:</label>
+                <select name="book_status_id" class="form-control mb-2" id="book_status_id">
+                    @foreach ($book_statuses as $book_status)
+                        <option value="{{ $book_status->id }}">{{ $book_status->status }}</option>
                     @endforeach
                 </select>
             </div>

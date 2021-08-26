@@ -147,7 +147,7 @@ function handleErrorsBookCopy(err_array) {
         let field = $('#' + key);
 
         field.after(error_message);
-        field[0].classList.add("is-invalid");
+        field.classList.add("is-invalid");
     } 
 }
 
@@ -161,14 +161,18 @@ $('#edit_modal_submit').on('click', function(e) {
     let id = $(this).data('id');
     let csrf = $('meta[name="csrf-token"]').attr('content');
     
+    // console.log(edition, price, publication_date, date_of_purchase, condition_id, id, csrf);
     $.ajax({
             'url' : '/book-copies/' + id,
             'method' : 'PUT', 
-            'data' : {_token: csrf, edition:edition, price:price, condition_id: condition_id, publication_date:publication_date, date_of_purchase:date_of_purchase, id:id},
+            'data' : {_token: csrf, edition:edition, price:price, condition_id: condition_id, 
+                        publication_date:publication_date, date_of_purchase:date_of_purchase, id:id},
             'success' : (res) => {
                 location.reload()        
             },
             'error' : (res) => {
+
+                console.log(res['responseJSON']['errors']);
 
                 removeErrors();
 

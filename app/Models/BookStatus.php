@@ -12,6 +12,7 @@ class BookStatus extends Model
     protected $guarded = [];
 
     const AVAILABLE = 1;
-    const UNAVAILABLE = 2;
+    const CHECKED_OUT = 2;
     const READING_ROOM_COPY = 3;
+    const UNAVAILABLE = 3;
 }

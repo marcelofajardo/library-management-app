@@ -53,7 +53,7 @@ class BookLendingController extends Controller
             return 'Error. The book has already been checked out.';
         } else {
             $new_lending = BookLending::create($request->validated());
-            $updated_book_status = $new_lending->book_copy->update(['book_status_id' => BookStatus::UNAVAILABLE]);
+            $updated_book_status = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);
 
             if ($new_lending && $updated_book_status) {
                 return 'successfully issued';
@@ -226,7 +226,7 @@ class BookLendingController extends Controller
             ]);
 
             $book_copy = BookCopy::find($book_copy_id);
-            $update = $book_copy->update(['book_status_id' => BookStatus::UNAVAILABLE]);  
+            $update = $book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);  
         }
 
         $request->session()->forget(['book_copy_ids', 'user_id']);
