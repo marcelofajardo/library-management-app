@@ -41,6 +41,8 @@ Route::post('/book-lendings/post-two', [BookLendingController::class, 'post_two'
 Route::get('/book-lendings/return', [BookLendingController::class, 'return'])->name('book-lendings.return');
 Route::post('/book-lendings/redirect', [BookLendingController::class, 'redirect'])->name('book-lendings.redirect');
 Route::post('/book-lendings/{bookLending}/extend-deadline', [BookLendingController::class, 'extendDeadline'])->name('book-lendings.extend-deadline');
+
+// I think this one is no longer used
 Route::put('/book-lendings/{bookLending}/return', [BookLendingController::class, 'returnBook'])->name('book-lendings.return-book');
 
 Route::get('/qrcode/scan', [BookCopyController::class, 'scanQRCode'])->name('qr-code-scan');

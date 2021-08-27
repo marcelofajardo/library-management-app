@@ -42,7 +42,13 @@ class PublisherController extends Controller
      */
     public function store(PublisherRequest $request)
     {
-        Publisher::create($request->validated());
+        $new_publisher = Publisher::create($request->validated());
+
+        if ($new_publisher) {
+            alert()->success('New publisher added', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
 
         $publishers = Publisher::paginate(Publisher::PER_PAGE);
         return view('publishers.index', compact('publishers'));
@@ -84,8 +90,14 @@ class PublisherController extends Controller
      */
     public function update(PublisherRequest $request, Publisher $publisher)
     {
-        $publisher->update($request->validated());
+        $update = $publisher->update($request->validated());
 
+        if ($update) {
+            alert()->success('The publisher has been updated', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
+        
         $publishers = Publisher::paginate(Publisher::PER_PAGE);
         return view('publishers.index', compact('publishers'));
     }

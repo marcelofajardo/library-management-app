@@ -54,6 +54,13 @@ class BookController extends Controller
             ['name' => 'Books', 'link' => '/books'],
             ['name' => 'Book details', 'link' => '/books/'.$book->id],
         ];
+
+        if ($book) {
+            alert()->success('The book has been added.', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
+
         $conditions = BookCondition::all();
         $copies = '';
 
@@ -112,7 +119,14 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
-        $book->update($request->validated());
+        $update = $book->update($request->validated());
+
+        if ($update) {
+            alert()->success('The book has been updated.', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
+
         return redirect()->back();
     }
 

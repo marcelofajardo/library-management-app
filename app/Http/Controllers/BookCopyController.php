@@ -10,6 +10,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
 use App\Models\BookLending;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class BookCopyController extends Controller
 {
@@ -44,8 +45,10 @@ class BookCopyController extends Controller
         $data = $request->validated();
         $number_of_copies = count($data['price']);
 
+        DB::beginTransaction();
+
         for ($i = 0; $i < $number_of_copies; $i++) {
-            BookCopy::create([
+            $new_copy = BookCopy::create([
                 'book_id' => $data['book_id'],
                 'price' => $data['price'][$i],
                 'date_of_purchase' => $data['date_of_purchase'][$i],
@@ -54,7 +57,15 @@ class BookCopyController extends Controller
                 'edition' => $data['edition'][$i],
                 'book_status_id' => $data['book_status_id'][$i]
             ]);
+
+            if (!$new_copy) {
+                DB::rollBack();
+                alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            } 
         }
+
+        DB::commit();
+        alert()->success('Book copies were successfully added.', 'Success')->autoclose(5000);
     }
 
     /**
@@ -100,7 +111,13 @@ class BookCopyController extends Controller
         $data = $request->validated();
         unset($data['id']);
         
-        $bookCopy->update($data);
+        $update = $bookCopy->update($data);
+
+        if ($update) {
+            alert()->success('The data has been updated.', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
     }
 
     /**
@@ -166,7 +183,7 @@ class BookCopyController extends Controller
                 $request->session()->put('book_copy_ids', [$id]);
             }
         }
-        return $bookCopy;
+        // return $bookCopy;
     }
 
     public function removeBookCopy(Request $request, $id) 

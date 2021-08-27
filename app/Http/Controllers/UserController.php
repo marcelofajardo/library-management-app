@@ -53,8 +53,14 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
             
-        User::create($request->validated());
+        $new_user = User::create($request->validated());
         
+        if ($new_user) {
+            alert()->success('New user added.', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
+
         $users = User::paginate(User::PER_PAGE);
         return view('users.index', compact('users'));
     }
@@ -89,6 +95,7 @@ class UserController extends Controller
             ['name' => 'Users', 'link' => '/users'],
             ['name' => 'Update user details', 'link' => '/users/'.$user->id.'/edit'],
         ];
+
         $roles = Role::all();
         return view('users.edit', compact(['user', 'roles', 'breadcrumbs']));
     }
@@ -102,7 +109,14 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-        $user->update($request->validated());
+        $update = $user->update($request->validated());
+  
+        if ($update) {
+            alert()->success('User data updated.', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
+
         $users = User::paginate(User::PER_PAGE);
         return view('users.index', compact('users')); 
     }
@@ -127,7 +141,5 @@ class UserController extends Controller
         } else {
             return $user;
         }
-
-        // prevent other qr codes from being scanned
     }
 }

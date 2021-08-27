@@ -41,20 +41,16 @@ class GenreController extends Controller
      */
     public function store(GenreRequest $request)
     {
-        Genre::create($request->validated());
+        $new_genre = Genre::create($request->validated());
+
+        if ($new_genre) {
+            alert()->success('New genre added', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
+
         $genres = Genre::paginate(Genre::PER_PAGE);
         return view('genres.index', compact('genres'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Genre  $genre
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Genre $genre)
-    {
-        //
     }
 
     /**
@@ -82,8 +78,14 @@ class GenreController extends Controller
      */
     public function update(GenreRequest $request, Genre $genre)
     {
-        $genre->update($request->validated());
+        $update = $genre->update($request->validated());
 
+        if ($update) {
+            alert()->success('The genre has been updated', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
+        
         $genres = Genre::paginate(Genre::PER_PAGE);
         return view('genres.index', compact('genres'));
     }

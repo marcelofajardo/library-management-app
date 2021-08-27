@@ -44,9 +44,16 @@ class AuthorController extends Controller
     public function store(AuthorRequest $request)
     {
         $name = join(" ", [$request->first_name, $request->last_name]);
-        Author::create(['name' => $name]);
+        $new_author = Author::create(['name' => $name]);
 
         $authors = Author::paginate(Author::PER_PAGE);
+
+        if ($new_author) {
+            alert()->success('New author added', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
+
         return view('authors.index', compact('authors'));    
     }
 
@@ -87,8 +94,14 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        $author->update(['name' => $request->name]);
+        $update = $author->update(['name' => $request->name]);
         
+        if ($update) {
+            alert()->success('Information updated.', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
+
         $authors = Author::paginate(Author::PER_PAGE);
         return view('authors.index', compact('authors'));
     }

@@ -11,6 +11,7 @@ use App\Models\BookStatus;
 use App\Models\User;
 use App\Notifications\CheckedOutBookNotification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 
@@ -98,24 +99,7 @@ class BookLendingController extends Controller
         return view('book-lendings.show', compact(['bookLending', 'breadcrumbs', 'lendingPeriod', 'bookConditions', 'lateness_fine']));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BookLending  $bookLending
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BookLending $bookLending)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\BookLending  $bookLending
-     * @return \Illuminate\Http\Response
-     */
+    // used for returning a book
     public function update(BookLendingRequest $request, BookLending $bookLending)
     {
         $validated = $request->validated();
@@ -126,17 +110,27 @@ class BookLendingController extends Controller
             $lateness_fine = $validated['lateness_fine'];
         }
 
-        $bookLending->update([
+        DB::beginTransaction();
+
+        $update1 = $bookLending->update([
             'return_date'  => now(),
             'damage_desc' => $validated['damage_desc'],
             'condition_fine' => $validated['condition_fine'],
             'lateness_fine' => $lateness_fine
         ]);
 
-        $bookLending->book_copy->update([
+        $update2 = $bookLending->book_copy->update([
             'condition_id' => $validated['condition_id'],
             'book_status_id' => BookStatus::AVAILABLE
         ]);
+
+        if (!$update1 || !$update2) {
+            DB::rollBack();
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        } else {
+            DB::commit();
+            alert()->success('The book has been returned.', 'Success')->autoclose(5000);
+        }
 
     }
 
@@ -215,6 +209,8 @@ class BookLendingController extends Controller
             abort(403, 'No more than '.User::MAX_BOOKS.' books can be checked out at the same time. The user has already borrowed '.$count_of_borrowed_books.'.');
         }
 
+        DB::beginTransaction();
+
         foreach($book_copy_ids as $book_copy_id) {
 
             $count = BookLending::where('book_copy_id', $book_copy_id)->whereNull('return_date')->count();
@@ -235,11 +231,19 @@ class BookLendingController extends Controller
 
             $lendings[] = $lending_info;
 
-            $update = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);  
+            $update = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]); 
+            
+            if (!$new_lending || !$update) {
+                DB::rollBack();
+                alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+                return redirect()->back();
+            }
         }
 
-        $user = User::find($user_id);
+        DB::commit();
+        alert()->success('The transaction has been saved.', 'Success')->autoclose(5000);
         
+        $user = User::find($user_id);
         Notification::send($user, new CheckedOutBookNotification($lendings));
         
         $request->session()->forget(['book_copy_ids', 'user_id']);
@@ -281,7 +285,12 @@ class BookLendingController extends Controller
             if ($new_deadline->diffInDays($bookLending->created_at) > 3 * BookLending::LENDING_TIME * 7) {
                 alert()->error('Return date cannot be extended more than twice.', 'Could not update')->autoclose(5000);
             } else {
-                $bookLending->update(['deadline' => $new_deadline]);
+                $update = $bookLending->update(['deadline' => $new_deadline]);
+                if (!$update) {
+                    alert()->error('There has been an error. Try again later.', 'Error')->autoclose(5000);
+                } else {
+                    alert()->success('Return date updated.', 'Success')->autoclose(5000);
+                }
             }
         } else {
             alert()->error('You cannot extend the deadline for a book that has already been returned.', 'Could not update')->autoclose(5000);
@@ -290,16 +299,14 @@ class BookLendingController extends Controller
         return redirect()->back();
     }
 
-    public function returnBook(BookLending $bookLending) 
-    {
-        if ($bookLending->return_date == null) {
-            $bookLending->update(['return_date' => now()]);
-            alert()->success('The book has been returned.', 'Success');
-        } else {
-            alert()->error('The book has already been returned.', 'Could not update')->autoclose(5000);
-        }
-        return redirect()->back();
-
-        // dd($bookLending);
-    }
+    // public function returnBook(BookLending $bookLending) 
+    // {
+    //     if ($bookLending->return_date == null) {
+    //         $bookLending->update(['return_date' => now()]);
+    //         alert()->success('The book has been returned.', 'Success');
+    //     } else {
+    //         alert()->error('The book has already been returned.', 'Could not update')->autoclose(5000);
+    //     }
+    //     return redirect()->back();
+    // }
 }    

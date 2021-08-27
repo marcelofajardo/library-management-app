@@ -42,7 +42,13 @@ class SubjectController extends Controller
      */
     public function store(SubjectRequest $request)
     {
-        Subject::create($request->validated());
+        $new_subject = Subject::create($request->validated());
+
+        if ($new_subject) {
+            alert()->success('The subject has been added', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
 
         $subjects = Subject::paginate(Subject::PER_PAGE);
         return view('subjects.index', compact('subjects'));
@@ -84,7 +90,13 @@ class SubjectController extends Controller
      */
     public function update(SubjectRequest $request, Subject $subject)
     {
-        $subject->update($request->validated());
+        $update = $subject->update($request->validated());
+
+        if ($update) {
+            alert()->success('The subject has been updated', 'Success')->autoclose(5000);
+        } else {
+            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+        }
 
         $subjects = Subject::paginate(Subject::PER_PAGE);
         return view('subjects.index', compact('subjects'));
