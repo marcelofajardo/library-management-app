@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Role;
-use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+
+use App\Notifications\CheckedOutBookNotification;
+use Illuminate\Support\Facades\Notification;
 
 class UserController extends Controller
 {
@@ -50,8 +52,9 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+            
         User::create($request->validated());
-
+        
         $users = User::paginate(User::PER_PAGE);
         return view('users.index', compact('users'));
     }

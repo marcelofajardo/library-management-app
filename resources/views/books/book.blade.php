@@ -4,7 +4,7 @@
     <td>{{ $book->author->name }}</td>
     <td>{{ $book->publisher->name }}</td>
     <td>{{ $book->isbn }}</td>
-    <td>{{ $book->available_quantity }}</td>
+    <td>{{ $book->quantity }}</td>
     <td>
         <a href="/books/{{ $book->id }}/edit">
             <i class="fas fa-edit"></i>

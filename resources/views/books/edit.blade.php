@@ -77,12 +77,12 @@
                             <div class="col-2">
                                 <input 
                                     type="text" 
-                                    class="form-control @error('available_quantity') is-invalid @enderror" 
-                                    name="available_quantity" 
+                                    class="form-control @error('quantity') is-invalid @enderror" 
+                                    name="quantity" 
                                     placeholder="Quantity"
-                                    value="{{ $book->available_quantity }}"
+                                    value="{{ $book->quantity }}"
                                 >
-                                @error('available_quantity')
+                                @error('quantity')
                                 <div class="invalid-feedback">
                                     {{ $message }}   
                                 </div>

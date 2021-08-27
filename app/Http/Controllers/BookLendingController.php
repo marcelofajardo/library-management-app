@@ -9,8 +9,10 @@ use App\Models\BookCondition;
 use App\Models\BookCopy;
 use App\Models\BookStatus;
 use App\Models\User;
+use App\Notifications\CheckedOutBookNotification;
 use Carbon\Carbon;
-use DateTime;
+use Illuminate\Support\Facades\Notification;
+
 
 class BookLendingController extends Controller
 {
@@ -47,20 +49,24 @@ class BookLendingController extends Controller
      */
     public function store(BookLendingRequest $request)
     {
-        $count = BookLending::where('book_copy_id', $request->book_copy_id)->where('return_date', NULL)->count();
+        // return $request;
 
-        if ($count != 0) {
-            return 'Error. The book has already been checked out.';
-        } else {
-            $new_lending = BookLending::create($request->validated());
-            $updated_book_status = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);
+        // $count = BookLending::where('book_copy_id', $request->book_copy_id)->where('return_date', NULL)->count();
 
-            if ($new_lending && $updated_book_status) {
-                return 'successfully issued';
-            } else {
-                return 'error with processing';
-            }
-        }
+        // if ($count != 0) {
+        //     abort(403, 'Error. The book has already been checked out.');
+        // } else {
+        //     $new_lending = BookLending::create($request->validated());
+        //     $updated_book_status = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);
+        //     $user = User::find(1)->first();
+        //     $not = Notification::send($user, new CheckedOutBookNotification());
+            
+        //     // if ($new_lending && $updated_book_status) {
+        //         //     return 'successfully issued';
+        //         // } else {
+        //             //     return 'error with processing';
+        //             // }
+        // }
     }
 
     /**
@@ -132,7 +138,6 @@ class BookLendingController extends Controller
             'book_status_id' => BookStatus::AVAILABLE
         ]);
 
-
     }
 
     /**
@@ -187,7 +192,8 @@ class BookLendingController extends Controller
     
     public function post_two(Request $request)
     {
-        // $request->session()->forget(['book_copy_ids', 'user_id']);
+
+        $lendings = [];
 
         if ($request->session()->has('user_id')) {
             $user_id = session('user_id');
@@ -200,7 +206,7 @@ class BookLendingController extends Controller
             $book_copy_ids = session('book_copy_ids');
         } else {
             abort(422, 'Please add at least one book.');
-            //should add an alert and maybe redirect to step 1 
+            //should add an alert 
         }
 
         $count_of_borrowed_books = BookLending::where('user_id', session('user_id'))->whereNull('return_date')->count();
@@ -219,18 +225,26 @@ class BookLendingController extends Controller
                 
             $deadline = Carbon::now()->addWeeks(BookLending::LENDING_TIME);
                 
-            $lending = BookLending::create([
+            $new_lending = BookLending::create([
                 'book_copy_id' => $book_copy_id,
                 'user_id' => $user_id,
                 'deadline' => $deadline
             ]);
 
-            $book_copy = BookCopy::find($book_copy_id);
-            $update = $book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);  
+            $lending_info = BookLending::find($new_lending->id)->with(['book_copy.book', 'user', 'book_copy'])->first();
+
+            $lendings[] = $lending_info;
+
+            // $book_copy = BookCopy::find($book_copy_id);
+            $update = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);  
         }
 
+        $user = User::find($user_id)->first();
+        
+        Notification::send($user, new CheckedOutBookNotification($lendings));
         $request->session()->forget(['book_copy_ids', 'user_id']);
-        return 'success';
+
+        return $lendings;
     }
 
     public function return() 

@@ -63,8 +63,7 @@
                         'type' : 'POST',
                         'data' : {_token:token, flag:true},
                         'success' : (res) => {
-                            console.log(res);
-
+                            
                             if (res['book']['title'] && res['book']['author']['name']) {
 
                                 let id = res['id'];
@@ -127,11 +126,9 @@
                     'type' : 'POST',
                     'data' : {_token:token},
                     'success' : (res) => {
-                        console.log(res);
                         window.location.href = '/';
                     },
                     'error' : (res) => {
-                        console.log(res);
                         let err = res['responseJSON']['message'];
 
                         if (res['status'] == 418) {

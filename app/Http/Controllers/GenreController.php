@@ -42,7 +42,6 @@ class GenreController extends Controller
     public function store(GenreRequest $request)
     {
         Genre::create($request->validated());
-
         $genres = Genre::paginate(Genre::PER_PAGE);
         return view('genres.index', compact('genres'));
     }
