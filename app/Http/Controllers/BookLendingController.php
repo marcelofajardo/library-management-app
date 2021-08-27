@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BookLending;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookLendingRequest;
+use App\Models\BookLending;
 use App\Models\BookCondition;
 use App\Models\BookCopy;
 use App\Models\BookStatus;
@@ -231,20 +231,18 @@ class BookLendingController extends Controller
                 'deadline' => $deadline
             ]);
 
-            $lending_info = BookLending::find($new_lending->id)->with(['book_copy.book', 'user', 'book_copy'])->first();
+            $lending_info = BookLending::where('id', '=', $new_lending->id)->with(['book_copy.book', 'user', 'book_copy'])->first();
 
             $lendings[] = $lending_info;
 
-            // $book_copy = BookCopy::find($book_copy_id);
             $update = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);  
         }
 
-        $user = User::find($user_id)->first();
+        $user = User::find($user_id);
         
         Notification::send($user, new CheckedOutBookNotification($lendings));
+        
         $request->session()->forget(['book_copy_ids', 'user_id']);
-
-        return $lendings;
     }
 
     public function return() 

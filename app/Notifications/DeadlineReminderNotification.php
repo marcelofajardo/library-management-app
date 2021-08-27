@@ -7,21 +7,24 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CheckedOutBookNotification extends Notification implements ShouldQueue
+class DeadlineReminderNotification extends Notification
 {
     use Queueable;
+
+    private $lendings;
+    private $no_of_days_before_deadline;
+    private $user_name;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-
-    private $lendings;
-
-    public function __construct($lendings)
+    public function __construct($lendings, $no_of_days_before_deadline, $user_name)
     {
         $this->lendings = $lendings;
+        $this->no_of_days_before_deadline = $no_of_days_before_deadline;
+        $this->user_name = $user_name;
     }
 
     /**
@@ -45,8 +48,8 @@ class CheckedOutBookNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                                 ->from('unilib@mail.com', 'UniLib')
-                                ->view('emails.checked_out_books', ['lendings' => $this->lendings])
-                                ->subject('UniLib Book Checkout');
+                                ->view('emails.deadline_reminder', ['lendings' => $this->lendings, 'days_left' => $this->no_of_days_before_deadline, 'user_name' => $this->user_name])
+                                ->subject('UniLib Deadline Reminder');
     }
 
     /**

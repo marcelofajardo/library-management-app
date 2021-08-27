@@ -12,13 +12,13 @@
                 <div class="card-header ui-sortable-handle">
                     <h1 class="card-title">
                         <i class="fas fa-info-circle mr-2"></i>
-                        Book Lending Details
+                        Deadline Reminder
                     </h1>
                 </div>
                 <div class="card-body py-2">
                     <div class="table-responsive">
                         <table class="table table-sm table-borderless">
-                            <tr><td colspan="2"><h3>Dear {{ $lendings[0]['user']['name'] }}, you have taken out the following:</h3></td></tr>
+                            <tr><td colspan="2"><h3>Dear {{ $user_name }}, the deadline to return the following books expires in {{ $days_left }} days:</h3></td></tr>
                             @include('emails/partials.body', ['lendings' => $lendings])
                         </table>
                     </div>
