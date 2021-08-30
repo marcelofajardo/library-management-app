@@ -40,4 +40,9 @@ class BookLending extends Model
     {
         return $this->return_date->format('d. m. Y.');
     }
+
+    public function getReturnedAttribute() 
+    {
+        return $this->return_date != null;
+    }
 }

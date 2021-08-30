@@ -9,7 +9,7 @@
             <div class="card-header ui-sortable-handle">
                 <h3 class="card-title">
                     <i class="fas fa-book mr-2"></i>
-                    Book details
+                    Book copy details
                 </h3>
             </div>
             <!-- /.card-header -->

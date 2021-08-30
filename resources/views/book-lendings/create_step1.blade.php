@@ -71,6 +71,8 @@
                         'data' : {_token:token},
                         'success' : (res) => {
                             if (res['name'] && res['email'] && res['role']) {
+                                err_div.addClass('alert-success');
+                                err_div.append(`<li>User card scanned successfully!</li>`);   
                                 $('#name_id').val(res['name']);
                                 $('#email_id').val(res['email']);
                                 $('#role_id').val(res['role']['name']);

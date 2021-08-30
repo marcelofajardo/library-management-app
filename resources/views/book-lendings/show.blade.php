@@ -69,28 +69,39 @@
                                 <td>Lateness fine:</td>
                                 <td>{{ $lateness_fine }} €</td>
                             </tr>
-                            <tr>
-                                <td>Damage fine:</td>
-                                <td>
-                                    @if ($bookLending->condition_fine)
-                                        {{ $bookLending->condition_fine }} €
-                                    @else / 
-                                    @endif
-                                </td>
-                            </tr>
-                            @if ($bookLending->condition_fine)
-                                <td>Damage description:</td>
-                                <td>{{ $bookLending->damage_desc }}</td>
+                            @if ($bookLending->returned)
+                                <tr>
+                                    <td>Damage fine:</td>
+                                    <td>
+                                        @if ($bookLending->condition_fine)
+                                            {{ $bookLending->condition_fine }} €
+                                        @else 0€ 
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Damage description:</td>
+                                    <td>
+                                        @if ($bookLending->damage_desc)
+                                            {{ $bookLending->damage_desc }}
+                                        @else N/A 
+                                        @endif
+                                    </td>
+                                </tr>
+                                @if ($bookLending->condition_fine)
+                                    <td>Damage description:</td>
+                                    <td>{{ $bookLending->damage_desc }}</td>
+                                @endif
+                                <tr>
+                                    <td>Return date:</td>
+                                    <td>
+                                        @if ($bookLending->return_date)
+                                            {{ $bookLending->formatted_return_date }}
+                                        @else /    
+                                        @endif
+                                    </td>
+                                </tr>
                             @endif
-                            <tr>
-                                <td>Return date:</td>
-                                <td>
-                                    @if ($bookLending->return_date)
-                                        {{ $bookLending->formatted_return_date }}
-                                    @else /    
-                                    @endif
-                                </td>
-                            </tr>
                         </table>
                     </div>
                 </div>

@@ -78,7 +78,6 @@ class BookLendingController extends Controller
      */
     public function show(BookLending $bookLending)
     {
-        // dd($bookLending);
         $breadcrumbs = [
             ['name' => 'Home', 'link' => '/'],
             ['name' => 'Book lending details', 'link' => '/book-lendings/'.$bookLending->id],

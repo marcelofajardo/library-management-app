@@ -183,7 +183,7 @@ class BookCopyController extends Controller
                 $request->session()->put('book_copy_ids', [$id]);
             }
         }
-        // return $bookCopy;
+        return $bookCopy;
     }
 
     public function removeBookCopy(Request $request, $id) 

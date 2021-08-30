@@ -56,57 +56,58 @@
 
                 if (!pattern.test(content)) {
                     err_div.addClass('alert-danger');
-                    err_div.append(`<li>Please scan a valid user QR code.</li>`);
+                    err_div.append(`<li>Please scan a valid book QR code.</li>`);
                 } else {
                     $.ajax({
                         'url' : content,
                         'type' : 'POST',
                         'data' : {_token:token, flag:true},
                         'success' : (res) => {
-                            
-                            if (res['book']['title'] && res['book']['author']['name']) {
+                            let id = res['id'];
+                            let title = res['book']['title'];
+                            let author = res['book']['author']['name'];
+                            let publisher = res['book']['publisher']['name'];
+                            let edition = res['edition'];
+                            let condition = res['condition']['name'];
 
-                                let id = res['id'];
-                                let title = res['book']['title'];
-                                let author = res['book']['author']['name'];
-                                let publisher = res['book']['publisher']['name'];
-                                let edition = res['edition'];
-                                let condition = res['condition']['name'];
+                            table_body.append(
+                                `
+                                <tr class="book-${id}">
+                                    <input type="hidden" name="book_copy_id[]" value="${id}">
+                                    <td>
+                                        <input type="text" disabled class="form-control" value="${title}">
+                                    </td>
+                                    <td>
+                                        <input type="text" disabled class="form-control" value="${author}">
+                                    </td>
+                                    <td>
+                                        <input type="text" disabled class="form-control" value="${publisher}">
+                                    </td>
+                                    <td>
+                                        <input type="text" disabled class="form-control" value="${edition}">
+                                    </td>
+                                    <td>
+                                        <input type="text" disabled class="form-control" value="${condition}">
+                                    </td>
+                                    <td>
+                                        <form action="/book-copies/remove/${id}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-tool remove-btn">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                `
+                            );
 
-                                table_body.append(
-                                    `
-                                    <tr class="book-${id}">
-                                        <input type="hidden" name="book_copy_id[]" value="${id}">
-                                        <td>
-                                            <input type="text" disabled class="form-control" value="${title}">
-                                        </td>
-                                        <td>
-                                            <input type="text" disabled class="form-control" value="${author}">
-                                        </td>
-                                        <td>
-                                            <input type="text" disabled class="form-control" value="${publisher}">
-                                        </td>
-                                        <td>
-                                            <input type="text" disabled class="form-control" value="${edition}">
-                                        </td>
-                                        <td>
-                                            <input type="text" disabled class="form-control" value="${condition}">
-                                        </td>
-                                        <td>
-                                            <form action="/book-copies/remove/${id}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-tool remove-btn">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    `
-                                );
+                            // add a success message 
+                            err_div.addClass('alert-success');
+                            err_div.append(`<li>Book added successfully!</li>`);
 
-                                if ((buttons_div).hasClass('d-none')) {
-                                    (buttons_div).removeClass('d-none');
-                                }
+                            // display buttons if they are not already visible
+                            if ((buttons_div).hasClass('d-none')) {
+                                (buttons_div).removeClass('d-none');
                             }
                         },
                         'error' : (res) => {
