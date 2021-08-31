@@ -195,4 +195,11 @@ class BookCopyController extends Controller
         return redirect()->back();
     }
 
+    public function download_all() 
+    {
+        $books = BookCopy::with(['book', 'condition'])->get();
+        $chunked =  array_chunk($books->toArray(), 2, true);
+        return view('download_all', compact(['chunked']));
+    }
+
 }

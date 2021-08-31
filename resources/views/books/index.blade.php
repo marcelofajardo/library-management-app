@@ -14,9 +14,11 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a class="btn btn-primary float-right" href={{ route('books.create') }}>
-                        Add a book
-                    </a>
+                    <div class="card-tools">
+                        <a class="ml-1 btn btn-primary" href={{ route('books.create') }}>
+                            Add a book
+                        </a>
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
