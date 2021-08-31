@@ -10,7 +10,9 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
 use App\Models\BookLending;
 use App\Models\User;
+use App\Models\Book;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class BookCopyController extends Controller
 {
@@ -199,7 +201,34 @@ class BookCopyController extends Controller
     {
         $books = BookCopy::with(['book', 'condition'])->get();
         $chunked =  array_chunk($books->toArray(), 2, true);
-        return view('download_all', compact(['chunked']));
+        return view('download.download_all', compact(['chunked']));
+    }
+
+    public function download_pdf(Request $request) 
+    {
+        // get the book ids selected or all if none selected
+        if ($request['book_ids'] == null) {
+            $book_ids = Book::pluck('id');
+        } else {
+            $book_ids = $request['book_ids'];
+        }
+
+        $books = BookCopy::with(['condition', 'book'])
+                            ->whereHas('book', function($query) use ($book_ids) {
+                                $query->whereIn('id', $book_ids);
+                            })->get();
+
+        // to better display on a page
+        $chunked =  array_chunk($books->toArray(), 2, true);
+
+        $pdf = PDF::loadView('download.download_all', compact(['chunked']))->setOptions(['defaultFont' => 'sans-serif']);
+        return $pdf->download('qrcodes.pdf');
+    }
+
+    public function download_options() 
+    {
+        $books = Book::all();
+        return view('download.download-options', compact('books'));
     }
 
 }

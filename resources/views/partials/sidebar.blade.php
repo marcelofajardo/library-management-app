@@ -85,6 +85,14 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="{{ route('download.options') }}" class="nav-link {{ active_link(request(), 'download*') }}">
+            <i class="nav-icon fas fa-print"></i>
+            <p>
+              Print QR codes
+            </p>
+          </a>
+        </li>
         </ul>
     </nav>
       <!-- /.sidebar-menu -->

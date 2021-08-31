@@ -1,6 +1,16 @@
-@extends('layouts.main')
-
-@section('content')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        tr td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
     <table>
         <tbody>
             @foreach ($chunked as $arr)
@@ -13,11 +23,12 @@
                                 <tr><td>Publication: {{ date('d.m.Y.', strtotime($data['publication_date'])) }}</td></tr>
                             </table>
                         </td>
-                        <td class="p-3">{!! QrCode::generate('http://127.0.0.1:8000/books/qrcode/read/'.$data['id']); !!}</td>
+                        <td><img src="data:image/svg;base64, {{ base64_encode(QrCode::format('svg')->size(100)->generate('Make me into an QrCode!')) }} "></td>
                     @endforeach
                 </tr>
             @endforeach
         </tbody>
-    </table>    
-
-@endsection
+    </table>   
+</body>
+</html>
+ 

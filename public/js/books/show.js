@@ -129,12 +129,14 @@ $('.call_edit_modal').on('click', function(e) {
     let publ_date = $(this).data('publ');
     let condition = $(this).data('cond');
     let edition = $(this).data('edition');
+    let status = $(this).data('status');
 
     $('#edition').val(edition);
     $('#price').val(price);
     $('#publication_date').val(publ_date);
     $('#date_of_purchase').val(purchase_date);
     $('#condition_id').val(condition);
+    $('#book_status_id').val(status);
 });
 
 function handleErrorsBookCopy(err_array) {

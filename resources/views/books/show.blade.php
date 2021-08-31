@@ -119,6 +119,7 @@
                                             data-publ = {{ $copy->publication_date }}
                                             data-cond = {{ $copy->condition->id }}
                                             data-edition = {{ $copy->edition }}
+                                            data-status = {{ $copy->book_status_id }}
                                         >
                                             <i class="fa fa-edit"></i>
                                         </button>

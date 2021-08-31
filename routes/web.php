@@ -51,8 +51,12 @@ Route::get('/download-qr-code/{bookCopy}', [BookCopyController::class, 'download
 Route::post('/users/qrcode/read/{id}', [UserController::class, 'readUserQRCode'])->name('users.readQRCode');
 Route::post('/books/qrcode/read/{id}', [BookCopyController::class, 'readBookQRCode'])->name('books.readQRCode');
 
-// route for downloading qrcodes 
+// route for viewing qrcodes 
 Route::get('/download-qrcodes', [BookCopyController::class, 'download_all'])->name('download-qrcodes'); 
+// setting options
+Route::get('/download-options', [BookCopyController::class, 'download_options'])->name('download.options');
+// download link
+Route::post('/pdf', [BookCopyController::class, 'download_pdf'])->name('download.pdf');
 
 Route::resource('book-copies', BookCopyController::class);
 Route::resource('/book-lendings', BookLendingController::class);
