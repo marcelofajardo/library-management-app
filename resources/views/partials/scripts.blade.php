@@ -1,15 +1,11 @@
 <script src="{{ asset('/plugins/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('/js/instascan.min.js') }}"></script>
-<!-- jQuery -->
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-    $.widget.bridge('uibutton', $.ui.button)
-    </script>
-    <script src="{{ asset('/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- ChartJS -->
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- ChartJS -->
 <script src="{{ asset('/plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Sparkline -->
 <script src="{{ asset('/plugins/sparklines/sparkline.js') }}"></script>
@@ -30,3 +26,4 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('/js/adminlte.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>$.widget.bridge('uibutton', $.ui.button)</script>

@@ -88,10 +88,6 @@
                                         @endif
                                     </td>
                                 </tr>
-                                @if ($bookLending->condition_fine)
-                                    <td>Damage description:</td>
-                                    <td>{{ $bookLending->damage_desc }}</td>
-                                @endif
                                 <tr>
                                     <td>Return date:</td>
                                     <td>
