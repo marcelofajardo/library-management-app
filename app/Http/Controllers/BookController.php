@@ -140,6 +140,13 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        if ($book->book_copies()->count()) {
+            alert()->error('Please delete book copies first.', 'Error')->autoclose(5000);
+        } else {
+            $book->delete();
+            alert()->success('The book has been deleted.', 'Success')->autoclose(5000);
+        }
+
+        return back();
     }
 }

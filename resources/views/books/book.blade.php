@@ -11,8 +11,12 @@
         </a>
     </td>
     <td>
-        <a href="">
-            <i class="fas fa-trash-alt"></i>
-        </a>
+        <form action="{{ route('books.destroy', ['book' => $book->id]) }}" method="POST">
+            @method('DELETE')
+            @csrf
+            <button type="submit" class="delete-btn">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </form>
     </td>
 </tr>

@@ -176,7 +176,7 @@ class BookCopyController extends Controller
     public function destroy(BookCopy $bookCopy)
     {
         if ($bookCopy->lendings->count()) {
-            alert()->error('There are lendings still connected to this book. Please delete those first.')->autoclose(5000);
+            alert()->error('Please first delete lendings still connected to this book.')->autoclose(5000);
         } else {
             $bookCopy->delete();
             alert()->success('A book copy was successfully deleted.', 'Success')->autoclose(5000);

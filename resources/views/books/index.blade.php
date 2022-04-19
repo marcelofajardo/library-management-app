@@ -6,6 +6,14 @@
 @section('additional_styles')
 <style>
     .clickable-row { cursor: pointer; }
+    .delete-btn {
+        border: none;
+        background-color: transparent;
+        color: #007bff;
+    }
+    .delete-btn:hover {
+        color: #0056b3;
+    }
 </style>
 @endsection
 
