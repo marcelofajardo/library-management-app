@@ -9,44 +9,44 @@
         <div class="modal-body">
             <div class="col-12 mt-2">
                 <label for="">Price:</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
+                <input
+                    type="text"
+                    class="form-control"
                     name="price"
-                    id="price" 
+                    id="price_edit"
                 >
             </div>
             <div class="col-12 mt-2">
                 <label for="">Date of purchase:</label>
-                <input 
-                    type="date" 
-                    class="form-control" 
-                    name="date_of_purchase" 
-                    id="date_of_purchase"
+                <input
+                    type="date"
+                    class="form-control"
+                    name="date_of_purchase"
+                    id="date_of_purchase_edit"
                 >
             </div>
             <div class="col-12 mt-2">
                 <label for="">Date of publication:</label>
-                <input 
-                    type="date" 
-                    class="form-control" 
-                    name="publication_date" 
-                    id="publication_date"
+                <input
+                    type="date"
+                    class="form-control"
+                    name="publication_date"
+                    id="publication_date_edit"
                 >
             </div>
             <div class="col-12 mt-2">
                 <label for="">Edition:</label>
-                <input 
-                    type="numeric" 
-                    class="form-control" 
-                    name="edition" 
+                <input
+                    type="numeric"
+                    class="form-control"
+                    name="edition"
                     placeholder="Edition"
-                    id="edition"
+                    id="edition_edit"
                 >
             </div>
             <div class="col-12 mt-2">
                 <label for="">Book condition:</label>
-                <select name="condition_id" class="form-control mb-2" id="condition_id">
+                <select id="condition_id_edit" class="form-control mb-2" name="condition_id">
                     @foreach ($conditions as $condition)
                         <option value="{{ $condition->id }}">{{ $condition->name }}</option>
                     @endforeach
@@ -54,7 +54,7 @@
             </div>
             <div class="col-12 mt-2">
                 <label for="">Book status:</label>
-                <select name="book_status_id" class="form-control mb-2" id="book_status_id">
+                <select name="book_status_id" class="form-control mb-2" id="book_status_id_edit">
                     @foreach ($book_statuses as $book_status)
                         <option value="{{ $book_status->id }}">{{ $book_status->status }}</option>
                     @endforeach

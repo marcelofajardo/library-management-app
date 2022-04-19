@@ -53,7 +53,7 @@ class BookRequest extends FormRequest
         if ($this->method() == 'POST') {
            return $this->storeRules();
         } else if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
-            return $this->updateRules($this->book);
+            return $this->updateRules();
         }
     }
 }

@@ -23,7 +23,7 @@ class BookController extends Controller
             ['name' => 'Books', 'link' => '/books']
         ];
 
-        $books = Book::paginate(Book::PER_PAGE);
+        $books = Book::withCount('book_copies')->paginate(Book::PER_PAGE);
         $currentPage = $books::resolveCurrentPage() - 1;
         return view('books.index', compact(['books', 'breadcrumbs', 'currentPage']));
     }
@@ -58,7 +58,7 @@ class BookController extends Controller
         if ($book) {
             alert()->success('The book has been added.', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
 
         $conditions = BookCondition::all();
@@ -83,7 +83,9 @@ class BookController extends Controller
             ['name' => 'Books', 'link' => '/books'],
             ['name' => 'Book details', 'link' => '/books/'.$book->id],
         ];
-        
+
+        $book->load('book_copies')->loadCount('book_copies');
+
         $book_statuses = BookStatus::all();
         $conditions = BookCondition::all();
 
@@ -97,7 +99,7 @@ class BookController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Book $book)
-    {    
+    {
         $authors = Author::query()->orderBy('name', 'asc')->get();
         $publishers = Publisher::query()->orderBy('name', 'asc')->get();
 
@@ -124,7 +126,7 @@ class BookController extends Controller
         if ($update) {
             alert()->success('The book has been updated.', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
 
         return redirect()->back();

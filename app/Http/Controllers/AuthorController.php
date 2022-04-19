@@ -20,7 +20,7 @@ class AuthorController extends Controller
             ['name' => 'Home', 'link' => '/'],
             ['name' => 'Authors', 'link' => '/authors']
         ];
-       
+
         $authors = Author::paginate(Author::PER_PAGE);
         return view('authors.index', compact('authors', 'breadcrumbs'));
     }
@@ -51,10 +51,10 @@ class AuthorController extends Controller
         if ($new_author) {
             alert()->success('New author added', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
 
-        return view('authors.index', compact('authors'));    
+        return view('authors.index', compact('authors'));
     }
 
     /**
@@ -95,11 +95,11 @@ class AuthorController extends Controller
     public function update(Request $request, Author $author)
     {
         $update = $author->update(['name' => $request->name]);
-        
+
         if ($update) {
             alert()->success('Information updated.', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
 
         $authors = Author::paginate(Author::PER_PAGE);

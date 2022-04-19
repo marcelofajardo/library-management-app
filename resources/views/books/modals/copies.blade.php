@@ -6,44 +6,45 @@
                 <input type="hidden" id="token_copies" value="{{ csrf_token() }}">
                 <input type="hidden" id="book_id" value="{{ $book->id }}">
                 <div class="row mb-3">
-
-                @for ($i = 0; $i < $book->requiredCopies(); $i++)
                     <div class="col-12 p-3 mb-3" style="border: 1px solid rgb(186, 179, 179);">
-                        <label for="">Copy {{$i + 1}}</label>
                         <div class="col-12 mt-3">
-                            <input 
-                                type="text" 
-                                class="form-control" 
-                                name="price[]" 
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="price"
+                                id="price"
                                 placeholder="Price (€)"
                             >
                         </div>
                         <div class="col-12 mt-3">
                             <label for="">Date of purchase:</label>
-                            <input 
-                                type="date" 
-                                class="form-control" 
-                                name="date_of_purchase[]" 
+                            <input
+                                type="date"
+                                class="form-control"
+                                name="date_of_purchase"
+                                id="date_of_purchase"
                             >
                         </div>
                         <div class="col-12 mt-3">
                             <label for="">Date of publication:</label>
-                            <input 
-                                type="date" 
-                                class="form-control" 
-                                name="publication_date[]" 
+                            <input
+                                type="date"
+                                class="form-control"
+                                name="publication_date"
+                                id="publication_date"
                             >
                         </div>
                         <div class="col-12 mt-3">
-                            <input 
-                                type="numeric" 
-                                class="form-control" 
-                                name="edition[]" 
+                            <input
+                                type="numeric"
+                                class="form-control"
+                                name="edition"
+                                id="edition"
                                 placeholder="Edition"
                             >
                         </div>
                         <div class="col-12 mt-3">
-                            <select name="condition_id[]" class="form-control">
+                            <select name="condition_id" id="condition_id" class="form-control">
                                 <option value="">-- Book condition --</option>
                                 @foreach ($conditions as $condition)
                                     <option value="{{ $condition->id }}">{{ $condition->name }}</option>
@@ -51,7 +52,7 @@
                             </select>
                         </div>
                         <div class="col-12 mt-3">
-                            <select name="book_status_id[]" class="form-control mb-3">
+                            <select name="book_status_id" id="book_status_id" class="form-control mb-3">
                                 <option value="">-- Book status --</option>
                                 @foreach ($book_statuses as $status)
                                     <option value="{{ $status->id }}">{{ $status->status }}</option>
@@ -59,8 +60,6 @@
                             </select>
                         </div>
                     </div>
-                @endfor
-  
                 </div>
             </div>
             <div class="modal-footer justify-content-between">

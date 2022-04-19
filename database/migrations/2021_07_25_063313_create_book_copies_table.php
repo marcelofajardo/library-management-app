@@ -19,7 +19,7 @@ class CreateBookCopiesTable extends Migration
             $table->double('price');
             $table->timestamp('date_of_purchase')->useCurrent();
             $table->timestamp('publication_date')->useCurrent();
-            $table->string('condition_id')->contrained('book_conditions');
+            $table->string('condition_id')->constrained('book_conditions');
             $table->string('edition');
             $table->foreignId('book_status_id')->constrained('book_statuses');
             $table->timestamps();

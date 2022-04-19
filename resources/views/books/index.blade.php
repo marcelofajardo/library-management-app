@@ -6,7 +6,7 @@
 @section('additional_styles')
 <style>
     .clickable-row { cursor: pointer; }
-</style>    
+</style>
 @endsection
 
 @section('content')
@@ -30,7 +30,7 @@
                                 <th>Author</th>
                                 <th>Publisher</th>
                                 <th>ISBN</th>
-                                <th>Available quantity</th>
+                                <th>Quantity</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -52,7 +52,7 @@
                 <!-- /.card-body -->
             </div>
         </div>
-    </div>    
+    </div>
 @endsection
 
 @section('additional_scripts')

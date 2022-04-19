@@ -61,7 +61,7 @@ class BookLendingController extends Controller
         //     $updated_book_status = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);
         //     $user = User::find(1)->first();
         //     $not = Notification::send($user, new CheckedOutBookNotification());
-            
+
         //     // if ($new_lending && $updated_book_status) {
         //         //     return 'successfully issued';
         //         // } else {
@@ -91,7 +91,7 @@ class BookLendingController extends Controller
         if ($deadline->isPast()) {
             $lateness_fine = $today->diffInDays($deadline) * BookLending::DAILY_LATENESS_FINE;
         }
-        
+
         $lendingPeriod = BookLending::LENDING_TIME;
         $bookConditions = BookCondition::all();
 
@@ -125,7 +125,7 @@ class BookLendingController extends Controller
 
         if (!$update1 || !$update2) {
             DB::rollBack();
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         } else {
             DB::commit();
             alert()->success('The book has been returned.', 'Success')->autoclose(5000);
@@ -144,7 +144,7 @@ class BookLendingController extends Controller
         //
     }
 
-    public function create_one(Request $request) 
+    public function create_one(Request $request)
     {
         $user = '';
 
@@ -155,7 +155,7 @@ class BookLendingController extends Controller
         return view('book-lendings.create_step1', compact('user'));
     }
 
-    public function post_one(Request $request) 
+    public function post_one(Request $request)
     {
         $user = User::find($request->user_id);
 
@@ -172,7 +172,7 @@ class BookLendingController extends Controller
         }
     }
 
-    public function create_two(Request $request) 
+    public function create_two(Request $request)
     {
         $book_copies = '';
 
@@ -182,7 +182,7 @@ class BookLendingController extends Controller
 
         return view('book-lendings.create_step2', compact('book_copies'));
     }
-    
+
     public function post_two(Request $request)
     {
 
@@ -192,14 +192,14 @@ class BookLendingController extends Controller
             $user_id = session('user_id');
         } else {
             abort(422, 'Please scan a valid user card.');
-            //should add an alert and maybe redirect to step 1 
+            //should add an alert and maybe redirect to step 1
         }
 
         if ($request->session()->has('book_copy_ids') && session('book_copy_ids') != []) {
             $book_copy_ids = session('book_copy_ids');
         } else {
             abort(422, 'Please add at least one book.');
-            //should add an alert 
+            //should add an alert
         }
 
         $count_of_borrowed_books = BookLending::where('user_id', session('user_id'))->whereNull('return_date')->count();
@@ -213,13 +213,13 @@ class BookLendingController extends Controller
         foreach($book_copy_ids as $book_copy_id) {
 
             $count = BookLending::where('book_copy_id', $book_copy_id)->whereNull('return_date')->count();
-            
+
             if ($count > 0) {
                 abort(418, "The selected book has already been checked out.".$book_copy_id);
             }
-                
+
             $deadline = Carbon::now()->addWeeks(BookLending::LENDING_TIME);
-                
+
             $new_lending = BookLending::create([
                 'book_copy_id' => $book_copy_id,
                 'user_id' => $user_id,
@@ -230,25 +230,25 @@ class BookLendingController extends Controller
 
             $lendings[] = $lending_info;
 
-            $update = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]); 
-            
+            $update = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);
+
             if (!$new_lending || !$update) {
                 DB::rollBack();
-                alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+                alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
                 return redirect()->back();
             }
         }
 
         DB::commit();
         alert()->success('The transaction has been saved.', 'Success')->autoclose(5000);
-        
+
         $user = User::find($user_id);
         Notification::send($user, new CheckedOutBookNotification($lendings));
-        
+
         $request->session()->forget(['book_copy_ids', 'user_id']);
     }
 
-    public function return() 
+    public function return()
     {
         return view('book-lendings.return');
     }
@@ -279,7 +279,7 @@ class BookLendingController extends Controller
     {
         if ($bookLending->return_date == null) {
             $new_deadline = $bookLending->deadline->addWeeks(BookLending::LENDING_TIME);
-            
+
             // allow a max of two deadline extensions
             if ($new_deadline->diffInDays($bookLending->created_at) > 3 * BookLending::LENDING_TIME * 7) {
                 alert()->error('Return date cannot be extended more than twice.', 'Could not update')->autoclose(5000);
@@ -298,7 +298,7 @@ class BookLendingController extends Controller
         return redirect()->back();
     }
 
-    // public function returnBook(BookLending $bookLending) 
+    // public function returnBook(BookLending $bookLending)
     // {
     //     if ($bookLending->return_date == null) {
     //         $bookLending->update(['return_date' => now()]);
@@ -308,4 +308,4 @@ class BookLendingController extends Controller
     //     }
     //     return redirect()->back();
     // }
-}    
+}

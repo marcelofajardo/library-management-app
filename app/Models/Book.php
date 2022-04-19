@@ -24,8 +24,4 @@ class Book extends Model
     public function publisher() {
         return $this->belongsTo(Publisher::class);
     }
-
-    public function requiredCopies() {
-        return $this->quantity - BookCopy::query()->where('book_id', '=', $this->id)->count();
-    }
 }

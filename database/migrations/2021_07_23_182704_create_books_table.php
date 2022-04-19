@@ -19,7 +19,6 @@ class CreateBooksTable extends Migration
             $table->string('isbn')->unique();
             $table->foreignId('author_id')->constrained('authors');
             $table->foreignId('publisher_id')->constrained('publishers');
-            $table->integer('quantity')->default(0);
             $table->timestamps();
         });
     }

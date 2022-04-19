@@ -52,13 +52,13 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-            
+
         $new_user = User::create($request->validated());
-        
+
         if ($new_user) {
             alert()->success('New user added.', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
 
         $users = User::paginate(User::PER_PAGE);
@@ -110,15 +110,15 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $update = $user->update($request->validated());
-  
+
         if ($update) {
             alert()->success('User data updated.', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
 
         $users = User::paginate(User::PER_PAGE);
-        return view('users.index', compact('users')); 
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -132,7 +132,7 @@ class UserController extends Controller
         //
     }
 
-    public function readUserQRCode($id) 
+    public function readUserQRCode($id)
     {
         $user = User::find($id);
 

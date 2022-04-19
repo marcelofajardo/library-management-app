@@ -47,7 +47,7 @@ class PublisherController extends Controller
         if ($new_publisher) {
             alert()->success('New publisher added', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
 
         $publishers = Publisher::paginate(Publisher::PER_PAGE);
@@ -95,9 +95,9 @@ class PublisherController extends Controller
         if ($update) {
             alert()->success('The publisher has been updated', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
-        
+
         $publishers = Publisher::paginate(Publisher::PER_PAGE);
         return view('publishers.index', compact('publishers'));
     }

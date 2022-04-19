@@ -46,7 +46,7 @@ class GenreController extends Controller
         if ($new_genre) {
             alert()->success('New genre added', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
 
         $genres = Genre::paginate(Genre::PER_PAGE);
@@ -83,9 +83,9 @@ class GenreController extends Controller
         if ($update) {
             alert()->success('The genre has been updated', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
-        
+
         $genres = Genre::paginate(Genre::PER_PAGE);
         return view('genres.index', compact('genres'));
     }

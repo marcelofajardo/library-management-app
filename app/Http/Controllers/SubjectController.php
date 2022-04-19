@@ -47,7 +47,7 @@ class SubjectController extends Controller
         if ($new_subject) {
             alert()->success('The subject has been added', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
 
         $subjects = Subject::paginate(Subject::PER_PAGE);
@@ -95,7 +95,7 @@ class SubjectController extends Controller
         if ($update) {
             alert()->success('The subject has been updated', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
 
         $subjects = Subject::paginate(Subject::PER_PAGE);

@@ -17,26 +17,6 @@ use PDF;
 class BookCopyController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -44,30 +24,14 @@ class BookCopyController extends Controller
      */
     public function store(BookCopyRequest $request)
     {
-        $data = $request->validated();
-        $number_of_copies = count($data['price']);
+        $new_copy = BookCopy::create($request->validated());
 
-        DB::beginTransaction();
-
-        for ($i = 0; $i < $number_of_copies; $i++) {
-            $new_copy = BookCopy::create([
-                'book_id' => $data['book_id'],
-                'price' => $data['price'][$i],
-                'date_of_purchase' => $data['date_of_purchase'][$i],
-                'publication_date' => $data['publication_date'][$i],
-                'condition_id' => $data['condition_id'][$i],
-                'edition' => $data['edition'][$i],
-                'book_status_id' => $data['book_status_id'][$i]
-            ]);
-
-            if (!$new_copy) {
-                DB::rollBack();
-                alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
-            } 
+        if (!$new_copy) {
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
+        } else {
+            alert()->success('A book copy was successfully added.', 'Success')->autoclose(5000);
         }
 
-        DB::commit();
-        alert()->success('Book copies were successfully added.', 'Success')->autoclose(5000);
     }
 
     /**
@@ -91,17 +55,6 @@ class BookCopyController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BookCopy  $bookCopy
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BookCopy $bookCopy)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -112,25 +65,14 @@ class BookCopyController extends Controller
     {
         $data = $request->validated();
         unset($data['id']);
-        
+
         $update = $bookCopy->update($data);
 
         if ($update) {
             alert()->success('The data has been updated.', 'Success')->autoclose(5000);
         } else {
-            alert()->error('An error has occured. Try again later.', 'Error')->autoclose(5000);
+            alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\BookCopy  $bookCopy
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BookCopy $bookCopy)
-    {
-        //
     }
 
     public function downloadQRCode(BookCopy $bookCopy)
@@ -145,7 +87,7 @@ class BookCopyController extends Controller
         return response()->download('storage/qr-codes/'.$imageName, $imageName.'.'.$type);
     }
 
-    public function scanQRCode() 
+    public function scanQRCode()
     {
         $breadcrumbs = [
             ['name' => 'Home', 'link' => '/'],
@@ -155,20 +97,20 @@ class BookCopyController extends Controller
         return view('qrcode-scan', compact('breadcrumbs'));
     }
 
-    public function readBookQRCode(Request $request, $id) 
+    public function readBookQRCode(Request $request, $id)
     {
         $bookCopy = BookCopy::with(['book', 'condition'])->where('id', $id)->first();
 
         if (!$bookCopy) {
             abort(403, 'Please scan a valid book QR.');
         }
-        
+
         if (!$bookCopy->is_available) {
             abort(403, 'The book is not available for checking out.');
-        } 
-        
+        }
+
         $count_of_borrowed_books = BookLending::where('user_id', session('user_id'))->whereNull('return_date')->count();
-            
+
         if ($count_of_borrowed_books == User::MAX_BOOKS) {
             abort(403, 'The user has reached the maximum number of books that can be checked out at the same time.');
         }
@@ -188,23 +130,23 @@ class BookCopyController extends Controller
         return $bookCopy;
     }
 
-    public function removeBookCopy(Request $request, $id) 
+    public function removeBookCopy(Request $request, $id)
     {
         $index = array_search($id, session('book_copy_ids'));
 
         $request->session()->forget("book_copy_ids.$index");
-        
+
         return redirect()->back();
     }
 
-    public function download_all() 
+    public function download_all()
     {
         $books = BookCopy::with(['book', 'condition'])->get();
         $chunked =  array_chunk($books->toArray(), 2, true);
         return view('download.download_all', compact(['chunked']));
     }
 
-    public function download_pdf(Request $request) 
+    public function download_pdf(Request $request)
     {
         // get the book ids selected or all if none selected
         if ($request['book_ids'] == null) {
@@ -225,7 +167,7 @@ class BookCopyController extends Controller
         return $pdf->download('qrcodes.pdf');
     }
 
-    public function download_options() 
+    public function download_options()
     {
         $books = Book::all();
         return view('download.download-options', compact('books'));

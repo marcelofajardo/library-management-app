@@ -13,13 +13,10 @@
                     <i class="fas fa-book mr-2"></i>
                     Book details
                 </h3>
-                <button 
-                    class="btn btn-primary float-right" 
-                    data-toggle="modal" 
+                <button
+                    class="btn btn-primary float-right"
+                    data-toggle="modal"
                     data-target="#copies_modal"
-                    @if ($book->requiredCopies() == '0')
-                        disabled
-                    @endif
                 >
                     Add copies
                 </button>
@@ -51,7 +48,7 @@
                         <tr>
                             <td>Number of copies:</td>
                             <td>
-                                {{ $book->quantity }}
+                                {{ $book->book_copies_count }}
                             </td>
                         </tr>
                     </table>
@@ -100,7 +97,7 @@
                                         <span class="badge {{ $copy->book_status->icon}}"">{{ $copy->book_status->status }}</span>
                                     </td>
                                     <td>
-                                        <a 
+                                        <a
                                             href="{{ route('qrcode.download', ['bookCopy' => $copy]) }}"
                                             class="btn btn-sm btn-info call_qr_modal"
                                         >
@@ -129,9 +126,9 @@
                                             <i class="fa fa-times"></i>
                                         </button>
                                     </td>
-                                </tr>    
+                                </tr>
                                 @empty
-                            
+
                                 @endforelse
                             </tbody>
                         </table>
