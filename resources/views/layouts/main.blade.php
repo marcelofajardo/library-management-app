@@ -11,7 +11,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
-    
+
     @include('sweet::alert')
 
     <div class="wrapper">
@@ -21,7 +21,7 @@
         @include('partials.sidebar')
 
         <div class="content-wrapper">
-            @include('partials.content-header')    
+            @include('partials.content-header')
             <section class="content">
 
                 <div class="container-fluid">
