@@ -111,20 +111,24 @@
                                             class="btn btn-sm btn-primary call_edit_modal"
                                             data-toggle="modal"
                                             data-id="{{ $copy->id }}"
-                                            data-price = {{ $copy->price }}
-                                            data-purchase = {{ $copy->date_of_purchase }}
-                                            data-publ = {{ $copy->publication_date }}
-                                            data-cond = {{ $copy->condition->id }}
-                                            data-edition = {{ $copy->edition }}
-                                            data-status = {{ $copy->book_status_id }}
+                                            data-price = "{{ $copy->price }}"
+                                            data-purchase = "{{ $copy->date_of_purchase }}"
+                                            data-publ = "{{ $copy->publication_date }}"
+                                            data-cond = "{{ $copy->condition->id }}"
+                                            data-edition = "{{ $copy->edition }}"
+                                            data-status = "{{ $copy->book_status_id }}"
                                         >
                                             <i class="fa fa-edit"></i>
                                         </button>
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-danger">
-                                            <i class="fa fa-times"></i>
-                                        </button>
+                                        <form action="{{ route('book-copies.destroy', ['book_copy' => $copy->id]) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button class="btn btn-sm btn-danger" type="submit">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @empty

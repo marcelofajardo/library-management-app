@@ -21,43 +21,44 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::resource('authors', AuthorController::class);
-Route::resource('publishers', PublisherController::class);
-Route::resource('subjects', SubjectController::class);
-Route::resource('genres', GenreController::class);
-Route::resource('users', UserController::class);
-Route::resource('books', BookController::class);
 Auth::routes();
 
-Route::post('/book-copies/remove/{id}', [BookCopyController::class, 'removeBookCopy'])->name('book-copies.remove');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/book-lendings/create-one', [BookLendingController::class, 'create_one'])->name('book-lendings-create-step1');
-Route::get('/book-lendings/create-two', [BookLendingController::class, 'create_two'])->name('book-lendings-create-step2');
-Route::post('/book-lendings/post-one', [BookLendingController::class, 'post_one'])->name('book-lendings-post-step1');
-Route::post('/book-lendings/post-two', [BookLendingController::class, 'post_two'])->name('book-lendings-post-step2');
-Route::get('/book-lendings/return', [BookLendingController::class, 'return'])->name('book-lendings.return');
-Route::post('/book-lendings/redirect', [BookLendingController::class, 'redirect'])->name('book-lendings.redirect');
-Route::post('/book-lendings/{bookLending}/extend-deadline', [BookLendingController::class, 'extendDeadline'])->name('book-lendings.extend-deadline');
+    Route::resource('authors', AuthorController::class);
+    Route::resource('publishers', PublisherController::class);
+    Route::resource('subjects', SubjectController::class);
+    Route::resource('genres', GenreController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('books', BookController::class);
+
+    Route::post('/book-copies/remove/{id}', [BookCopyController::class, 'removeBookCopy'])->name('book-copies.remove');
+
+    Route::get('/book-lendings/create-one', [BookLendingController::class, 'create_one'])->name('book-lendings-create-step1');
+    Route::get('/book-lendings/create-two', [BookLendingController::class, 'create_two'])->name('book-lendings-create-step2');
+    Route::post('/book-lendings/post-one', [BookLendingController::class, 'post_one'])->name('book-lendings-post-step1');
+    Route::post('/book-lendings/post-two', [BookLendingController::class, 'post_two'])->name('book-lendings-post-step2');
+    Route::get('/book-lendings/return', [BookLendingController::class, 'return'])->name('book-lendings.return');
+    Route::post('/book-lendings/redirect', [BookLendingController::class, 'redirect'])->name('book-lendings.redirect');
+    Route::post('/book-lendings/{bookLending}/extend-deadline', [BookLendingController::class, 'extendDeadline'])->name('book-lendings.extend-deadline');
 
 // I think this one is no longer used
-Route::put('/book-lendings/{bookLending}/return', [BookLendingController::class, 'returnBook'])->name('book-lendings.return-book');
+    Route::put('/book-lendings/{bookLending}/return', [BookLendingController::class, 'returnBook'])->name('book-lendings.return-book');
 
-Route::get('/qrcode/scan', [BookCopyController::class, 'scanQRCode'])->name('qr-code-scan');
-Route::get('/download-qr-code/{bookCopy}', [BookCopyController::class, 'downloadQRCode'])->name('qrcode.download');
+    Route::get('/qrcode/scan', [BookCopyController::class, 'scanQRCode'])->name('qr-code-scan');
+    Route::get('/download-qr-code/{bookCopy}', [BookCopyController::class, 'downloadQRCode'])->name('qrcode.download');
 
-Route::post('/users/qrcode/read/{id}', [UserController::class, 'readUserQRCode'])->name('users.readQRCode');
-Route::post('/books/qrcode/read/{id}', [BookCopyController::class, 'readBookQRCode'])->name('books.readQRCode');
+    Route::post('/users/qrcode/read/{id}', [UserController::class, 'readUserQRCode'])->name('users.readQRCode');
+    Route::post('/books/qrcode/read/{id}', [BookCopyController::class, 'readBookQRCode'])->name('books.readQRCode');
 
-// route for viewing qrcodes 
-Route::get('/download-qrcodes', [BookCopyController::class, 'download_all'])->name('download-qrcodes'); 
+// route for viewing qrcodes
+    Route::get('/download-qrcodes', [BookCopyController::class, 'download_all'])->name('download-qrcodes');
 // setting options
-Route::get('/download-options', [BookCopyController::class, 'download_options'])->name('download.options');
+    Route::get('/download-options', [BookCopyController::class, 'download_options'])->name('download.options');
 // download link
-Route::post('/pdf', [BookCopyController::class, 'download_pdf'])->name('download.pdf');
+    Route::post('/pdf', [BookCopyController::class, 'download_pdf'])->name('download.pdf');
 
-Route::resource('book-copies', BookCopyController::class);
-Route::resource('/book-lendings', BookLendingController::class);
-// Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('book-copies', BookCopyController::class);
+    Route::resource('/book-lendings', BookLendingController::class);
+});
