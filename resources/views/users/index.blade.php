@@ -4,9 +4,11 @@
 @section('content_header') Users @endsection
 
 @section('additional_styles')
+    <link rel="stylesheet" href="{{ asset('css/general.css') }}">
+
     <style>
         .clickable-row { cursor: pointer; }
-    </style>    
+    </style>
 @endsection
 
 @section('content')
@@ -48,13 +50,17 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button class="delete-btn" type="submit">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
-                        @else 
+                        @else
                         <tr>
                             <td colspan="6">No users have yet been added.</td>
                         </tr>
