@@ -6,6 +6,10 @@
     Authors
 @endsection
 
+@section('additional_styles')
+    <link rel="stylesheet" href="{{ asset('css/general.css') }}">
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-6">
@@ -33,13 +37,17 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
+                                            <form action="{{ route('authors.destroy', ['author' => $author->id]) }}" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button class="delete-btn" type="submit">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
-                            @else 
+                            @else
                             <tr>
                                 <td></td>
                                 <td>No authors have yet been added.</td>
@@ -62,12 +70,12 @@
             <div class="card bg-gradient-info">
                 <div class="card-header border-0 ui-sortable-handle">
                 </div>
-                <div class="card-body" style="display: block;">
+                <div class="card-body d-block">
                     <form action="/authors" method="POST">
                         @csrf
-                        <input type="text" 
-                                class="form-control mb-2 @error('first_name') is-invalid @enderror" 
-                                placeholder="First name" 
+                        <input type="text"
+                                class="form-control mb-2 @error('first_name') is-invalid @enderror"
+                                placeholder="First name"
                                 name="first_name"
                                 value="{{ old('first_name') }}"
                         >
@@ -76,9 +84,9 @@
                                 {{ $message }}
                             </div>
                         @enderror
-                        <input type="text" 
-                                class="form-control mb-2 @error('last_name') is-invalid @enderror" 
-                                placeholder="Last name" 
+                        <input type="text"
+                                class="form-control mb-2 @error('last_name') is-invalid @enderror"
+                                placeholder="Last name"
                                 name="last_name"
                                 value="{{ old('last_name') }}"
                         >
@@ -93,7 +101,7 @@
                     </form>
                 </div>
                 <div class="card-footer">
-        
+
                 </div>
                 <!-- /.card-body -->
               </div>

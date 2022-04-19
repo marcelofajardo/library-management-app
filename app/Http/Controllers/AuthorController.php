@@ -114,6 +114,13 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+        if ($author->books->count()) {
+            alert()->error('Please first delete books associated with this author.')->autoclose(5000);
+        } else {
+            $author->delete();
+            alert()->success('Author successfully deleted.', 'Success')->autoclose(5000);
+        }
+
+        return back();
     }
 }

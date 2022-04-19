@@ -4,16 +4,10 @@
 @section('content_header') Books @endsection
 
 @section('additional_styles')
+<link rel="stylesheet" href="{{ asset('css/general.css') }}">
+
 <style>
     .clickable-row { cursor: pointer; }
-    .delete-btn {
-        border: none;
-        background-color: transparent;
-        color: #007bff;
-    }
-    .delete-btn:hover {
-        color: #0056b3;
-    }
 </style>
 @endsection
 
