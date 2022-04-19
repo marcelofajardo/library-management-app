@@ -3,6 +3,10 @@
 @section('page_title') Publishers @endsection
 @section('content_header') Publishers @endsection
 
+@section('additional_styles')
+    <link rel="stylesheet" href="{{ asset('css/general.css') }}">
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-6">
@@ -30,13 +34,17 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
+                                            <form action="{{ route('publishers.destroy', ['publisher' => $publisher->id]) }}" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="delete-btn">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
-                            @else 
+                            @else
                             <tr>
                                 <td></td>
                                 <td>No publishers have yet been added.</td>
@@ -62,9 +70,9 @@
                 <div class="card-body" style="display: block;">
                     <form action="/publishers" method="POST">
                         @csrf
-                        <input type="text" 
-                                class="form-control mb-2 @error('name') is-invalid @enderror" 
-                                placeholder="Publisher name" 
+                        <input type="text"
+                                class="form-control mb-2 @error('name') is-invalid @enderror"
+                                placeholder="Publisher name"
                                 name="name"
                                 value="{{ old('name') }}"
                         >
@@ -79,11 +87,11 @@
                     </form>
                 </div>
                 <div class="card-footer">
-        
+
                 </div>
                 <!-- /.card-body -->
               </div>
         </div>
-    </div>    
+    </div>
 
 @endsection

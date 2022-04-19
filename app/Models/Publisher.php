@@ -12,4 +12,7 @@ class Publisher extends Model
 
     const PER_PAGE = 10;
 
+    public function books() {
+        return $this->hasMany(Book::class);
+    }
 }

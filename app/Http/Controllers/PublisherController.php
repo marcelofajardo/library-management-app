@@ -110,6 +110,13 @@ class PublisherController extends Controller
      */
     public function destroy(Publisher $publisher)
     {
-        //
+        if ($publisher->books->count()) {
+            alert()->error('Please first delete books associated with this publisher.')->autoclose(5000);
+        } else {
+            $publisher->delete();
+            alert()->success('Publisher successfully deleted.', 'Success')->autoclose(5000);
+        }
+
+        return back();
     }
 }
