@@ -18,36 +18,36 @@
                         @csrf
                         <div class="row justify-content-center mb-3">
                             <div class="col-4">
-                                <input 
-                                    type="text" 
-                                    class="form-control @error('title') is-invalid @enderror" 
-                                    name="title" 
+                                <input
+                                    type="text"
+                                    class="form-control @error('title') is-invalid @enderror"
+                                    name="title"
                                     placeholder="Title"
                                     value="{{ old('title') }}"
                                 >
                                 @error('title')
                                 <div class="invalid-feedback">
-                                    {{ $message }}   
+                                    {{ $message }}
                                 </div>
                                 @enderror
                             </div>
                             <div class="col-4">
-                                <input 
-                                    type="text" 
-                                    class="form-control @error('isbn') is-invalid @enderror" 
-                                    name="isbn" 
+                                <input
+                                    type="text"
+                                    class="form-control @error('isbn') is-invalid @enderror"
+                                    name="isbn"
                                     placeholder="ISBN"
                                     value="{{ old('isbn') }}"
                                 >
                                 @error('isbn')
                                 <div class="invalid-feedback">
-                                    {{ $message }}   
+                                    {{ $message }}
                                 </div>
                                 @enderror
                             </div>
                         </div>
                         <div class="row justify-content-center mb-4">
-                            <div class="col-3">
+                            <div class="col-4">
                                 <select name="author_id" class="form-control @error('author_id') is-invalid @enderror">
                                     <option value="">-- author --</option>
                                     @foreach ($authors as $a)
@@ -56,11 +56,11 @@
                                 </select>
                                 @error('author_id')
                                 <div class="invalid-feedback">
-                                    {{ $message }}   
+                                    {{ $message }}
                                 </div>
                                 @enderror
                             </div>
-                            <div class="col-3">
+                            <div class="col-4">
                                 <select name="publisher_id" class="form-control @error('publisher_id') is-invalid @enderror">
                                     <option value="">-- publisher --</option>
                                     @foreach ($publishers as $p)
@@ -69,35 +69,7 @@
                                 </select>
                                 @error('publisher_id')
                                 <div class="invalid-feedback">
-                                    {{ $message }}   
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="col-2">
-                                <input 
-                                    type="text" 
-                                    class="form-control @error('quantity') is-invalid @enderror" 
-                                    name="quantity" 
-                                    placeholder="Quantity"
-                                    value="{{ old('quantity') }}"
-                                >
-                                @error('available_quantity')
-                                <div class="invalid-feedback">
-                                    {{ $message }}   
-                                </div>
-                                <div class="col-2">
-                                    <input 
-                                        type="text" 
-                                        class="form-control @error('available_quantity') is-invalid @enderror" 
-                                        name="available_quantity" 
-                                        placeholder="Quantity"
-                                        value="{{ old('available_quantity') }}"
-                                    >
-                                    @error('available_quantity')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}   
-                                    </div>
-                                    @enderror
+                                    {{ $message }}
                                 </div>
                                 @enderror
                             </div>
@@ -113,5 +85,5 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 @endsection

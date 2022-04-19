@@ -5,7 +5,7 @@
     <img src="{{ asset('/img/book.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
     <span class="brand-text font-weight-light">UniLib</span>
   </a>
-  
+
   <!-- Sidebar -->
   <div class="sidebar">
     <!-- Sidebar Menu -->
@@ -14,7 +14,7 @@
         <li class="nav-header">ACTIONS</li>
         <li class="nav-item">
           <a href="{{ route('book-lendings-create-step1') }}" class="nav-link {{ active_link(request(), 'book-lendings/create*') }}">
-            <i class="fas fa-arrow-right mx-2"></i>            
+            <i class="fas fa-arrow-right mx-2"></i>
             <p>
               Issue a book
             </p>
@@ -22,7 +22,7 @@
         </li>
         <li class="nav-item">
           <a href="{{ route('book-lendings.return') }}" class="nav-link {{ active_link(request(), 'book-lendings/return') }}">
-            <i class="fas fa-arrow-left mx-2"></i>            
+            <i class="fas fa-arrow-left mx-2"></i>
             <p>
               Return a book
             </p>
@@ -54,22 +54,6 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('subjects.index') }}" class="nav-link {{ active_link(request(), 'subjects*') }}">
-            <i class="nav-icon fa fa-border-all"></i>
-            <p>
-              Subjects
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="{{ route('genres.index') }}" class="nav-link {{ active_link(request(), 'genres*') }}">
-            <i class="nav-icon fas fa-rocket"></i>
-            <p>
-              Genres
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
           <a href="{{ route('users.index') }}" class="nav-link {{ active_link(request(), 'users*') }}">
             <i class="nav-icon fas fa-users"></i>
             <p>
@@ -79,7 +63,7 @@
         </li>
         <li class="nav-item">
           <a href="{{ route('qr-code-scan') }}" class="nav-link {{ active_link(request(), 'qrcode*') }}">
-            <i class="nav-icon fas fa-qrcode"></i>              
+            <i class="nav-icon fas fa-qrcode"></i>
             <p>
               Scan a QR
             </p>

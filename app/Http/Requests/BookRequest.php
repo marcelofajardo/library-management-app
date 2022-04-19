@@ -30,7 +30,6 @@ class BookRequest extends FormRequest
             'isbn' => 'required|unique:books,isbn|digits_between:10,13',
             'author_id' => 'required|exists:authors,id',
             'publisher_id' => 'required|exists:publishers,id',
-            'quantity' => 'required|integer'
         ];
     }
 
@@ -39,7 +38,6 @@ class BookRequest extends FormRequest
             'title' => 'required|max:255',
             'author_id' => 'required|exists:authors,id',
             'publisher_id' => 'required|exists:publishers,id',
-            'quantity' => 'required|integer',
             'isbn' => [
                 'required',
                 'digits_between:10,13',
