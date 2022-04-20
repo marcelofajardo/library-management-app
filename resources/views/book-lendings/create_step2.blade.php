@@ -23,24 +23,24 @@
     </div>
     <div class="col-9 px-0">
         @include('book-lendings.card')
-        
+
         @include('book-lendings.buttons')
     </div>
-</div>  
+</div>
 
 @section('additional_scripts')
 
 <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", event => {
-            
-            let token =  $('meta[name="csrf-token"]').attr('content'); 
+
+            let token =  $('meta[name="csrf-token"]').attr('content');
             const submit_btn = $('#custom_btn');
             const cancel_btn = $('#back_btn');
             let err_div = $('#errors_div');
             let table_body = $('#table_body_id');
             let buttons_div = $('#buttons_div');
 
-            let pattern = /^http:\/\/127.0.0.1:8000\/books\/qrcode\/read\/\d*$/;
+            let pattern = /^http:\/\/127\.0\.0\.1:8000\/books\/qrcode\/read\/\d*$/;
 
             let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
             Instascan.Camera.getCameras().then(cameras => {
@@ -101,7 +101,7 @@
                                 `
                             );
 
-                            // add a success message 
+                            // add a success message
                             err_div.addClass('alert-success');
                             err_div.append(`<li>Book added successfully!</li>`);
 

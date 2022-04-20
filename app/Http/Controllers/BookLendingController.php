@@ -166,7 +166,7 @@ class BookLendingController extends Controller
         $count = BookLending::where('user_id', $user->id)->whereNull('return_date')->count();
 
         if ($count >= User::MAX_BOOKS) {
-            abort(422, 'Error. The user has already checked out a maximum number of books.');
+            abort(422, 'Error. The user has already checked out the maximum number of books.');
         } else {
             $request->session()->put('user_id', $user->id);
         }

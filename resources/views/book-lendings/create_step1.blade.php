@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col-5 justify-content-start">
         <video id="preview"></video>
-    </div> 
+    </div>
     <div class="col-2">
         <p>Full name:</p>
         <p>Email:</p>
@@ -37,19 +37,19 @@
             <a href="{{ route('home') }}" type="button" class="btn btn-secondary float-right mr-1 mt-2">Cancel</a>
         </form>
         </div>
-</div>  
+</div>
 
 @section('additional_scripts')
 
 <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", event => {
-            
+
             let user_id = $('#user_id');
-            let token =  $('meta[name="csrf-token"]').attr('content'); 
+            let token =  $('meta[name="csrf-token"]').attr('content');
             let err_div = $('#errors_div');
 
-            let pattern = /^http:\/\/127.0.0.1:8000\/users\/qrcode\/read\/\d*$/;
-            
+            let pattern = /^http:\/\/127\.0\.0\.1:8000\/users\/qrcode\/read\/\d*$/;
+
             let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
             Instascan.Camera.getCameras().then(cameras => {
                 scanner.camera = cameras[cameras.length - 1];
@@ -72,7 +72,7 @@
                         'success' : (res) => {
                             if (res['name'] && res['email'] && res['role']) {
                                 err_div.addClass('alert-success');
-                                err_div.append(`<li>User card scanned successfully!</li>`);   
+                                err_div.append(`<li>User card scanned successfully!</li>`);
                                 $('#name_id').val(res['name']);
                                 $('#email_id').val(res['email']);
                                 $('#role_id').val(res['role']['name']);

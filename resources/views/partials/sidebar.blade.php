@@ -28,6 +28,14 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="{{ route('download.options') }}" class="nav-link {{ active_link(request(), 'download*') }}">
+              <i class="nav-icon fas fa-print"></i>
+              <p>
+                  Print QR codes
+              </p>
+          </a>
+        </li>
         <li class="nav-header mt-2">DATA</li>
         <li class="nav-item">
           <a href="{{ route('books.index') }}" class="nav-link {{ active_link(request(), 'books*') }}">
@@ -66,14 +74,6 @@
             <i class="nav-icon fas fa-qrcode"></i>
             <p>
               Scan a QR
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="{{ route('download.options') }}" class="nav-link {{ active_link(request(), 'download*') }}">
-            <i class="nav-icon fas fa-print"></i>
-            <p>
-              Print QR codes
             </p>
           </a>
         </li>

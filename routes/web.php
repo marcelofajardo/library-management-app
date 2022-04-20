@@ -53,11 +53,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/books/qrcode/read/{id}', [BookCopyController::class, 'readBookQRCode'])->name('books.readQRCode');
 
 // route for viewing qrcodes
-    Route::get('/download-qrcodes', [BookCopyController::class, 'download_all'])->name('download-qrcodes');
+    Route::get('/download-qrcodes', [BookCopyController::class, 'downloadAll'])->name('download-qrcodes');
 // setting options
-    Route::get('/download-options', [BookCopyController::class, 'download_options'])->name('download.options');
+    Route::get('/download-options', [BookCopyController::class, 'downloadOptions'])->name('download.options');
 // download link
-    Route::post('/pdf', [BookCopyController::class, 'download_pdf'])->name('download.pdf');
+    Route::post('/pdf', [BookCopyController::class, 'downloadPdf'])->name('download.pdf');
 
     Route::resource('book-copies', BookCopyController::class);
     Route::resource('/book-lendings', BookLendingController::class);

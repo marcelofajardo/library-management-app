@@ -139,14 +139,14 @@ class BookCopyController extends Controller
         return redirect()->back();
     }
 
-    public function download_all()
+    public function downloadAll()
     {
         $books = BookCopy::with(['book', 'condition'])->get();
         $chunked =  array_chunk($books->toArray(), 2, true);
         return view('download.download_all', compact(['chunked']));
     }
 
-    public function download_pdf(Request $request)
+    public function downloadPdf(Request $request)
     {
         // get the book ids selected or all if none selected
         if ($request['book_ids'] == null) {
@@ -167,7 +167,7 @@ class BookCopyController extends Controller
         return $pdf->download('qrcodes.pdf');
     }
 
-    public function download_options()
+    public function downloadOptions()
     {
         $books = Book::all();
         return view('download.download-options', compact('books'));

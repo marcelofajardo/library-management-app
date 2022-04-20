@@ -23,12 +23,12 @@
                                 <tr><td>Publication: {{ date('d.m.Y.', strtotime($data['publication_date'])) }}</td></tr>
                             </table>
                         </td>
-                        <td><img src="data:image/svg;base64, {{ base64_encode(QrCode::format('svg')->size(100)->generate('Make me into an QrCode!')) }} "></td>
+                        <td><img src="data:image/svg;base64, {{ base64_encode(QrCode::format('svg')->size(120)->generate('http://127.0.0.1:8000/books/qrcode/read/'.$data['id'])) }} "></td>
                     @endforeach
                 </tr>
             @endforeach
         </tbody>
-    </table>   
+    </table>
 </body>
 </html>
- 
+
