@@ -19,8 +19,7 @@
                             <th>ISBN</th>
                             <th>User</th>
                             <th>Deadline</th>
-                            <th>Return date</th>
-                            <th></th>
+                            <th>Returned</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,24 +32,20 @@
                                 <td>{{ $bookLending->user->name }}</td>
                                 <td>{{ $bookLending->formatted_deadline }}</td>
                                 <td>
-                                    @if ($bookLending->return_date != '' || $bookLending->return_date != NULL) 
-                                        {{ $bookLending->formatted_return_date }}
-                                    @else /
+                                    @if ($bookLending->return_date)
+                                        <i class="fas fa-check-circle"></i>
+                                    @else
+                                        <i class="fas fa-times-circle"></i>
                                     @endif
-                                </td>
-                                <td>
-                                    <a href="">
-                                        <i class="fas fa-archive"></i>                                    
-                                    </a>
                                 </td>
                             </tr>
                         @empty
                         <tr>
                             <td colspan="9">No books have yet been lent.</td>
                         </tr>
-                            
+
                         @endforelse
-                        
+
                     </tbody>
                 </table>
             </div>
