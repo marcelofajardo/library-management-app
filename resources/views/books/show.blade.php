@@ -81,7 +81,7 @@
                                     <th>Condition</th>
                                     <th>Edition</th>
                                     <th>Status</th>
-                                    <th colspan="3"></th>
+                                    <th colspan="2"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,16 +94,7 @@
                                     <td>{{ $copy->condition->name }}</td>
                                     <td>{{ $copy->edition }}</td>
                                     <td>
-                                        <span class="badge {{ $copy->book_status->icon}}"">{{ $copy->book_status->status }}</span>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="{{ route('qrcode.download', ['bookCopy' => $copy]) }}"
-                                            class="btn btn-sm btn-info call_qr_modal"
-                                        >
-                                            QR Code
-                                            <i class="fas fa-download ml-1"></i>
-                                        </a>
+                                        <span class="badge {{ $copy->book_status->icon}}">{{ $copy->book_status->status }}</span>
                                     </td>
                                     <td>
                                         <button
