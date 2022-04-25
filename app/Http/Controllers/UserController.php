@@ -129,14 +129,17 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if ($user->lendings()->count()) {
-            alert()->error('Please first delete lendings associated with this user.')->autoclose(5000);
-        } else {
-            $user->delete();
-            alert()->success('User successfully deleted.', 'Success')->autoclose(5000);
+        // cannot delete oneself
+        if ($user->id != auth()->id()) {
+            if ($user->lendings()->count()) {
+                alert()->error('Please first delete lendings associated with this user.')->autoclose(5000);
+            } else {
+                $user->delete();
+                alert()->success('User successfully deleted.', 'Success')->autoclose(5000);
+            }
         }
 
-        return back();
+        return redirect()->route('users.index');
     }
 
     public function readUserQRCode($id)

@@ -50,13 +50,15 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button class="delete-btn" type="submit">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
+                                        @if(auth()->id() != $user->id)
+                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button class="delete-btn" type="submit">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
