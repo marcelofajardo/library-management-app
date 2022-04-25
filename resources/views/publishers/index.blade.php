@@ -8,8 +8,8 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="col-6">
+    <div class="row flex-column-reverse flex-md-row">
+        <div class="col-12 col-md-6">
             <div class="card">
                 <!-- /.card-header -->
                 <div class="card-body p-0">
@@ -63,7 +63,7 @@
                 <!-- /.card-body -->
             </div>
         </div>
-        <div class="col-5 ml-3">
+        <div class="col-12 col-md-5 ml-md-3">
             <div class="card bg-gradient-info">
                 <div class="card-header border-0 ui-sortable-handle">
                 </div>

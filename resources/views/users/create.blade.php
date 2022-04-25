@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12 col-md-8">
         <div class="card">
             <div class="card-header border-0">
                 <h3 class="card-title">
@@ -16,53 +16,53 @@
                 <form action="/users" method="POST">
                     @csrf
                     <div class="row justify-content-center mb-3">
-                        <div class="col-4">
-                            <input 
-                                type="text" 
-                                class="form-control @error('first_name') is-invalid @enderror" 
-                                name="first_name" 
+                        <div class="col-5 col-md-4">
+                            <input
+                                type="text"
+                                class="form-control @error('first_name') is-invalid @enderror"
+                                name="first_name"
                                 placeholder="First name"
                                 value="{{ old('first_name') }}"
                             >
                             @error('first_name')
                             <div class="invalid-feedback">
-                                {{ $message }}   
+                                {{ $message }}
                             </div>
                             @enderror
                         </div>
-                        <div class="col-4">
-                            <input 
-                                type="text" 
-                                class="form-control @error('last_name') is-invalid @enderror" 
-                                name="last_name" 
+                        <div class="col-5 col-md-4">
+                            <input
+                                type="text"
+                                class="form-control @error('last_name') is-invalid @enderror"
+                                name="last_name"
                                 placeholder="Last name"
                                 value="{{ old('last_name') }}"
                             >
                             @error('last_name')
                             <div class="invalid-feedback">
-                                {{ $message }}   
+                                {{ $message }}
                             </div>
                             @enderror
                         </div>
                     </div>
                     <div class="row justify-content-center mb-3">
                         <div class="col-8">
-                            <input 
-                                type="text" 
-                                name="email" 
-                                placeholder="Email" 
+                            <input
+                                type="text"
+                                name="email"
+                                placeholder="Email"
                                 class="form-control @error('email') is-invalid @enderror"
                                 value="{{ old('email') }}"
                             >
                             @error('email')
                             <div class="invalid-feedback">
-                                {{ $message }}   
+                                {{ $message }}
                             </div>
                             @enderror
                         </div>
                     </div>
                     <div class="row justify-content-center mb-4">
-                        <div class="col-4">
+                        <div class="col-5 col-md-4">
                             <select name="role_id" class="form-control @error('role_id') is-invalid @enderror">
                                 <option value="">-- select a role --</option>
                                 @foreach ($roles as $role)
@@ -71,21 +71,21 @@
                             </select>
                             @error('role_id')
                             <div class="invalid-feedback">
-                                {{ $message }}   
+                                {{ $message }}
                             </div>
                             @enderror
                         </div>
-                        <div class="col-4">
-                            <input 
-                                type="text" 
-                                name="password" 
-                                placeholder="Password" 
+                        <div class="col-5 col-md-4">
+                            <input
+                                type="text"
+                                name="password"
+                                placeholder="Password"
                                 class="form-control @error('password') is-invalid @enderror"
                                 value="{{ old('password') }}"
                             >
                             @error('password')
                             <div class="invalid-feedback">
-                                {{ $message }}   
+                                {{ $message }}
                             </div>
                             @enderror
                         </div>

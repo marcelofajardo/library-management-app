@@ -1,15 +1,8 @@
 <div class="col-12">
+    <h3>Lendings</h3>
     <div class="card">
-        <div class="card">
-            <div class="card-header">
-                {{-- <input type="text">
-                <input type="text">
-                <input type="text">
-                <input type="text">
-                <input type="text"> --}}
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body p-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -43,18 +36,16 @@
                         <tr>
                             <td colspan="9">No books have yet been lent.</td>
                         </tr>
-
                         @endforelse
-
                     </tbody>
                 </table>
             </div>
-            <div class="card-footer clearfix">
-                <div class="float-right">
-                    {{ $bookLendings->links() }}
-                </div>
-            </div>
-            <!-- /.card-body -->
         </div>
+        <div class="card-footer clearfix">
+            <div class="float-right">
+                {{ $bookLendings->links() }}
+            </div>
+        </div>
+        <!-- /.card-body -->
     </div>
 </div>

@@ -19,8 +19,8 @@ class UserRequest extends FormRequest
 
     public function createRules() {
         return [
-            'first_name' => 'required|regex:/^[a-zA-Z\s]*$/|max:125',
-            'last_name' => 'required|regex:/^[a-zA-Z\s]*$/|max:125',
+            'first_name' => 'required|max:125',
+            'last_name' => 'required|max:125',
             'role_id' => 'required|exists:roles,id',
             'email' => 'required|email|unique:users,email|max:255',
             'password' => 'required|min:8|max:255'
@@ -29,7 +29,7 @@ class UserRequest extends FormRequest
 
     public function updateRules() {
         return [
-            'name' => 'required|regex:/^[a-zA-Z\s]*$/|max:255',
+            'name' => 'required|max:255',
             'role_id' => 'required|exists:roles,id',
             'email' => 'required|email|max:255'
         ];
@@ -47,9 +47,6 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.regex' => 'The name must contain only letters.',
-            'first_name.regex' => 'The name must contain only letters.',
-            'last_name.regex' => 'The name must contain only letters.',
             'role_id.required' => 'You must choose a role.'
         ];
     }
@@ -60,10 +57,10 @@ class UserRequest extends FormRequest
         if ($this->method() == 'POST') {
             $name = join(" ", [$validated['first_name'], $validated['last_name']]);
             $validated['name'] = $name;
-    
+
             unset($validated['first_name']);
             unset($validated['last_name']);
-            
+
             $validated['password'] = Hash::make($validated['password']);
         }
 

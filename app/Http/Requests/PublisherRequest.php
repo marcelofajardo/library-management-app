@@ -18,13 +18,13 @@ class PublisherRequest extends FormRequest
 
     public function createRules() {
         return [
-            'name' => 'required|unique:publishers,name|regex:/^[a-zA-Z\s]*$/'
+            'name' => 'required|unique:publishers,name'
         ];
     }
 
     public function updateRules() {
         return [
-            'name' => 'required|regex:/^[a-zA-Z\s]*$/'
+            'name' => 'required'
         ];
     }
 
@@ -39,12 +39,5 @@ class PublisherRequest extends FormRequest
 
     public function validated() {
         return $this->validate($this->rules());
-    }
-
-    public function messages()
-    {
-        return [
-            'name.regex' => 'The name must contain only letters.'
-        ];
     }
 }

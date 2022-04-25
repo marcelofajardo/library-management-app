@@ -121,6 +121,6 @@ class AuthorController extends Controller
             alert()->success('Author successfully deleted.', 'Success')->autoclose(5000);
         }
 
-        return back();
+        return redirect()->route('authors.index');
     }
 }

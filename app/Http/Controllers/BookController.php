@@ -129,7 +129,7 @@ class BookController extends Controller
             alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
         }
 
-        return redirect()->back();
+        return redirect()->route('books.index');
     }
 
     /**

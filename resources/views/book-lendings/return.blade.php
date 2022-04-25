@@ -6,9 +6,16 @@
 @section('additional_styles')
 <style>
     #preview {
-        width: 300px;
-        height: 300px;
+        width: 250px;
+        height: 250px;
         outline: 1px solid red;
+    }
+
+    @media(min-width: 600px) {
+        #preview {
+            width: 300px;
+            height: 300px;
+        }
     }
 </style>
 @endsection
@@ -22,16 +29,16 @@
     <div class="col-12 d-flex justify-content-center">
         <video id="preview"></video>
     </div>
-</div>  
+</div>
 
 @section('additional_scripts')
 
 <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", event => {
-            
-            let token =  $('meta[name="csrf-token"]').attr('content'); 
+
+            let token =  $('meta[name="csrf-token"]').attr('content');
             let pattern = /^http:\/\/127.0.0.1:8000\/books\/qrcode\/read\/\d*$/;
-            
+
             let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
             Instascan.Camera.getCameras().then(cameras => {
                 scanner.camera = cameras[cameras.length - 1];
@@ -43,7 +50,7 @@
 
                 if (!pattern.test(content)) {
                     alert('error');
-                    // send swal 
+                    // send swal
                 } else {
                     let splitString = content.split('/');
                     let borrowed_book_id = splitString[splitString.length - 1];
@@ -60,7 +67,7 @@
                             console.log('error', res);
                         }
                     });
-                }    
+                }
             });
 
             $('#submit_form_btn').on('click', function(e) {

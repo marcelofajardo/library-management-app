@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-8">
+        <div class="col-12 col-md-8">
             <div class="card">
                 <div class="card-header border-0">
                     <h3 class="card-title">
@@ -17,7 +17,7 @@
                     <form action="/books" method="POST">
                         @csrf
                         <div class="row justify-content-center mb-3">
-                            <div class="col-4">
+                            <div class="col-5 col-md-4">
                                 <input
                                     type="text"
                                     class="form-control @error('title') is-invalid @enderror"
@@ -31,7 +31,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="col-4">
+                            <div class="col-5 col-md-4">
                                 <input
                                     type="text"
                                     class="form-control @error('isbn') is-invalid @enderror"
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div class="row justify-content-center mb-4">
-                            <div class="col-4">
+                            <div class="col-5 col-md-4">
                                 <select name="author_id" class="form-control @error('author_id') is-invalid @enderror">
                                     <option value="">-- author --</option>
                                     @foreach ($authors as $a)
@@ -60,7 +60,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="col-4">
+                            <div class="col-5 col-md-4">
                                 <select name="publisher_id" class="form-control @error('publisher_id') is-invalid @enderror">
                                     <option value="">-- publisher --</option>
                                     @foreach ($publishers as $p)

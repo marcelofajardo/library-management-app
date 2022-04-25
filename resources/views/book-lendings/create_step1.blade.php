@@ -7,25 +7,32 @@
 @section('additional_styles')
 <style>
     #preview {
-        width: 300px;
-        height: 300px;
+        width: 250px;
+        height: 250px;
         outline: 1px solid red;
+    }
+
+    @media(min-width: 600px) {
+        #preview {
+            width: 300px;
+            height: 300px;
+        }
     }
 </style>
 @endsection
 <div class="row">
-    <div class="offset-5 col-6 alert" id="errors_div"></div>
+    <div class="col-12 offset-md-5 col-md-6 alert mb-1" id="errors_div"></div>
 </div>
 <div class="row">
-    <div class="col-5 justify-content-start">
+    <div class="col-12 col-md-5 d-flex flex-row justify-content-center justify-content-md-start mb-4 mb-md-0">
         <video id="preview"></video>
     </div>
-    <div class="col-2">
+    <div class="col-4 col-md-2">
         <p>Full name:</p>
         <p>Email:</p>
         <p>Role:</p>
     </div>
-    <div class="col-4">
+    <div class="col-8 col-md-4 mb-5">
         <form method="POST" action="{{ route('book-lendings-post-step1') }}">
             <input type="hidden" name="user_id" id="user_id" value="{{ $user != '' ? $user->id : '' }}">
             <input type="text" disabled class="form-control mb-1" id="name_id" value="{{ $user != '' ? $user->name : '' }}">

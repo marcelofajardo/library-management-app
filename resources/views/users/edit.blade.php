@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12 col-md-8">
         <div class="card">
             <div class="card-header border-0">
                 <h3 class="card-title">
@@ -17,21 +17,21 @@
                     @csrf
                     @method('PUT')
                     <div class="row justify-content-center mb-3">
-                        <div class="col-4">
-                            <input 
-                                type="text" 
-                                class="form-control @error('name') is-invalid @enderror" 
-                                name="name" 
+                        <div class="col-8 col-md-5 mb-3 mb-md-0">
+                            <input
+                                type="text"
+                                class="form-control @error('name') is-invalid @enderror"
+                                name="name"
                                 placeholder="First name"
                                 value="{{ $user->name }}"
                             >
                             @error('name')
                             <div class="invalid-feedback">
-                                {{ $message }}   
+                                {{ $message }}
                             </div>
                             @enderror
                         </div>
-                        <div class="col-4">
+                        <div class="col-8 col-md-5">
                             <select name="role_id" class="form-control @error('role_id') is-invalid @enderror">
                                 <option value="">-- select a role --</option>
                                 @foreach ($roles as $role)
@@ -40,23 +40,23 @@
                             </select>
                             @error('role_id')
                             <div class="invalid-feedback">
-                                {{ $message }}   
+                                {{ $message }}
                             </div>
                             @enderror
                         </div>
                     </div>
                     <div class="row justify-content-center mb-3">
-                        <div class="col-8">
-                            <input 
-                                type="text" 
-                                name="email" 
-                                placeholder="Email" 
+                        <div class="col-8 col-md-6">
+                            <input
+                                type="text"
+                                name="email"
+                                placeholder="Email"
                                 class="form-control @error('email') is-invalid @enderror"
                                 value="{{ $user->email }}"
                             >
                             @error('email')
                             <div class="invalid-feedback">
-                                {{ $message }}   
+                                {{ $message }}
                             </div>
                             @enderror
                         </div>

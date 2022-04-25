@@ -8,8 +8,8 @@
     <style>
         form.custom {
             display: inline-block;
-        }    
-    </style>    
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -17,35 +17,41 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header ui-sortable-handle">
-                    <h3 class="card-title">
-                        <i class="fas fa-info-circle mr-2"></i>
-                        Lending
-                    </h3>
-                    <div class="card-tools">
-                        <form 
-                            action="{{ route('book-lendings.extend-deadline', ['bookLending' => $bookLending]) }}" 
-                            method="POST" 
-                            id="extend_deadline_form" 
-                            class="custom"
-                        >
-                            @csrf
-                            <button 
-                                class="btn btn-info" 
-                                type="submit" 
-                                id="extend_deadline_btn"
-                                @if ($bookLending->return_date != null) disabled @endif
-                            >
-                                Extend deadline
-                            </button>
-                        </form>
-                        <button 
-                            data-toggle="modal"
-                            data-target="#return_modal"
-                            class="btn btn-primary"
-                            @if ($bookLending->return_date != null) disabled @endif
-                        >
-                            Return book
-                        </button>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <h3 class="card-title mb-3 mb-md-0">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Lending
+                            </h3>
+                        </div>
+                        <div class="col-12 col-md-6 d-flex flex-row justify-content-center justify-content-md-end">
+                            <div class="card-tools">
+                                <form
+                                    action="{{ route('book-lendings.extend-deadline', ['bookLending' => $bookLending]) }}"
+                                    method="POST"
+                                    id="extend_deadline_form"
+                                    class="custom"
+                                >
+                                    @csrf
+                                    <button
+                                        class="btn btn-info"
+                                        type="submit"
+                                        id="extend_deadline_btn"
+                                        @if ($bookLending->return_date != null) disabled @endif
+                                    >
+                                        Extend deadline
+                                    </button>
+                                </form>
+                                <button
+                                    data-toggle="modal"
+                                    data-target="#return_modal"
+                                    class="btn btn-primary"
+                                    @if ($bookLending->return_date != null) disabled @endif
+                                >
+                                    Return book
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -75,7 +81,7 @@
                                     <td>
                                         @if ($bookLending->condition_fine)
                                             {{ $bookLending->condition_fine }} €
-                                        @else 0€ 
+                                        @else 0€
                                         @endif
                                     </td>
                                 </tr>
@@ -84,7 +90,7 @@
                                     <td>
                                         @if ($bookLending->damage_desc)
                                             {{ $bookLending->damage_desc }}
-                                        @else N/A 
+                                        @else N/A
                                         @endif
                                     </td>
                                 </tr>
@@ -93,7 +99,7 @@
                                     <td>
                                         @if ($bookLending->return_date)
                                             {{ $bookLending->formatted_return_date }}
-                                        @else /    
+                                        @else /
                                         @endif
                                     </td>
                                 </tr>

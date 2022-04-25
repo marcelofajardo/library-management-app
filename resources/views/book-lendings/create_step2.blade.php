@@ -9,19 +9,26 @@
         height: 250px;
         outline: 1px solid red;
     }
+
+    @media(min-width: 600px) {
+        #preview {
+            width: 300px;
+            height: 300px;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 
 <div class="row">
-    <div class="offset-3 col-9 alert" id="errors_div"></div>
+    <div class="col-12 offset-md-3 col-md-9 alert mb-1" id="errors_div"></div>
 </div>
 <div class="row">
-    <div class="col-3 justify-content-start">
+    <div class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-start mb-2 mb-md-0">
         <video id="preview"></video>
     </div>
-    <div class="col-9 px-0">
+    <div class="col-12 col-md-7 px-0">
         @include('book-lendings.card')
 
         @include('book-lendings.buttons')

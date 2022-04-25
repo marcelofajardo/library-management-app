@@ -9,15 +9,15 @@
 @section('content')
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-12 col-md-6">
         <form action="/authors/{{ $author->id }}" method="POST">
             @method('PUT')
             @csrf
             <div class="input-group">
-                <input 
-                    type="text" 
-                    value="{{ $author->name }}" 
-                    class="form-control @error('name') is-invalid @enderror" 
+                <input
+                    type="text"
+                    value="{{ $author->name }}"
+                    class="form-control @error('name') is-invalid @enderror"
                     name="name"
                 >
                 @error('name')

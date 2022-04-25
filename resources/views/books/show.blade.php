@@ -71,7 +71,7 @@
                 <!-- /.card-header -->
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>ID</th>

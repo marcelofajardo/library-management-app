@@ -117,6 +117,6 @@ class PublisherController extends Controller
             alert()->success('Publisher successfully deleted.', 'Success')->autoclose(5000);
         }
 
-        return back();
+        return redirect()->route('publishers.index');
     }
 }
