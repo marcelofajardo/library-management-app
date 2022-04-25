@@ -89,7 +89,6 @@ $('#submit_copies').on('click', function(e) {
 });
 
 $('.call_edit_modal').on('click', function(e) {
-    console.log($(this))
     let id = $(this).data('id');
     $('#edit_modal_submit').data('id', id);
     let price = $(this).data('price');
