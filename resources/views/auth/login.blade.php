@@ -3,6 +3,17 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        <div class="col-md-8 mt-3">
+            <div class="alert alert-warning">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <p>
+                        If you do not want to create an account, please feel free to test the app using the following credentials:
+                    </p>
+                    <h5>Email: admin@mail.com</h5>
+                    <h5>Password: 12345678</h5>
+                </div>
+            </div>
+        </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
