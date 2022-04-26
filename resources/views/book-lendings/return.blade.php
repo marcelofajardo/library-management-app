@@ -53,11 +53,13 @@
                     let splitString = content.split('/');
                     let borrowed_book_id = splitString[splitString.length - 1];
 
+                    console.log('sending to backend')
                     $.ajax({
                         'url' : '/book-lendings/redirect/',
                         'type' : 'POST',
                         'data' : {_token:token, borrowed_book_id:borrowed_book_id},
                         'success' : (res) => {
+                            console.log(res);
                             window.location.href = '/book-lendings/' + res['lending_id'];
                         },
                         'error' : (res) => {
