@@ -24,13 +24,13 @@ class SubjectRequest extends FormRequest
 
     public function createRules() {
         return [
-            'name' => 'required|unique:subjects,name|regex:/^[a-zA-Z\s]*$/'
+            'name' => 'required|unique:subjects,name|alpha'
         ];
     }
 
     public function updateRules() {
         return [
-            'name' => 'required|regex:/^[a-zA-Z\s]*$/'
+            'name' => 'required|alpha|unique:subjects'
         ];
     }
 

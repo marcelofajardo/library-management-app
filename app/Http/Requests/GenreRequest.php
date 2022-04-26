@@ -18,13 +18,13 @@ class GenreRequest extends FormRequest
 
     public function createRules() {
         return [
-            'name' => 'required|unique:genres,name|regex:/^[-a-zA-Z\s]*$/'
+            'name' => 'required|unique:genres,name|alpha'
         ];
     }
 
     public function updateRules() {
         return [
-            'name' => 'required|regex:/^[-a-zA-Z\s]*$/'
+            'name' => 'required|alpha|unique:genres'
         ];
     }
 
@@ -44,7 +44,7 @@ class GenreRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.regex' => 'The name must contain only letters and/or a dash.'
+            'name.alpha' => 'The name must contain only letters and/or a dash.'
         ];
     }
 }

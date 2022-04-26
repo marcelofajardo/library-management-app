@@ -45,6 +45,21 @@ class BookCopyRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'date_of_purchase.required' => 'You must enter the date of purchase.',
+            'date_of_purchase.date' => 'The date of purchase must be a date.',
+            'date_of_purchase.before_or_equal' => 'The date of purchase must be a date before or equal to today.',
+            'publication_date.required' => 'You must enter the publication date.',
+            'publication_date.date' => 'The publication date must be a date.',
+            'publication_date.before' => 'The publication date must be a date before the date of purchase.',
+            'condition_id.required' => 'You must select the book condition.',
+            'date_of_purchase.required' => 'You must enter the date of purchase.',
+            'book_status_id.required' => 'You must select the book status.',
+        ];
+    }
+
 
     public function rules()
     {

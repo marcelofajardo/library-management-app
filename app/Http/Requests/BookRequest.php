@@ -33,6 +33,14 @@ class BookRequest extends FormRequest
         ];
     }
 
+    public function attributes()
+    {
+        return [
+            'author_id' => 'author',
+            'publisher_id' => 'publisher',
+        ];
+    }
+
     public function updateRules() {
         return [
             'title' => 'required|max:255',

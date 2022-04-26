@@ -18,23 +18,23 @@ class AuthorRequest extends FormRequest
 
     public function createRules() {
         return [
-            'first_name' => 'required|regex:/^[a-zA-Z\s]*$/',
-            'last_name' => 'required|regex:/^[a-zA-Z\s]*$/'
-        ];  
+            'first_name' => 'required|alpha',
+            'last_name' => 'required|alpha'
+        ];
     }
 
     public function updateRules() {
         return [
-            'name' => 'required|regex:/^[a-zA-Z\s]*$/'
-        ];  
+            'name' => 'required|alpha'
+        ];
     }
 
     public function messages()
     {
         return [
-            'name.regex' => 'The name must contain only letters.',
-            'first_name.regex' => 'The first name must contain only letters.',
-            'last_name.regex' => 'The last name must contain only letters.'
+            'name.alpha' => 'The name must contain only letters.',
+            'first_name.alpha' => 'The first name must contain only letters.',
+            'last_name.alpha' => 'The last name must contain only letters.'
         ];
     }
 

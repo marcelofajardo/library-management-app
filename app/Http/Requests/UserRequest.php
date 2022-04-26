@@ -47,7 +47,9 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'role_id.required' => 'You must choose a role.'
+            'role_id.required' => 'You must choose a role.',
+            'first_name.required' => 'You must enter the first name.',
+            'last_name.required' => 'You must enter the last name.',
         ];
     }
 

@@ -24,7 +24,7 @@ class PublisherRequest extends FormRequest
 
     public function updateRules() {
         return [
-            'name' => 'required'
+            'name' => 'required|unique:publishers,name'
         ];
     }
 
