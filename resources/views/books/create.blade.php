@@ -17,7 +17,7 @@
                     <form action="/books" method="POST">
                         @csrf
                         <div class="row justify-content-center mb-3">
-                            <div class="col-5 col-md-4">
+                            <div class="col-10 col-md-4 mb-3 mb-md-0">
                                 <input
                                     type="text"
                                     class="form-control @error('title') is-invalid @enderror"
@@ -31,7 +31,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="col-5 col-md-4">
+                            <div class="col-10 col-md-4">
                                 <input
                                     type="text"
                                     class="form-control @error('isbn') is-invalid @enderror"
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div class="row justify-content-center mb-4">
-                            <div class="col-5 col-md-4">
+                            <div class="col-10 col-md-4 mb-3 mb-md-0">
                                 <select name="author_id" class="form-control @error('author_id') is-invalid @enderror">
                                     <option value="">-- author --</option>
                                     @foreach ($authors as $a)
@@ -60,7 +60,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="col-5 col-md-4">
+                            <div class="col-10 col-md-4">
                                 <select name="publisher_id" class="form-control @error('publisher_id') is-invalid @enderror">
                                     <option value="">-- publisher --</option>
                                     @foreach ($publishers as $p)

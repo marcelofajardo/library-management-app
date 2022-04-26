@@ -53,18 +53,15 @@
                     let splitString = content.split('/');
                     let borrowed_book_id = splitString[splitString.length - 1];
 
-                    console.log('sending to backend')
                     $.ajax({
                         'url' : '{{ route('book-lendings.redirect') }}',
                         'type' : 'POST',
                         'data' : {_token:token, borrowed_book_id:borrowed_book_id},
                         'success' : (res) => {
-                            console.log(res);
                             window.location.href = '/book-lendings/' + res['lending_id'];
                         },
                         'error' : (res) => {
                             alert(res['responseJSON']['message']);
-                            console.log('error', res);
                         }
                     });
                 }
@@ -81,10 +78,8 @@
                     'data' : {_token:token, 'book_copy_id':book_copy_val, 'user_id':user_val},
                     'success' : (res) => {
                         // location.reload();
-                        console.log(res);
                     },
                     'error' : (res) => {
-                        console.log(res);
                     }
                 });
             })
