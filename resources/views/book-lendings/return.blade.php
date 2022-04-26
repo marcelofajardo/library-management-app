@@ -55,7 +55,7 @@
 
                     console.log('sending to backend')
                     $.ajax({
-                        'url' : '/book-lendings/redirect/',
+                        'url' : '{{ route('book-lendings.redirect') }}',
                         'type' : 'POST',
                         'data' : {_token:token, borrowed_book_id:borrowed_book_id},
                         'success' : (res) => {
