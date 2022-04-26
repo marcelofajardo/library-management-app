@@ -55,7 +55,7 @@
             let token =  $('meta[name="csrf-token"]').attr('content');
             let err_div = $('#errors_div');
 
-            let pattern = /^http:\/\/127\.0\.0\.1:8000\/users\/qrcode\/read\/\d*$/;
+            let pattern = /^https:\/\/unilib-app.herokuapp.com\/users\/qrcode\/read\/\d*$/;
 
             let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
             Instascan.Camera.getCameras().then(cameras => {
