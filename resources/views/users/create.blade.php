@@ -15,8 +15,8 @@
             <div class="card-body p-0  mt-4">
                 <form action="/users" method="POST">
                     @csrf
-                    <div class="row justify-content-center mb-3">
-                        <div class="col-5 col-md-4">
+                    <div class="row justify-content-center mb-md-3">
+                        <div class="col-10 col-md-4 mb-3 mb-md-0">
                             <input
                                 type="text"
                                 class="form-control @error('first_name') is-invalid @enderror"
@@ -30,7 +30,7 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="col-5 col-md-4">
+                        <div class="col-10 col-md-4 mb-3 mb-md-0">
                             <input
                                 type="text"
                                 class="form-control @error('last_name') is-invalid @enderror"
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-center mb-3">
-                        <div class="col-8">
+                        <div class="col-10 col-md-8">
                             <input
                                 type="text"
                                 name="email"
@@ -61,8 +61,8 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="row justify-content-center mb-4">
-                        <div class="col-5 col-md-4">
+                    <div class="row justify-content-center mb-md-4">
+                        <div class="col-10 col-md-4 mb-3 mb-md-0">
                             <select name="role_id" class="form-control @error('role_id') is-invalid @enderror">
                                 <option value="">-- select a role --</option>
                                 @foreach ($roles as $role)
@@ -75,7 +75,7 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="col-5 col-md-4">
+                        <div class="col-10 col-md-4">
                             <input
                                 type="text"
                                 name="password"
