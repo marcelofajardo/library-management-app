@@ -46,7 +46,7 @@ class SendReminderEmailCommand extends Command
         $select_lendings = BookLending::whereRaw("DATEDIFF(deadline, '$to_date') = 0")
                                         ->get();
 
-        $grouped = $select_lendings->groupBy('user.id'); 
+        $grouped = $select_lendings->groupBy('user.id');
 
         $lendings = [];
 
@@ -56,8 +56,8 @@ class SendReminderEmailCommand extends Command
             foreach ($borrowed_books as $book) {
                 $lendings[] = $book;
             }
-            Notification::send($user, new DeadlineReminderNotification($lendings, $no_of_days_before_deadline, $user_name));
-            
+//            Notification::send($user, new DeadlineReminderNotification($lendings, $no_of_days_before_deadline, $user_name));
+
             $lendings = [];
         }
         $this->info('Success');

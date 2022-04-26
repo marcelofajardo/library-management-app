@@ -118,6 +118,7 @@
                             }
                         },
                         'error' : (res) => {
+                            err_div.empty();
                             let err = res['responseJSON']['message'];
                             err_div.addClass('alert-danger');
                             err_div.append(`<li>${err}</li>`);

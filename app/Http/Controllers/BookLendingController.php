@@ -243,7 +243,7 @@ class BookLendingController extends Controller
         alert()->success('The transaction has been saved.', 'Success')->autoclose(5000);
 
         $user = User::find($user_id);
-        Notification::send($user, new CheckedOutBookNotification($lendings));
+//        Notification::send($user, new CheckedOutBookNotification($lendings));
 
         $request->session()->forget(['book_copy_ids', 'user_id']);
     }
