@@ -146,7 +146,7 @@ class BookCopyController extends Controller
         return view('download.download_all', compact(['chunked']));
     }
 
-    public function downloadPdf(Request $request)
+    public function booksPdf(Request $request)
     {
         // get the book ids selected or all if none selected
         if ($request['book_ids'] == null) {
@@ -163,14 +163,34 @@ class BookCopyController extends Controller
         // to better display on a page
         $chunked =  array_chunk($books->toArray(), 2, true);
 
-        $pdf = PDF::loadView('download.download_all', compact(['chunked']))->setOptions(['defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadView('download.download_books', compact(['chunked']))->setOptions(['defaultFont' => 'sans-serif']);
+        return $pdf->download('qrcodes.pdf');
+    }
+
+    public function usersPdf(Request $request)
+    {
+        // get the user ids selected or all if none selected
+        if ($request['user_ids'] == null) {
+            $user_ids = User::pluck('id');
+        } else {
+            $user_ids = $request['user_ids'];
+        }
+
+        $users = User::whereIn('id', $user_ids)->get();
+
+        // to better display on a page
+        $chunked =  array_chunk($users->toArray(), 2, true);
+
+        $pdf = PDF::loadView('download.download_users', compact(['chunked']))->setOptions(['defaultFont' => 'sans-serif']);
         return $pdf->download('qrcodes.pdf');
     }
 
     public function downloadOptions()
     {
         $books = Book::all();
-        return view('download.download-options', compact('books'));
+        $users = User::all();
+
+        return view('download.download_options', compact('books', 'users'));
     }
 
     public function destroy(BookCopy $bookCopy)

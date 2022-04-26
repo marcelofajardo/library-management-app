@@ -57,7 +57,8 @@ Route::middleware(['auth'])->group(function () {
 // setting options
     Route::get('/download-options', [BookCopyController::class, 'downloadOptions'])->name('download.options');
 // download link
-    Route::post('/pdf', [BookCopyController::class, 'downloadPdf'])->name('download.pdf');
+    Route::post('/books/pdf', [BookCopyController::class, 'booksPdf'])->name('books.pdf');
+    Route::post('/users/pdf', [BookCopyController::class, 'usersPdf'])->name('users.pdf');
 
     Route::resource('book-copies', BookCopyController::class);
     Route::resource('/book-lendings', BookLendingController::class);
