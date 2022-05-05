@@ -54,11 +54,11 @@
                     let borrowed_book_id = splitString[splitString.length - 1];
 
                     $.ajax({
-                        'url' : '{{ route('book-lendings.redirect') }}',
+                        'url' : '{{ route('book-loans.redirect') }}',
                         'type' : 'POST',
                         'data' : {_token:token, borrowed_book_id:borrowed_book_id},
                         'success' : (res) => {
-                            window.location.href = '/book-lendings/' + res['lending_id'];
+                            window.location.href = '/book-loans/' + res['lending_id'];
                         },
                         'error' : (res) => {
                             alert(res['responseJSON']['message']);
@@ -73,7 +73,7 @@
                 let user_val = user_id.val();
 
                 $.ajax({
-                    'url' : '/book-lendings',
+                    'url' : '/book-loans',
                     'type' : 'POST',
                     'data' : {_token:token, 'book_copy_id':book_copy_val, 'user_id':user_val},
                     'success' : (res) => {

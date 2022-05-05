@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="row justify-content-center">
-    @include('book-lendings.index')
+    @include('book-loans.index')
 </div>
 
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BookLending;
+use App\Models\BookLoan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $bookLendings = BookLending::when($request->filled('search'), function ($query) use ($request) {
+        $bookLoans = BookLoan::when($request->filled('search'), function ($query) use ($request) {
                                           $query->whereHas('book_copy', function ($query) use ($request) {
                                               $query->whereHas('book', function ($query) use ($request) {
                                                   $query->where('title', 'LIKE', "%{$request->search}%")
@@ -32,9 +32,9 @@ class HomeController extends Controller
                                           });
                                         })
                                         ->with(['book_copy', 'book_copy.book', 'user'])
-                                        ->paginate(BookLending::PER_PAGE)->withQueryString();
+                                        ->paginate(BookLoan::PER_PAGE)->withQueryString();
 
-        $recordsOnPage = ($bookLendings::resolveCurrentPage() - 1) * BookLending::PER_PAGE;
-        return view('home', compact(['bookLendings', 'recordsOnPage']));
+        $recordsOnPage = ($bookLoans::resolveCurrentPage() - 1) * BookLoan::PER_PAGE;
+        return view('home', compact(['bookLoans', 'recordsOnPage']));
     }
 }

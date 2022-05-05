@@ -8,7 +8,7 @@ use App\Models\BookCondition;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
-use App\Models\BookLending;
+use App\Models\BookLoan;
 use App\Models\User;
 use App\Models\Book;
 use Illuminate\Support\Facades\DB;
@@ -109,7 +109,7 @@ class BookCopyController extends Controller
             abort(403, 'The book is not available for checking out.');
         }
 
-        $count_of_borrowed_books = BookLending::where('user_id', session('user_id'))->whereNull('return_date')->count();
+        $count_of_borrowed_books = BookLoan::where('user_id', session('user_id'))->whereNull('return_date')->count();
 
         if ($count_of_borrowed_books == User::MAX_BOOKS) {
             abort(403, 'The user has reached the maximum number of books that can be checked out at the same time.');
@@ -195,8 +195,8 @@ class BookCopyController extends Controller
 
     public function destroy(BookCopy $bookCopy)
     {
-        if ($bookCopy->lendings->count()) {
-            alert()->error('Please first delete lendings still connected to this book.')->autoclose(5000);
+        if ($bookCopy->loans->count()) {
+            alert()->error('Please first delete loans still connected to this book.')->autoclose(5000);
         } else {
             $bookCopy->delete();
             alert()->success('A book copy was successfully deleted.', 'Success')->autoclose(5000);

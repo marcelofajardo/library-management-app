@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
-@section('page_title') Book Lending Details @endsection
+@section('page_title') Book Loan Details @endsection
 
-@section('content_header') Book Lending Details @endsection
+@section('content_header') Book Loan Details @endsection
 
 @section('additional_styles')
     <style>
@@ -21,13 +21,13 @@
                         <div class="col-12 col-md-6">
                             <h3 class="card-title mb-3 mb-md-0">
                                 <i class="fas fa-info-circle mr-2"></i>
-                                Lending
+                                Loan
                             </h3>
                         </div>
                         <div class="col-12 col-md-6 d-flex flex-row justify-content-center justify-content-md-end">
                             <div class="card-tools">
                                 <form
-                                    action="{{ route('book-lendings.extend-deadline', ['bookLending' => $bookLending]) }}"
+                                    action="{{ route('book-loans.extend-deadline', ['bookLoan' => $bookLoan]) }}"
                                     method="POST"
                                     id="extend_deadline_form"
                                     class="custom"
@@ -37,7 +37,7 @@
                                         class="btn btn-info"
                                         type="submit"
                                         id="extend_deadline_btn"
-                                        @if ($bookLending->return_date != null) disabled @endif
+                                        @if ($bookLoan->return_date != null) disabled @endif
                                     >
                                         Extend deadline
                                     </button>
@@ -46,7 +46,7 @@
                                     data-toggle="modal"
                                     data-target="#return_modal"
                                     class="btn btn-primary"
-                                    @if ($bookLending->return_date != null) disabled @endif
+                                    @if ($bookLoan->return_date != null) disabled @endif
                                 >
                                     Return book
                                 </button>
@@ -69,18 +69,18 @@
                         <table class="table table-sm table-borderless">
                             <tr>
                                 <td>Deadline:</td>
-                                <td>{{ $bookLending->formatted_deadline }}</td>
+                                <td>{{ $bookLoan->formatted_deadline }}</td>
                             </tr>
                             <tr>
                                 <td>Lateness fine:</td>
                                 <td>{{ $lateness_fine }} €</td>
                             </tr>
-                            @if ($bookLending->returned)
+                            @if ($bookLoan->returned)
                                 <tr>
                                     <td>Damage fine:</td>
                                     <td>
-                                        @if ($bookLending->condition_fine)
-                                            {{ $bookLending->condition_fine }} €
+                                        @if ($bookLoan->condition_fine)
+                                            {{ $bookLoan->condition_fine }} €
                                         @else 0€
                                         @endif
                                     </td>
@@ -88,8 +88,8 @@
                                 <tr>
                                     <td>Damage description:</td>
                                     <td>
-                                        @if ($bookLending->damage_desc)
-                                            {{ $bookLending->damage_desc }}
+                                        @if ($bookLoan->damage_desc)
+                                            {{ $bookLoan->damage_desc }}
                                         @else N/A
                                         @endif
                                     </td>
@@ -97,8 +97,8 @@
                                 <tr>
                                     <td>Return date:</td>
                                     <td>
-                                        @if ($bookLending->return_date)
-                                            {{ $bookLending->formatted_return_date }}
+                                        @if ($bookLoan->return_date)
+                                            {{ $bookLoan->formatted_return_date }}
                                         @else /
                                         @endif
                                     </td>
@@ -128,40 +128,40 @@
                             <tr>
                                 <td>Title:</td>
                                 <td>
-                                    <a href="{{ route('books.show', ['book' => $bookLending->book_copy->book->id]) }}">
-                                        {{ $bookLending->book_copy->book->title }}
+                                    <a href="{{ route('books.show', ['book' => $bookLoan->book_copy->book->id]) }}">
+                                        {{ $bookLoan->book_copy->book->title }}
                                     </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>ISBN:</td>
-                                <td>{{ $bookLending->book_copy->book->isbn }}</td>
+                                <td>{{ $bookLoan->book_copy->book->isbn }}</td>
                             </tr>
                             <tr>
                                 <td>Author:</td>
-                                <td>{{ $bookLending->book_copy->book->author->name }}</td>
+                                <td>{{ $bookLoan->book_copy->book->author->name }}</td>
                             </tr>
                             <tr>
                                 <td>Publisher:</td>
-                                <td>{{ $bookLending->book_copy->book->publisher->name }}</td>
+                                <td>{{ $bookLoan->book_copy->book->publisher->name }}</td>
                             </tr>
                             <tr>
                                 <td>Edition:</td>
                                 <td>
-                                    {{ $bookLending->book_copy->edition }}
+                                    {{ $bookLoan->book_copy->edition }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>Publication date:</td>
-                                <td>{{ $bookLending->book_copy->formatted_publication_date }}</td>
+                                <td>{{ $bookLoan->book_copy->formatted_publication_date }}</td>
                             </tr>
                             <tr>
                                 <td>Price:</td>
-                                <td>{{ $bookLending->book_copy->price }} €</td>
+                                <td>{{ $bookLoan->book_copy->price }} €</td>
                             </tr>
                             <tr>
                                 <td>Condition:</td>
-                                <td>{{ $bookLending->book_copy->condition->name }}</td>
+                                <td>{{ $bookLoan->book_copy->condition->name }}</td>
                             </tr>
                         </table>
                     </div>
@@ -186,18 +186,18 @@
                             <tr>
                                 <td>Name:</td>
                                 <td>
-                                    <a href="{{ route('users.show', ['user' => $bookLending->user->id]) }}">
-                                        {{ $bookLending->user->name }}
+                                    <a href="{{ route('users.show', ['user' => $bookLoan->user->id]) }}">
+                                        {{ $bookLoan->user->name }}
                                     </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Email:</td>
-                                <td>{{ $bookLending->user->email }}</td>
+                                <td>{{ $bookLoan->user->email }}</td>
                             </tr>
                             <tr>
                                 <td>Role:</td>
-                                <td>{{ $bookLending->user->role->name }}</td>
+                                <td>{{ $bookLoan->user->role->name }}</td>
                             </tr>
                         </table>
                     </div>
@@ -208,9 +208,9 @@
             </div>
         </div>
     </div>
-    @include('book-lendings/modals.return')
+    @include('book-loans/modals.return')
 @endsection
 
 @section('additional_scripts')
-    <script src="{{ asset('js/book-lendings/show.js') }}"></script>
+    <script src="{{ asset('js/book-loans/show.js') }}"></script>
 @endsection

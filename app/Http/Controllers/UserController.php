@@ -131,8 +131,8 @@ class UserController extends Controller
     {
         // cannot delete oneself
         if ($user->id != auth()->id()) {
-            if ($user->lendings()->count()) {
-                alert()->error('Please first delete lendings associated with this user.')->autoclose(5000);
+            if ($user->loans()->count()) {
+                alert()->error('Please first delete loans associated with this user.')->autoclose(5000);
             } else {
                 $user->delete();
                 alert()->success('User successfully deleted.', 'Success')->autoclose(5000);

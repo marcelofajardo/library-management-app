@@ -32,16 +32,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($bookLendings as $key => $bookLending)
-                            <tr class="clickable-row" data-href="{{ route('book-lendings.show', ['book_lending' => $bookLending->id]) }}">
+                        @forelse ($bookLoans as $key => $bookLoan)
+                            <tr class="clickable-row" data-href="{{ route('book-lendings.show', ['book_lending' => $bookLoan->id]) }}">
                                 <td>{{ $recordsOnPage + $key + 1 }}</td>
-                                <td>{{ $bookLending->book_copy->book->title }}</td>
-                                <td>{{ $bookLending->book_copy->book->author->name }}</td>
-                                <td>{{ $bookLending->book_copy->book->isbn }}</td>
-                                <td>{{ $bookLending->user->name }}</td>
-                                <td>{{ $bookLending->formatted_deadline }}</td>
+                                <td>{{ $bookLoan->book_copy->book->title }}</td>
+                                <td>{{ $bookLoan->book_copy->book->author->name }}</td>
+                                <td>{{ $bookLoan->book_copy->book->isbn }}</td>
+                                <td>{{ $bookLoan->user->name }}</td>
+                                <td>{{ $bookLoan->formatted_deadline }}</td>
                                 <td>
-                                    @if ($bookLending->return_date)
+                                    @if ($bookLoan->return_date)
                                         <i class="fas fa-check-circle"></i>
                                     @else
                                         <i class="fas fa-times-circle"></i>
@@ -50,7 +50,7 @@
                             </tr>
                         @empty
                         <tr>
-                            <td colspan="9">No books have yet been lent.</td>
+                            <td colspan="9">No loans with the requested parameters have been found.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -59,7 +59,7 @@
         </div>
         <div class="card-footer clearfix">
             <div class="float-right">
-                {{ $bookLendings->links() }}
+                {{ $bookLoans->links() }}
             </div>
         </div>
         <!-- /.card-body -->

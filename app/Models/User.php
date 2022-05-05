@@ -52,7 +52,7 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function lendings() {
-        return $this->hasMany(BookLending::class);
+    public function loans() {
+        return $this->hasMany(BookLoan::class);
     }
 }

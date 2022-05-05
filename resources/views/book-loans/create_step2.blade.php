@@ -29,9 +29,9 @@
         <video id="preview"></video>
     </div>
     <div class="col-12 col-md-7 px-0">
-        @include('book-lendings.card')
+        @include('book-loans.card')
 
-        @include('book-lendings.buttons')
+        @include('book-loans.buttons')
     </div>
 </div>
 
@@ -131,7 +131,7 @@
                 e.preventDefault();
 
                 $.ajax({
-                    'url' : '/book-lendings/post-two',
+                    'url' : '/book-loans/post-two',
                     'type' : 'POST',
                     'data' : {_token:token},
                     'success' : (res) => {

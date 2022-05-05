@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\BookLending;
+use App\Models\BookLoan;
 use App\Notifications\DeadlineReminderNotification;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
@@ -43,7 +43,7 @@ class SendReminderEmailCommand extends Command
     {
         $no_of_days_before_deadline = 5;
         $to_date = now()->addDays($no_of_days_before_deadline);
-        $select_lendings = BookLending::whereRaw("DATEDIFF(deadline, '$to_date') = 0")
+        $select_lendings = BookLoan::whereRaw("DATEDIFF(deadline, '$to_date') = 0")
                                         ->get();
 
         $grouped = $select_lendings->groupBy('user.id');

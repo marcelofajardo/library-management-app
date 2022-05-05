@@ -7,7 +7,7 @@ use App\Http\Controllers\GenreController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookCopyController;
-use App\Http\Controllers\BookLendingController;
+use App\Http\Controllers\BookLoanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
@@ -35,16 +35,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/book-copies/remove/{id}', [BookCopyController::class, 'removeBookCopy'])->name('book-copies.remove');
 
-    Route::get('/book-lendings/create-one', [BookLendingController::class, 'create_one'])->name('book-lendings-create-step1');
-    Route::get('/book-lendings/create-two', [BookLendingController::class, 'create_two'])->name('book-lendings-create-step2');
-    Route::post('/book-lendings/post-one', [BookLendingController::class, 'post_one'])->name('book-lendings-post-step1');
-    Route::post('/book-lendings/post-two', [BookLendingController::class, 'post_two'])->name('book-lendings-post-step2');
-    Route::get('/book-lendings/return', [BookLendingController::class, 'return'])->name('book-lendings.return');
-    Route::post('/book-lendings/redirect', [BookLendingController::class, 'redirect'])->name('book-lendings.redirect');
-    Route::post('/book-lendings/{bookLending}/extend-deadline', [BookLendingController::class, 'extendDeadline'])->name('book-lendings.extend-deadline');
+    Route::get('/book-loans/create-one', [BookLoanController::class, 'create_one'])->name('book-loans-create-step1');
+    Route::get('/book-loans/create-two', [BookLoanController::class, 'create_two'])->name('book-loans-create-step2');
+    Route::post('/book-loans/post-one', [BookLoanController::class, 'post_one'])->name('book-loans-post-step1');
+    Route::post('/book-loans/post-two', [BookLoanController::class, 'post_two'])->name('book-loans-post-step2');
+    Route::get('/book-loans/return', [BookLoanController::class, 'return'])->name('book-loans.return');
+    Route::post('/book-loans/redirect', [BookLoanController::class, 'redirect'])->name('book-loans.redirect');
+    Route::post('/book-loans/{bookLoan}/extend-deadline', [BookLoanController::class, 'extendDeadline'])->name('book-loans.extend-deadline');
 
 // I think this one is no longer used
-    Route::put('/book-lendings/{bookLending}/return', [BookLendingController::class, 'returnBook'])->name('book-lendings.return-book');
+    Route::put('/book-loans/{bookLoan}/return', [BookLoanController::class, 'returnBook'])->name('book-loans.return-book');
 
     Route::get('/qrcode/scan', [BookCopyController::class, 'scanQRCode'])->name('qr-code-scan');
     Route::get('/download-qr-code/{bookCopy}', [BookCopyController::class, 'downloadQRCode'])->name('qrcode.download');
@@ -61,5 +61,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/users/pdf', [BookCopyController::class, 'usersPdf'])->name('users.pdf');
 
     Route::resource('book-copies', BookCopyController::class);
-    Route::resource('/book-lendings', BookLendingController::class);
+    Route::resource('/book-lendings', BookLoanController::class);
 });

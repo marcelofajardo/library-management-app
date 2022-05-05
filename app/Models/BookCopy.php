@@ -26,8 +26,8 @@ class BookCopy extends Model
         return $this->belongsTo(BookCondition::class);
     }
 
-    public function lendings() {
-        return $this->hasMany(BookLending::class);
+    public function loans() {
+        return $this->hasMany(BookLoan::class);
     }
 
     public function book() {

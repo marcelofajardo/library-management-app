@@ -13,7 +13,7 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-header">ACTIONS</li>
         <li class="nav-item">
-          <a href="{{ route('book-lendings-create-step1') }}" class="nav-link {{ active_link(request(), 'book-lendings/create*') }}">
+          <a href="{{ route('book-loans-create-step1') }}" class="nav-link {{ active_link(request(), 'book-loans/create*') }}">
             <i class="fas fa-arrow-right mx-2"></i>
             <p>
               Issue a book
@@ -21,7 +21,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('book-lendings.return') }}" class="nav-link {{ active_link(request(), 'book-lendings/return') }}">
+          <a href="{{ route('book-loans.return') }}" class="nav-link {{ active_link(request(), 'book-loans/return') }}">
             <i class="fas fa-arrow-left mx-2"></i>
             <p>
               Return a book

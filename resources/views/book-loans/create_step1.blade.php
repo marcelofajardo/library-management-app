@@ -10,7 +10,7 @@
         width: 250px;
         height: 250px;
         outline: 1px solid red;
-    }
+    }F
 
     @media(min-width: 600px) {
         #preview {
@@ -33,7 +33,7 @@
         <p>Role:</p>
     </div>
     <div class="col-8 col-md-4 mb-5">
-        <form method="POST" action="{{ route('book-lendings-post-step1') }}">
+        <form method="POST" action="{{ route('book-loans-post-step1') }}">
             <input type="hidden" name="user_id" id="user_id" value="{{ $user != '' ? $user->id : '' }}">
             <input type="text" disabled class="form-control mb-1" id="name_id" value="{{ $user != '' ? $user->name : '' }}">
             <input type="text" disabled class="form-control mb-1" id="email_id" value="{{ $user != '' ? $user->email : '' }}">
@@ -106,11 +106,11 @@
                 // console.log(user_val);
 
                 $.ajax({
-                    'url' : '/book-lendings/post-one',
+                    'url' : '/book-loans/post-one',
                     'type' : 'POST',
                     'data' : {_token:token, 'user_id':user_val},
                     'success' : (res) => {
-                        window.location.href = '/book-lendings/create-two';
+                        window.location.href = '/book-loans/create-two';
                     },
                     'error' : (res) => {
                         let err = res['responseJSON']['message'];

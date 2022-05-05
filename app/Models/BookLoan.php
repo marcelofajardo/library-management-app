@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BookLending extends Model
+class BookLoan extends Model
 {
     use HasFactory;
 
@@ -21,27 +21,27 @@ class BookLending extends Model
 
     protected $guarded = [];
 
-    public function book_copy() 
+    public function book_copy()
     {
         return $this->belongsTo(BookCopy::class);
     }
 
-    public function user() 
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function getFormattedDeadlineAttribute() 
+    public function getFormattedDeadlineAttribute()
     {
         return $this->deadline->format('d. m. Y.');
     }
 
-    public function getFormattedReturnDateAttribute() 
+    public function getFormattedReturnDateAttribute()
     {
         return $this->return_date->format('d. m. Y.');
     }
 
-    public function getReturnedAttribute() 
+    public function getReturnedAttribute()
     {
         return $this->return_date != null;
     }

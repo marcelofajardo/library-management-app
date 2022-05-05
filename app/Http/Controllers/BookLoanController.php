@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\BookLendingRequest;
-use App\Models\BookLending;
+use App\Http\Requests\BookLoanRequest;
+use App\Models\BookLoan;
 use App\Models\BookCondition;
 use App\Models\BookCopy;
 use App\Models\BookStatus;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 
-class BookLendingController extends Controller
+class BookLoanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,70 +36,42 @@ class BookLendingController extends Controller
     {
         $breadcrumbs = [
             ['name' => 'Home', 'link' => '/'],
-            ['name' => 'Issue books', 'link' => '/book-lendings/create'],
+            ['name' => 'Issue books', 'link' => '/book-loans/create'],
         ];
 
-        return view('book-lendings.create', compact(['breadcrumbs']));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(BookLendingRequest $request)
-    {
-        // return $request;
-
-        // $count = BookLending::where('book_copy_id', $request->book_copy_id)->where('return_date', NULL)->count();
-
-        // if ($count != 0) {
-        //     abort(403, 'Error. The book has already been checked out.');
-        // } else {
-        //     $new_lending = BookLending::create($request->validated());
-        //     $updated_book_status = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);
-        //     $user = User::find(1)->first();
-        //     $not = Notification::send($user, new CheckedOutBookNotification());
-
-        //     // if ($new_lending && $updated_book_status) {
-        //         //     return 'successfully issued';
-        //         // } else {
-        //             //     return 'error with processing';
-        //             // }
-        // }
+        return view('book-loans.create', compact(['breadcrumbs']));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\BookLending  $bookLending
+     * @param  \App\Models\BookLoan  $bookLoan
      * @return \Illuminate\Http\Response
      */
-    public function show(BookLending $bookLending)
+    public function show(BookLoan $bookLoan)
     {
         $breadcrumbs = [
             ['name' => 'Home', 'link' => '/'],
-            ['name' => 'Book lending details', 'link' => '/book-lendings/'.$bookLending->id],
+            ['name' => 'Book lending details', 'link' => '/book-loans/'.$bookLoan->id],
         ];
 
-        $deadline = $bookLending->deadline->startOfDay();
+        $deadline = $bookLoan->deadline->startOfDay();
         $today = now()->startOfDay();
 
         $lateness_fine = 0;
 
         if ($deadline->isPast()) {
-            $lateness_fine = $today->diffInDays($deadline) * BookLending::DAILY_LATENESS_FINE;
+            $lateness_fine = $today->diffInDays($deadline) * BookLoan::DAILY_LATENESS_FINE;
         }
 
-        $lendingPeriod = BookLending::LENDING_TIME;
+        $lendingPeriod = BookLoan::LENDING_TIME;
         $bookConditions = BookCondition::all();
 
-        return view('book-lendings.show', compact(['bookLending', 'breadcrumbs', 'lendingPeriod', 'bookConditions', 'lateness_fine']));
+        return view('book-loans.show', compact(['bookLoan', 'breadcrumbs', 'lendingPeriod', 'bookConditions', 'lateness_fine']));
     }
 
     // used for returning a book
-    public function update(BookLendingRequest $request, BookLending $bookLending)
+    public function update(BookLoanRequest $request, BookLoan $bookLoan)
     {
         $validated = $request->validated();
 
@@ -111,14 +83,14 @@ class BookLendingController extends Controller
 
         DB::beginTransaction();
 
-        $update1 = $bookLending->update([
+        $update1 = $bookLoan->update([
             'return_date'  => now(),
             'damage_desc' => $validated['damage_desc'],
             'condition_fine' => $validated['condition_fine'],
             'lateness_fine' => $lateness_fine
         ]);
 
-        $update2 = $bookLending->book_copy->update([
+        $update2 = $bookLoan->book_copy->update([
             'condition_id' => $validated['condition_id'],
             'book_status_id' => BookStatus::AVAILABLE
         ]);
@@ -136,10 +108,10 @@ class BookLendingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\BookLending  $bookLending
+     * @param  \App\Models\BookLoan  $bookLoan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BookLending $bookLending)
+    public function destroy(BookLoan $bookLoan)
     {
         //
     }
@@ -152,7 +124,7 @@ class BookLendingController extends Controller
             $user = User::find(session('user_id'));
         }
 
-        return view('book-lendings.create_step1', compact('user'));
+        return view('book-loans.create_step1', compact('user'));
     }
 
     public function post_one(Request $request)
@@ -163,7 +135,7 @@ class BookLendingController extends Controller
             abort(422, 'Please scan a valid user card.');
         }
 
-        $count = BookLending::where('user_id', $user->id)->whereNull('return_date')->count();
+        $count = BookLoan::where('user_id', $user->id)->whereNull('return_date')->count();
 
         if ($count >= User::MAX_BOOKS) {
             abort(422, 'Error. The user has already checked out the maximum number of books.');
@@ -180,13 +152,12 @@ class BookLendingController extends Controller
             $book_copies = BookCopy::with('book')->whereIn('id', session('book_copy_ids'))->get();
         }
 
-        return view('book-lendings.create_step2', compact('book_copies'));
+        return view('book-loans.create_step2', compact('book_copies'));
     }
 
     public function post_two(Request $request)
     {
-
-        $lendings = [];
+        $loans = [];
 
         if ($request->session()->has('user_id')) {
             $user_id = session('user_id');
@@ -202,7 +173,7 @@ class BookLendingController extends Controller
             //should add an alert
         }
 
-        $count_of_borrowed_books = BookLending::where('user_id', session('user_id'))->whereNull('return_date')->count();
+        $count_of_borrowed_books = BookLoan::where('user_id', session('user_id'))->whereNull('return_date')->count();
 
         if ($count_of_borrowed_books + count($book_copy_ids) > User::MAX_BOOKS) {
             abort(403, 'No more than '.User::MAX_BOOKS.' books can be checked out at the same time. The user has already borrowed '.$count_of_borrowed_books.'.');
@@ -212,27 +183,27 @@ class BookLendingController extends Controller
 
         foreach($book_copy_ids as $book_copy_id) {
 
-            $count = BookLending::where('book_copy_id', $book_copy_id)->whereNull('return_date')->count();
+            $count = BookLoan::where('book_copy_id', $book_copy_id)->whereNull('return_date')->count();
 
             if ($count > 0) {
                 abort(418, "The selected book has already been checked out.".$book_copy_id);
             }
 
-            $deadline = Carbon::now()->addWeeks(BookLending::LENDING_TIME);
+            $deadline = Carbon::now()->addWeeks(BookLoan::LENDING_TIME);
 
-            $new_lending = BookLending::create([
+            $newLoan = BookLoan::create([
                 'book_copy_id' => $book_copy_id,
                 'user_id' => $user_id,
                 'deadline' => $deadline
             ]);
 
-            $lending_info = BookLending::where('id', '=', $new_lending->id)->with(['book_copy.book', 'user', 'book_copy'])->first();
+            $loanInfo = BookLoan::where('id', '=', $newLoan->id)->with(['book_copy.book', 'user', 'book_copy'])->first();
 
-            $lendings[] = $lending_info;
+            $loans[] = $loanInfo;
 
-            $update = $new_lending->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);
+            $update = $newLoan->book_copy->update(['book_status_id' => BookStatus::CHECKED_OUT]);
 
-            if (!$new_lending || !$update) {
+            if (!$newLoan || !$update) {
                 DB::rollBack();
                 alert()->error('An error has occurred. Try again later.', 'Error')->autoclose(5000);
                 return redirect()->back();
@@ -243,14 +214,14 @@ class BookLendingController extends Controller
         alert()->success('The transaction has been saved.', 'Success')->autoclose(5000);
 
         $user = User::find($user_id);
-//        Notification::send($user, new CheckedOutBookNotification($lendings));
+//        Notification::send($user, new CheckedOutBookNotification($loans));
 
         $request->session()->forget(['book_copy_ids', 'user_id']);
     }
 
     public function return()
     {
-        return view('book-lendings.return');
+        return view('book-loans.return');
     }
 
     public function redirect(Request $request)
@@ -258,33 +229,33 @@ class BookLendingController extends Controller
         $book_copy = BookCopy::find($request->borrowed_book_id);
 
         if ($book_copy) {
-            $lending = BookLending::where('book_copy_id', $book_copy->id)->whereNull('return_date')->first();
-            if (!$lending) {
+            $loan = BookLoan::where('book_copy_id', $book_copy->id)->whereNull('return_date')->first();
+            if (!$loan) {
                 abort(422, 'This book is not currently checked out.');
             } else {
                 $breadcrumbs = [
                     ['name' => 'Home', 'link' => '/'],
-                    ['name' => 'Book lending details', 'link' => '/book-lendings/'.$lending->id],
+                    ['name' => 'Book loan details', 'link' => '/book-loans/'.$loan->id],
                 ];
 
-                $lending_period = BookLending::LENDING_TIME;
-                return ['lending_id' => $lending->id, 'breadcrumbs' => $breadcrumbs, 'lending_period' => $lending_period];
+                $lendingPeriod = BookLoan::LENDING_TIME;
+                return ['loanId' => $loan->id, 'breadcrumbs' => $breadcrumbs, 'lendingPeriod' => $lendingPeriod];
             }
         } else {
             abort(422, 'Please scan a valid QR code');
         }
     }
 
-    public function extendDeadline(BookLending $bookLending)
+    public function extendDeadline(BookLoan $bookLoan)
     {
-        if ($bookLending->return_date == null) {
-            $new_deadline = $bookLending->deadline->addWeeks(BookLending::LENDING_TIME);
+        if ($bookLoan->return_date == null) {
+            $new_deadline = $bookLoan->deadline->addWeeks(BookLoan::LENDING_TIME);
 
             // allow a max of two deadline extensions
-            if ($new_deadline->diffInDays($bookLending->created_at) > 3 * BookLending::LENDING_TIME * 7) {
+            if ($new_deadline->diffInDays($bookLoan->created_at) > 3 * BookLoan::LENDING_TIME * 7) {
                 alert()->error('Return date cannot be extended more than twice.', 'Could not update')->autoclose(5000);
             } else {
-                $update = $bookLending->update(['deadline' => $new_deadline]);
+                $update = $bookLoan->update(['deadline' => $new_deadline]);
                 if (!$update) {
                     alert()->error('There has been an error. Try again later.', 'Error')->autoclose(5000);
                 } else {
@@ -298,10 +269,10 @@ class BookLendingController extends Controller
         return redirect()->back();
     }
 
-    // public function returnBook(BookLending $bookLending)
+    // public function returnBook(BookLoan $bookLoan)
     // {
-    //     if ($bookLending->return_date == null) {
-    //         $bookLending->update(['return_date' => now()]);
+    //     if ($bookLoan->return_date == null) {
+    //         $bookLoan->update(['return_date' => now()]);
     //         alert()->success('The book has been returned.', 'Success');
     //     } else {
     //         alert()->error('The book has already been returned.', 'Could not update')->autoclose(5000);
