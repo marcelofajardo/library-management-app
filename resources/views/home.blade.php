@@ -10,10 +10,4 @@
 <div class="row justify-content-center">
     @include('book-loans.index')
 </div>
-
-
-@endsection
-
-@section('additional_scripts')
-    <script src="{{ asset('/js/book-lendings/index.js') }}"></script>
 @endsection

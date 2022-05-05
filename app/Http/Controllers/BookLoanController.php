@@ -71,7 +71,7 @@ class BookLoanController extends Controller
     }
 
     // used for returning a book
-    public function update(BookLoanRequest $request, BookLoan $bookLoan)
+    public function update(BookLoanRequest $request, BookLoan $book_loan)
     {
         $validated = $request->validated();
 
@@ -83,14 +83,14 @@ class BookLoanController extends Controller
 
         DB::beginTransaction();
 
-        $update1 = $bookLoan->update([
+        $update1 = $book_loan->update([
             'return_date'  => now(),
             'damage_desc' => $validated['damage_desc'],
             'condition_fine' => $validated['condition_fine'],
             'lateness_fine' => $lateness_fine
         ]);
 
-        $update2 = $bookLoan->book_copy->update([
+        $update2 = $book_loan->book_copy->update([
             'condition_id' => $validated['condition_id'],
             'book_status_id' => BookStatus::AVAILABLE
         ]);

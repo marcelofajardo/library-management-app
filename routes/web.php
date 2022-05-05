@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\PublisherController;
-use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\GenreController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookCopyController;
@@ -28,8 +26,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('authors', AuthorController::class);
     Route::resource('publishers', PublisherController::class);
-    Route::resource('subjects', SubjectController::class);
-    Route::resource('genres', GenreController::class);
     Route::resource('users', UserController::class);
     Route::resource('books', BookController::class);
 
@@ -40,9 +36,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/book-loans/post-one', [BookLoanController::class, 'post_one'])->name('book-loans-post-step1');
     Route::post('/book-loans/post-two', [BookLoanController::class, 'post_two'])->name('book-loans-post-step2');
     Route::get('/book-loans/return', [BookLoanController::class, 'return'])->name('book-loans.return');
-    Route::get('/book-loans/{bookLoan}', [BookLoanController::class, 'show'])->name('book-loans.show');
     Route::post('/book-loans/redirect', [BookLoanController::class, 'redirect'])->name('book-loans.redirect');
     Route::post('/book-loans/{bookLoan}/extend-deadline', [BookLoanController::class, 'extendDeadline'])->name('book-loans.extend-deadline');
+    Route::put('/book-loans/{book_loan}', [BookLoanController::class, 'update'])->name('book-loans.update');
+    Route::resource('/book-loans', BookLoanController::class)->except('update');
 
 // I think this one is no longer used
     Route::put('/book-loans/{bookLoan}/return', [BookLoanController::class, 'returnBook'])->name('book-loans.return-book');
@@ -62,5 +59,4 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/users/pdf', [BookCopyController::class, 'usersPdf'])->name('users.pdf');
 
     Route::resource('book-copies', BookCopyController::class);
-    Route::resource('/book-lendings', BookLoanController::class);
 });

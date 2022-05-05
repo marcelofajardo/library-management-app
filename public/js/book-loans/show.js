@@ -33,7 +33,7 @@ jQuery(document).ready(function($) {
 
 function showDiv() {
     let val = $('#damage_slt').val();
-    
+
     if (val == 1){
         displayOrHideDiv(true);
     } else if (val == 2 || val == '') {
@@ -57,7 +57,7 @@ function displayOrHideDiv(flag) {
         $('#condition_slt').addClass('d-none');
         $('#damage_desc_div').addClass('d-none');
         $('#damage_fine_div').addClass('d-none');
-        
+
         if (!lateness_fine.length) {
             fine_checkbox_div.addClass('d-none');
         }
@@ -79,18 +79,16 @@ $('#return_form_btn').on('click', function(e) {
     if (fine_checkbox == false) {
         fine_checkbox = '';
     }
-    
+
     $.ajax({
-        'url' : '/book-lendings/' + id,
+        'url' : '/book-loans/' + id,
         'method' : 'PUT',
         'data' : {_token:token, damage_slt:damage_slt, damage_desc:damage_desc, condition_id:condition_id, condition_fine:condition_fine, lateness_fine:lateness_fine, fine_checkbox:fine_checkbox},
         'success' : (res) => {
             location.reload();
-            // console.log(res);
         },
         'error' : (res) => {
             removeErrors();
-            // console.log(res);
             let errors = res['responseJSON']['errors'];
 
             handleErrorMessages(errors);
@@ -127,5 +125,5 @@ function handleErrorMessages(errors) {
         let element = $('#' + key);
 
         appendErrorMsg(element, error_message);
-    } 
+    }
 }

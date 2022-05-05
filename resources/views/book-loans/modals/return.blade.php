@@ -6,14 +6,14 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <form 
-            action="{{ route('book-lendings.update', ['book_lending' => $bookLending ]) }}" 
-            method="POST" 
-            id="return_book_form" 
+        <form
+            action="{{ route('book-loans.update', ['book_loan' => $bookLoan ]) }}"
+            method="POST"
+            id="return_book_form"
             class="custom"
         >
             <div class="modal-body">
-                <input type="hidden" value="{{ $bookLending->id }}" id="book_lending_id" name="id">
+                <input type="hidden" value="{{ $bookLoan->id }}" id="book_lending_id" name="id">
                 <div class="form-group">
                     <label class="form-check-label">Has the book been damaged?</label>
                     <select class="form-control" onchange="showDiv()" id="damage_slt" name="damage_slt">
@@ -30,7 +30,7 @@
                     <label class="form-check-label">Update book condition:</label>
                     <select class="form-control" name="condition_id" id="condition_id">
                         @foreach ($bookConditions as $condition)
-                            <option value="{{ $condition->id }}" {{ $condition->id == $bookLending->book_copy->condition_id ? 'selected' : ''}}>{{ $condition->name}}</option>
+                            <option value="{{ $condition->id }}" {{ $condition->id == $bookLoan->book_copy->condition_id ? 'selected' : ''}}>{{ $condition->name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -38,13 +38,13 @@
                     <label for="" class="form-check-label">Set damage fine (€):</label>
                     <input type="number" class="form-control" name="condition_fine" id="condition_fine">
                 </div>
-                @if ($lateness_fine > 0)
+                @if ($latenessFine > 0)
                     <div class="form-group">
                         <label for="" class="form-check-label">Lateness fine (€):</label>
-                        <input type="number" class="form-control" value="{{ $lateness_fine }}" id="lateness_fine" name="lateness_fine">
+                        <input type="number" class="form-control" value="{{ $latenessFine }}" id="lateness_fine" name="lateness_fine">
                     </div>
                 @endif
-                <div class="{{ $lateness_fine > '0' ? "" : "d-none" }}" id="fine_checkbox">
+                <div class="{{ $latenessFine > '0' ? "" : "d-none" }}" id="fine_checkbox">
                     <div class="input-group mb-3 d-flex align-items-center">
                         <p class="my-0 mr-2">The fines have been paid.</p>
                         <input type="checkbox" id="fine_checkbox_input">

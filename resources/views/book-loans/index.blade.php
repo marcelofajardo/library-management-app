@@ -33,7 +33,9 @@
                     </thead>
                     <tbody>
                         @forelse ($bookLoans as $key => $bookLoan)
-                            <tr class="clickable-row" data-href="{{ route('book-loans.show', ['bookLoan' => $bookLoan->id]) }}">
+                            <tr class="clickable-row"
+                                onclick="window.location = $(this).attr('data-href');"
+                                data-href="{{ route('book-loans.show', ['book_loan' => $bookLoan->id]) }}">
                                 <td>{{ $recordsOnPage + $key + 1 }}</td>
                                 <td>{{ $bookLoan->book_copy->book->title }}</td>
                                 <td>{{ $bookLoan->book_copy->book->author->name }}</td>
