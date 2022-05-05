@@ -31,7 +31,6 @@ class BookCopyController extends Controller
         } else {
             alert()->success('A book copy was successfully added.', 'Success')->autoclose(5000);
         }
-
     }
 
     /**

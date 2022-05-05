@@ -24,6 +24,7 @@ class UserController extends Controller
         ];
 
         $users = User::paginate(User::PER_PAGE);
+
         return view('users.index', compact(['users', 'breadcrumbs']));
     }
 
@@ -41,6 +42,7 @@ class UserController extends Controller
         ];
 
         $roles = Role::all();
+
         return view('users.create', compact(['roles', 'breadcrumbs']));
     }
 
@@ -62,6 +64,7 @@ class UserController extends Controller
         }
 
         $users = User::paginate(User::PER_PAGE);
+
         return view('users.index', compact('users'));
     }
 
@@ -97,6 +100,7 @@ class UserController extends Controller
         ];
 
         $roles = Role::all();
+
         return view('users.edit', compact(['user', 'roles', 'breadcrumbs']));
     }
 

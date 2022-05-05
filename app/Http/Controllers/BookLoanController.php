@@ -18,16 +18,6 @@ use Illuminate\Support\Facades\Notification;
 class BookLoanController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -102,18 +92,6 @@ class BookLoanController extends Controller
             DB::commit();
             alert()->success('The book has been returned.', 'Success')->autoclose(5000);
         }
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\BookLoan  $bookLoan
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BookLoan $bookLoan)
-    {
-        //
     }
 
     public function create_one(Request $request)
@@ -268,15 +246,4 @@ class BookLoanController extends Controller
 
         return redirect()->back();
     }
-
-    // public function returnBook(BookLoan $bookLoan)
-    // {
-    //     if ($bookLoan->return_date == null) {
-    //         $bookLoan->update(['return_date' => now()]);
-    //         alert()->success('The book has been returned.', 'Success');
-    //     } else {
-    //         alert()->error('The book has already been returned.', 'Could not update')->autoclose(5000);
-    //     }
-    //     return redirect()->back();
-    // }
 }

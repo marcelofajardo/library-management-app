@@ -21,17 +21,8 @@ class PublisherController extends Controller
         ];
 
         $publishers = Publisher::paginate(Publisher::PER_PAGE);
-        return view('publishers.index', compact('publishers', 'breadcrumbs'));
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('publishers.index', compact('publishers', 'breadcrumbs'));
     }
 
     /**
@@ -51,18 +42,8 @@ class PublisherController extends Controller
         }
 
         $publishers = Publisher::paginate(Publisher::PER_PAGE);
-        return view('publishers.index', compact('publishers'));
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Publisher  $publisher
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Publisher $publisher)
-    {
-        //
+        return view('publishers.index', compact('publishers'));
     }
 
     /**
@@ -78,6 +59,7 @@ class PublisherController extends Controller
             ['name' => 'Publishers', 'link' => '/publishers'],
             ['name' => 'Update publisher details', 'link' => '/publishers/'.$publisher->id.'/edit'],
         ];
+
         return view('publishers.edit', compact('publisher', 'breadcrumbs'));
     }
 
@@ -99,6 +81,7 @@ class PublisherController extends Controller
         }
 
         $publishers = Publisher::paginate(Publisher::PER_PAGE);
+
         return view('publishers.index', compact('publishers'));
     }
 

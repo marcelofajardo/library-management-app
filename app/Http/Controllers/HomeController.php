@@ -35,6 +35,7 @@ class HomeController extends Controller
                                         ->paginate(BookLoan::PER_PAGE)->withQueryString();
 
         $recordsOnPage = ($bookLoans::resolveCurrentPage() - 1) * BookLoan::PER_PAGE;
+
         return view('home', compact(['bookLoans', 'recordsOnPage']));
     }
 }
