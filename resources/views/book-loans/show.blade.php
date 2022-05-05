@@ -73,7 +73,7 @@
                             </tr>
                             <tr>
                                 <td>Lateness fine:</td>
-                                <td>{{ $lateness_fine }} €</td>
+                                <td>{{ $latenessFine }} €</td>
                             </tr>
                             @if ($bookLoan->returned)
                                 <tr>

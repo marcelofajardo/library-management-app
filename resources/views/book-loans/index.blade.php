@@ -33,7 +33,7 @@
                     </thead>
                     <tbody>
                         @forelse ($bookLoans as $key => $bookLoan)
-                            <tr class="clickable-row" data-href="{{ route('book-lendings.show', ['book_lending' => $bookLoan->id]) }}">
+                            <tr class="clickable-row" data-href="{{ route('book-loans.show', ['bookLoan' => $bookLoan->id]) }}">
                                 <td>{{ $recordsOnPage + $key + 1 }}</td>
                                 <td>{{ $bookLoan->book_copy->book->title }}</td>
                                 <td>{{ $bookLoan->book_copy->book->author->name }}</td>
@@ -50,7 +50,7 @@
                             </tr>
                         @empty
                         <tr>
-                            <td colspan="9">No loans with the requested parameters have been found.</td>
+                            <td colspan="9">No loans (with the requested parameters) have been found.</td>
                         </tr>
                         @endforelse
                     </tbody>

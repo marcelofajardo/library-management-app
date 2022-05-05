@@ -48,17 +48,17 @@
             <a href="{{ route('home') }}" type="button" class="btn btn-secondary float-right mr-1 mt-2">Cancel</a>
         </form>
     </div>
-</div>  
+</div>
 
 @section('additional_scripts')
 
 <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", event => {
-            
+
             let user_id = $('#user_id');
             let book_copy_id = $('#book_copy_id');
-            let token =  $('meta[name="csrf-token"]').attr('content'); 
-            
+            let token =  $('meta[name="csrf-token"]').attr('content');
+
             let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
             Instascan.Camera.getCameras().then(cameras => {
                 scanner.camera = cameras[cameras.length - 1];
@@ -88,7 +88,7 @@
                             $('#condition_id').val(res['condition']['name']);
                             book_copy_id.val(res['id']);
                         }
-                        
+
                     },
                     'error' : (res) => {
                         console.log('error', res);
@@ -102,7 +102,7 @@
                 let user_val = user_id.val();
 
                 $.ajax({
-                    'url' : '/book-lendings',
+                    'url' : '/book-loans',
                     'type' : 'POST',
                     'data' : {_token:token, 'book_copy_id':book_copy_val, 'user_id':user_val},
                     'success' : (res) => {

@@ -58,16 +58,16 @@ class BookLoanController extends Controller
         $deadline = $bookLoan->deadline->startOfDay();
         $today = now()->startOfDay();
 
-        $lateness_fine = 0;
+        $latenessFine = 0;
 
         if ($deadline->isPast()) {
-            $lateness_fine = $today->diffInDays($deadline) * BookLoan::DAILY_LATENESS_FINE;
+            $latenessFine = $today->diffInDays($deadline) * BookLoan::DAILY_LATENESS_FINE;
         }
 
         $lendingPeriod = BookLoan::LENDING_TIME;
         $bookConditions = BookCondition::all();
 
-        return view('book-loans.show', compact(['bookLoan', 'breadcrumbs', 'lendingPeriod', 'bookConditions', 'lateness_fine']));
+        return view('book-loans.show', compact(['bookLoan', 'breadcrumbs', 'lendingPeriod', 'bookConditions', 'latenessFine']));
     }
 
     // used for returning a book
