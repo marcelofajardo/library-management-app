@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/book-loans/post-one', [BookLoanController::class, 'post_one'])->name('book-loans-post-step1');
     Route::post('/book-loans/post-two', [BookLoanController::class, 'post_two'])->name('book-loans-post-step2');
     Route::get('/book-loans/return', [BookLoanController::class, 'return'])->name('book-loans.return');
+    Route::get('/book-loans/{bookLoan}', [BookLoanController::class, 'show'])->name('book-loans.show');
     Route::post('/book-loans/redirect', [BookLoanController::class, 'redirect'])->name('book-loans.redirect');
     Route::post('/book-loans/{bookLoan}/extend-deadline', [BookLoanController::class, 'extendDeadline'])->name('book-loans.extend-deadline');
 
