@@ -1,5 +1,21 @@
 <div class="col-12">
-    <h3>Lendings</h3>
+    <div class="row mb-3">
+        <div class="col-md-9">
+            <h3>Book Loans</h3>
+        </div>
+        <div class="col-md-3">
+            <form action="{{ route('home') }}" method="GET" id="searchForm">
+                <input
+                    type="text"
+                    class="form-control"
+                    name="search"
+                    placeholder="Search"
+                    id="search"
+                    value="{{ request('search', '') }}"
+                >
+            </form>
+        </div>
+    </div>
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -49,3 +65,12 @@
         <!-- /.card-body -->
     </div>
 </div>
+
+@section('additional_scripts')
+    <script>
+        // document.getElementById('search').
+        $('#search').on('keyup', function (e) {
+            $('#searchForm').submit();
+        })
+    </script>
+@endsection
