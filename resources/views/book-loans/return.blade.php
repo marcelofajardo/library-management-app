@@ -58,7 +58,7 @@
                         'type' : 'POST',
                         'data' : {_token:token, borrowed_book_id:borrowed_book_id},
                         'success' : (res) => {
-                            window.location.href = '/book-loans/' + res['lending_id'];
+                            window.location.href = '/book-loans/' + res['loanId'];
                         },
                         'error' : (res) => {
                             alert(res['responseJSON']['message']);
