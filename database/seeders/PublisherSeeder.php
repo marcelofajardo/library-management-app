@@ -14,10 +14,17 @@ class PublisherSeeder extends Seeder
      */
     public static function run()
     {
-        $publishers = ['Oxford Press', 'Harper Collins', 'Penguin', 'Simon and Schuster', 'Macmillan', 'Faber & Faber'];
+        $publishers = [
+            '1' => ['name' => 'Oxford Press'],
+            '2' => ['name' => 'Harper Collins'],
+            '3' => ['name' => 'Penguin'],
+            '4' => ['name' => 'Simon and Schuster'],
+            '5' => ['name' => 'Macmillan'],
+            '6' => ['name' => 'Faber & Faber']
+        ];
 
-        foreach ($publishers as $publisher) {
-            Publisher::create(['name' => $publisher]);
+        foreach ($publishers as $key => $publisher) {
+            Publisher::create(['id' => $key, 'name' => $publisher['name']]);
         }
     }
 }
