@@ -18,19 +18,19 @@
                         <tr class="book-{{ $book_copy->id }}">
                             <input type="hidden" name="book_copy_id[]" value="{{ $book_copy->id }}">
                             <td>
-                                <input type="text" disabled class="form-control" value="{{ $book_copy->book->title }}">
+                                {{ $book_copy->book->title }}
                             </td>
                             <td>
-                                <input type="text" disabled class="form-control" value="{{ $book_copy->book->author->name }}">
+                                {{ $book_copy->book->author->name }}
                             </td>
                             <td>
-                                <input type="text" disabled class="form-control" value="{{ $book_copy->book->publisher->name }}">
+                                {{ $book_copy->book->publisher->name }}
                             </td>
                             <td>
-                                <input type="text" disabled class="form-control" value="{{ $book_copy->edition }}">
+                                {{ $book_copy->edition }}
                             </td>
                             <td>
-                                <input type="text" disabled class="form-control" value="{{ $book_copy->condition->name }}">
+                                {{ $book_copy->condition->name }}
                             </td>
                             <td>
                                 <form action="/book-copies/remove/{{ $book_copy->id }}" method="POST">
