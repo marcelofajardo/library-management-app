@@ -16,10 +16,10 @@ class AuthorSeeder extends Seeder
     {
         $authors = [
             '1' => 'Siri Hustvedt',
-            '2' => 'Paul Auster', 
+            '2' => 'Paul Auster',
             '3' => 'Margaret Atwood',
-            '4' => 'Danilo Kis', 
-            '5' => 'James Baldwin', 
+            '4' => 'Danilo Kis',
+            '5' => 'James Baldwin',
             '6' => 'Julian Barnes',
             '7' => 'Steven Fry'
         ];
@@ -27,6 +27,5 @@ class AuthorSeeder extends Seeder
         foreach($authors as $key => $author) {
             Author::create(['id' => $key, 'name' => $author]);
         }
-        
     }
 }

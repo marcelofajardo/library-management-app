@@ -20,5 +20,8 @@ class DatabaseSeeder extends Seeder
         RoleSeeder::run();
         UserSeeder::run();
         BookStatusSeeder::run();
+        BookSeeder::run();
+        BookCopySeeder::run();
+        BookLoanSeeder::run();
     }
 }
