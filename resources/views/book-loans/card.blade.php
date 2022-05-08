@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header border-0"></div>
-    <div class="card-body p-0">
+    <div class="card-body p-0 table-responsive">
         <table class="table table-valign-middle table-sm table-borderless">
             <thead>
                 <tr>
