@@ -12,16 +12,17 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    const ADMIN = 1;
     const PER_PAGE = 10;
     const MAX_BOOKS = 5;
 
     protected $with = ['role'];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'email',

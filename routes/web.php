@@ -21,7 +21,7 @@ use App\Http\Controllers\HomeController;
 */
 Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::resource('authors', AuthorController::class);
