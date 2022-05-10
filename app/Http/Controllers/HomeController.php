@@ -32,6 +32,7 @@ class HomeController extends Controller
                                           });
                                         })
                                         ->with(['book_copy', 'book_copy.book', 'user'])
+                                        ->orderBy('created_at', 'DESC')
                                         ->paginate(BookLoan::PER_PAGE)->withQueryString();
 
         $recordsOnPage = ($bookLoans::resolveCurrentPage() - 1) * BookLoan::PER_PAGE;
