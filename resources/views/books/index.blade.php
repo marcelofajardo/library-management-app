@@ -59,4 +59,5 @@
 
 @section('additional_scripts')
     <script src="{{ asset('/js/books/index.js') }}"></script>
+    <script src="{{ asset('/js/delete.js') }}"></script>
 @endsection
