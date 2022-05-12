@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('page_title') Books @endsection
-{{-- @section('content_header') Users @endsection --}}
 
 @section('content')
 
@@ -113,10 +112,14 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <form action="{{ route('book-copies.destroy', ['book_copy' => $copy->id]) }}" method="POST">
+                                        <form
+                                            action="{{ route('book-copies.destroy', ['book_copy' => $copy->id]) }}"
+                                            method="POST"
+                                            id="form_{{ $copy->id }}"
+                                        >
                                             @method('DELETE')
                                             @csrf
-                                            <button class="btn btn-sm btn-danger" type="submit">
+                                            <button class="btn btn-sm btn-danger" type="button" onclick="deleteElement(event, {{ $copy->id }})">
                                                 <i class="fa fa-times"></i>
                                             </button>
                                         </form>
@@ -139,6 +142,7 @@
 
 @section('additional_scripts')
     <script src="{{ asset('/js/books/show.js') }}"></script>
+    <script src="{{ asset('/js/delete.js') }}"></script>
 @endsection
 
 @endsection

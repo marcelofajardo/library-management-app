@@ -11,7 +11,11 @@
         </a>
     </td>
     <td>
-        <form action="{{ route('books.destroy', ['book' => $book->id]) }}" method="POST" id="form_{{ $book->id }}">
+        <form
+            action="{{ route('books.destroy', ['book' => $book->id]) }}"
+            method="POST"
+            id="form_{{ $book->id }}"
+        >
             @method('DELETE')
             @csrf
             <button type="button" class="delete-btn" onclick="deleteElement(event, {{ $book->id }})">
