@@ -50,23 +50,21 @@
                                         </a>
                                     </td>
                                     <td>
-                                        @if(auth()->id() != $user->id)
-                                            <form
-                                                action="{{ route('users.destroy', $user->id) }}"
-                                                method="POST"
-                                                id="form_{{ $user->id }}"
+                                        <form
+                                            action="{{ route('users.destroy', $user->id) }}"
+                                            method="POST"
+                                            id="form_{{ $user->id }}"
+                                        >
+                                            @method('DELETE')
+                                            @csrf
+                                            <button
+                                                class="delete-btn"
+                                                type="button"
+                                                onclick="deleteElement(event, {{ $user->id }});"
                                             >
-                                                @method('DELETE')
-                                                @csrf
-                                                <button
-                                                    class="delete-btn"
-                                                    type="button"
-                                                    onclick="deleteElement(event, {{ $user->id }});"
-                                                >
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form>
-                                        @endif
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

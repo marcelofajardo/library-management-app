@@ -13,6 +13,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     const ADMIN = 1;
+    const MAIN_ADMIN = 1;
     const PER_PAGE = 10;
     const MAX_BOOKS = 5;
 

@@ -23,7 +23,7 @@ class UserController extends Controller
             ['name' => 'Users', 'link' => '/users']
         ];
 
-        $users = User::paginate(User::PER_PAGE);
+        $users = User::where('id', '!=', 1)->paginate(User::PER_PAGE);
 
         return view('users.index', compact(['users', 'breadcrumbs']));
     }
@@ -133,8 +133,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // cannot delete oneself
-        if ($user->id != auth()->id()) {
+        // main admin cannot be deleted since he is used for testing purposes
+        if ($user->id != User::MAIN_ADMIN) {
             if ($user->loans()->count()) {
                 alert()->error('Please first delete loans associated with this user.')->autoclose(5000);
             } else {
