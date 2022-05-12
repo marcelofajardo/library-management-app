@@ -34,10 +34,18 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <form action="{{ route('publishers.destroy', ['publisher' => $publisher->id]) }}" method="POST">
+                                            <form
+                                                action="{{ route('publishers.destroy', ['publisher' => $publisher->id]) }}"
+                                                method="POST"
+                                                id="form_{{ $publisher->id }}"
+                                            >
                                                 @method('DELETE')
                                                 @csrf
-                                                <button type="submit" class="delete-btn">
+                                                <button
+                                                    type="button"
+                                                    class="delete-btn"
+                                                    onclick="deleteElement(event, {{ $publisher->id }});"
+                                                >
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
@@ -93,5 +101,8 @@
               </div>
         </div>
     </div>
+@endsection
 
+@section('additional_scripts')
+    <script src="{{ asset('/js/delete.js') }}"></script>
 @endsection
