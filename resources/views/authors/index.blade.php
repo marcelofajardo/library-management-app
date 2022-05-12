@@ -37,10 +37,14 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <form action="{{ route('authors.destroy', ['author' => $author->id]) }}" method="POST">
+                                            <form
+                                                action="{{ route('authors.destroy', ['author' => $author->id]) }}"
+                                                method="POST"
+                                                id="form_{{ $author->id }}"
+                                            >
                                                 @method('DELETE')
                                                 @csrf
-                                                <button class="delete-btn" type="submit">
+                                                <button class="delete-btn" type="button" onclick="deleteElement(event, {{ $author->id }});">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
@@ -107,4 +111,8 @@
               </div>
         </div>
     </div>
+@endsection
+
+@section('additional_scripts')
+    <script src="{{ asset('/js/delete.js') }}"></script>
 @endsection

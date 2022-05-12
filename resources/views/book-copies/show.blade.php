@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('page_title') Book Copy Details @endsection
-@section('content')
 
+@section('content')
 <div class="row">
     <div class="col-12">
         <div class="card">
