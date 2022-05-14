@@ -14,10 +14,17 @@ class BookConditionSeeder extends Seeder
      */
     public static function run()
     {
-        $conditions = ['As new', 'Fine', 'Very Good', 'Good', 'Fair', 'Poor'];
+        $conditions = [
+            '1' => ['name' => 'As new'],
+            '2' => ['name' => 'Fine'],
+            '3' => ['name' => 'Very Good'],
+            '4' => ['name' => 'Good'],
+            '5' => ['name' => 'Fair'],
+            '6' => ['name' => 'Poor']
+        ];
 
-        foreach ($conditions as $c) {
-            BookCondition::create(['name' => $c]);
+        foreach ($conditions as $key => $condition) {
+            BookCondition::create(['id' => $key, 'name' => $condition['name']]);
         }
     }
 }
