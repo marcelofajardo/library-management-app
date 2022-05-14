@@ -1,6 +1,3 @@
-UNILIB - Library management app
-
-
 UniLib is an application for managing a university library written in Laravel 8. 
 
 The application facilitates the process of checking out and returning books by making use of QR codes. Namely, the app makes it easy to generate and print QR codes for both users and book copies, which can then be scanned (using webcam or phone cam) in order to complete a transaction. In a real-world scenario, user QR codes would be printed on student cards, whereas the printed book QR codes would be attached to book covers.    
