@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('page_title') Publishers @endsection
+
 @section('content_header') Publishers @endsection
 
 @section('additional_styles')
@@ -76,7 +77,7 @@
                 <div class="card-header border-0 ui-sortable-handle">
                 </div>
                 <div class="card-body" style="display: block;">
-                    <form action="/publishers" method="POST">
+                    <form action="/publishers" method="POST" id="publisher_create_form">
                         @csrf
                         <input type="text"
                                 class="form-control mb-2 @error('name') is-invalid @enderror"
@@ -89,7 +90,7 @@
                                 {{ $message }}
                             </div>
                         @enderror
-                        <button type="submit" class="btn btn-dark float-right">
+                        <button type="submit" class="btn btn-dark float-right" id="form_submit">
                             Add a new publisher
                         </button>
                     </form>
@@ -105,4 +106,10 @@
 
 @section('additional_scripts')
     <script src="{{ asset('/js/delete.js') }}"></script>
+    <script src="{{ asset('/js/submit.js') }}"></script>
+    <script>
+        document.getElementById('form_submit').addEventListener('click', function () {
+            disableBtnAndSubmitForm(this, 'publisher_create_form');
+        })
+    </script>
 @endsection

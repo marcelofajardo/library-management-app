@@ -137,7 +137,7 @@
             </div>
         </div>
 </div>
-@include('books/modals.copies')
+@include('books/modals.new_book_copy')
 @include('books/modals.edit_book_copy')
 
 @section('additional_scripts')

@@ -75,7 +75,7 @@
                 <div class="card-header border-0 ui-sortable-handle">
                 </div>
                 <div class="card-body d-block">
-                    <form action="/authors" method="POST">
+                    <form action="/authors" method="POST" id="author_create_form">
                         @csrf
                         <input type="text"
                                 class="form-control mb-2 @error('first_name') is-invalid @enderror"
@@ -99,7 +99,7 @@
                                 {{ $message }}
                             </div>
                         @enderror
-                        <button type="submit" class="btn btn-dark float-right">
+                        <button type="submit" class="btn btn-dark float-right" id="form_submit">
                             Add a new author
                         </button>
                     </form>
@@ -115,4 +115,10 @@
 
 @section('additional_scripts')
     <script src="{{ asset('/js/delete.js') }}"></script>
+    <script src="{{ asset('/js/submit.js') }}"></script>
+    <script>
+        document.getElementById('form_submit').addEventListener('click', function () {
+            disableBtnAndSubmitForm(this, 'author_create_form');
+        })
+    </script>
 @endsection

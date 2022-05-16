@@ -34,8 +34,12 @@ function handleErrorMessages(err_array, edit=false) {
     }
 }
 
-$('#submit_copies').on('click', function(e) {
+let submitNewBookCopyBtn = $('#submit_copies');
+
+submitNewBookCopyBtn.on('click', function(e) {
     e.preventDefault();
+
+    submitNewBookCopyBtn.attr('disabled', true);
 
     let token = $('#token_copies').val();
     let price = $('#price').val();
@@ -63,6 +67,8 @@ $('#submit_copies').on('click', function(e) {
             location.reload();
         },
         'error': (res) => {
+            submitNewBookCopyBtn.attr('disabled', false);
+
             removeErrors();
 
             let errors = res['responseJSON']['errors'];
@@ -90,8 +96,13 @@ $('.call_edit_modal').on('click', function(e) {
     $(`#book_status_id_edit option[value=${status}]`).attr("selected","selected");
 });
 
-$('#edit_modal_submit').on('click', function(e) {
+let submitBookCopyBtn = $('#edit_modal_submit');
+
+submitBookCopyBtn.on('click', function(e) {
     e.preventDefault();
+
+    submitBookCopyBtn.attr('disabled', true);
+
     let edition = $('#edition_edit').val();
     let price = $('#price_edit').val();
     let publication_date = $('#publication_date_edit').val();
@@ -111,6 +122,8 @@ $('#edit_modal_submit').on('click', function(e) {
                 location.reload()
             },
             'error' : (res) => {
+                submitBookCopyBtn.attr('disabled', false);
+
                 removeErrors();
 
                 let errors = res['responseJSON']['errors'];

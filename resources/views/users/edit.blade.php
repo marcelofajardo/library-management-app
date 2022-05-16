@@ -13,7 +13,7 @@
                 </h3>
             </div>
             <div class="card-body p-0  mt-4">
-                <form action="/users/{{ $user->id }}" method="POST">
+                <form action="/users/{{ $user->id }}" method="POST" id="user_create_form">
                     @csrf
                     @method('PUT')
                     <div class="row justify-content-center mb-3">
@@ -63,7 +63,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="offset-2 col-8">
-                            <button class="btn btn-primary float-right mb-2">
+                            <button class="btn btn-primary float-right mb-2" id="form_submit">
                                 Confirm
                             </button>
                         </div>
@@ -73,4 +73,13 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('additional_scripts')
+    <script src="{{ asset('/js/submit.js') }}"></script>
+    <script>
+        document.getElementById('form_submit').addEventListener('click', function () {
+            disableBtnAndSubmitForm(this, 'user_create_form');
+        })
+    </script>
 @endsection

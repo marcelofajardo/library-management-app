@@ -61,14 +61,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <a type="button" class="btn btn-default" data-dismiss="modal">Close</a>
-                <button type="submit" class="btn btn-primary" id="submit_copies">Save changes</button>
-            </div>
-        </form>
+                <div class="modal-footer justify-content-between">
+                    <a type="button" class="btn btn-default" data-dismiss="modal">Close</a>
+                    <button type="submit" class="btn btn-primary" id="submit_copies">Save changes</button>
+                </div>
+            </form>
       </div>
       <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
   </div>
+</div>

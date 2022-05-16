@@ -24,7 +24,7 @@ class PublisherRequest extends FormRequest
 
     public function updateRules() {
         return [
-            'name' => 'required|unique:publishers,name'
+            'name' => 'required|unique:publishers,name,'.$this->publisher->id
         ];
     }
 

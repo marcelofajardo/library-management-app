@@ -14,7 +14,7 @@
                     </h3>
                 </div>
                 <div class="card-body p-0  mt-4">
-                    <form action="/books" method="POST">
+                    <form action="/books" method="POST" id="book_create_form">
                         @csrf
                         <div class="row justify-content-center mb-3">
                             <div class="col-10 col-md-4 mb-3 mb-md-0">
@@ -76,7 +76,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="offset-2 col-8">
-                                <button class="btn btn-primary float-right mb-2">
+                                <button class="btn btn-primary float-right mb-2" type="submit" id="form_submit">
                                     Confirm
                                 </button>
                             </div>
@@ -86,4 +86,13 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('additional_scripts')
+    <script src="{{ asset('/js/submit.js') }}"></script>
+    <script>
+        document.getElementById('form_submit').addEventListener('click', function () {
+            disableBtnAndSubmitForm(this, 'book_create_form');
+        })
+    </script>
 @endsection
