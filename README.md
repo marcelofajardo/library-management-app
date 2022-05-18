@@ -1,6 +1,6 @@
 UniLib is a CMS for managing a university library written in Laravel 8. 
 
-The application facilitates the process of checking out and returning books by making use of QR codes. Namely, the app makes it easy to generate and print QR codes for both users and book copies, which can then be scanned (using webcam or phone cam) in order to lend a book. In a real-world scenario, user QR codes would be printed on student cards, whereas the printed book QR codes would be attached to book covers, making the entire process smooth and blazingly fast.
+The application facilitates the process of checking out and returning books by making use of QR codes. Namely, the app makes it easy to generate and print QR codes for both users and book copies, which can then be scanned (using webcam or phone cam) in order to lend or return a book. In a real-world scenario, user QR codes would be printed on student cards, whereas the printed book QR codes would be attached to book covers, making the entire process smooth and blazingly fast.
  
 The application offers other useful features including a one-click deadline extension and a basic system of fines if a book is damaged or returned late.  
 
